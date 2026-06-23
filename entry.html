@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>กรอกข้อมูลเรื่องร้องเรียน — ศูนย์ดำรงธรรมหนองบัวลำภู</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=4">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png?v=4">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=4">
+<link rel="manifest" href="manifest.json?v=4">
+<meta name="theme-color" content="#16325c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ดำรงธรรม นภ.">
+<meta name="mobile-web-app-capable" content="yes">
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--navy:#16325c;--indigo:#24508f;--gold:#c9a227;--green:#1f9d6b;--amber:#e0a000;--red:#d64545;
@@ -14,7 +22,8 @@ h1,h2,h3,.k{font-family:'Kanit',sans-serif}
 .top{background:linear-gradient(135deg,var(--navy),var(--indigo));color:#fff;padding:18px 22px;display:flex;align-items:center;gap:14px}
 .backdash{margin-left:auto;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.28);color:#fff;font:500 13px 'Kanit';padding:8px 15px;border-radius:9px;white-space:nowrap;text-decoration:none}
 .backdash:hover{background:rgba(255,255,255,.28)}
-.seal{width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#f3e8c4);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font:700 10px 'Kanit';color:var(--navy);text-align:center;line-height:1}
+.seal{width:48px;height:48px;border-radius:50%;background:#fff;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.seal img{width:100%;height:100%;object-fit:contain;padding:2px}
 .top h1{font-size:18px;font-weight:600}.top .s{font-size:12.5px;opacity:.85;font-weight:300}
 .wrap{max-width:980px;margin:22px auto;padding:0 18px}
 
@@ -102,7 +111,7 @@ table{min-width:520px}
 <body>
 
 <div class="top">
-  <div class="seal">ศูนย์<br>ดำรงธรรม</div>
+  <div class="seal"><img src="assets/seal.png?v=4" alt="ตราจังหวัดหนองบัวลำภู"></div>
   <div class="topwrap"><h1>ระบบกรอกข้อมูลเรื่องร้องเรียน</h1><div class="s">ศูนย์ดำรงธรรมจังหวัดหนองบัวลำภู · ปีงบประมาณ 2569</div></div>
   <a class="backdash" href="index.html">← แดชบอร์ด</a>
 </div>
@@ -364,6 +373,10 @@ function toast(msg,type){
   const t=document.getElementById('toast');t.textContent=msg;
   t.className='toast show '+(type||'');
   setTimeout(()=>t.className='toast',2600);
+}
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 }
 </script>
 </body>

@@ -1,0 +1,20 @@
+{
+  "name": "ศูนย์ดำรงธรรมจังหวัดหนองบัวลำภู — ระบบติดตามงานเรื่องร้องเรียน",
+  "short_name": "ดำรงธรรม นภ.",
+  "description": "ระบบติดตามงานเรื่องร้องเรียนร้องทุกข์ ศูนย์ดำรงธรรมจังหวัดหนองบัวลำภู",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#16325c",
+  "theme_color": "#16325c",
+  "lang": "th",
+  "icons": [
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "กรอกข้อมูล", "url": "./entry.html" }
+  ]
+}
