@@ -30,8 +30,10 @@ a{color:inherit;text-decoration:none}
 .live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#5fe6a0;margin-right:5px;animation:pulse 1.6s infinite}
 .live-dot.err{background:#ff7a7a}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.refresh{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;font:500 13px 'Kanit';padding:7px 14px;border-radius:9px;cursor:pointer;transition:.2s}
+.refresh{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;font:500 13px 'Kanit';padding:8px 14px;border-radius:9px;cursor:pointer;transition:.2s}
 .refresh:hover{background:rgba(255,255,255,.28)}
+.entrybtn{background:var(--gold);border:1px solid var(--gold);color:#3a2e07;font:600 13px 'Kanit';padding:8px 16px;border-radius:9px;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.entrybtn:hover{filter:brightness(1.06)}
 .menu{background:var(--navy2)}
 .menu-inner{max-width:1240px;margin:0 auto;padding:0 24px;display:flex;gap:2px;overflow-x:auto}
 .menu a{color:#cdd8ec;font:500 14.5px 'Kanit';padding:13px 18px;border-bottom:3px solid transparent;white-space:nowrap;transition:.2s;display:flex;align-items:center;gap:7px}
@@ -128,8 +130,36 @@ tbody tr{cursor:pointer;transition:.12s}tbody tr:hover{background:#f8faff}
 @keyframes sp{to{transform:rotate(360deg)}}
 #loader .lt{font:500 16px 'Kanit';color:var(--navy)}
 
+.scroll table{min-width:560px}
+.scroll{-webkit-overflow-scrolling:touch}
+@media(max-width:1024px){
+  .wrap{padding:22px 18px 50px}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .grid2{grid-template-columns:1fr}
+  .grid3{grid-template-columns:1fr 1fr}
+}
 @media(max-width:920px){.kpis,.grid3{grid-template-columns:repeat(2,1fr)}.grid2,.detail-grid{grid-template-columns:1fr}}
-@media(max-width:560px){.kpis{grid-template-columns:1fr}.status{display:none}}
+@media(max-width:600px){
+  .nav-top{padding:12px 16px;gap:10px}
+  .seal{width:44px;height:44px}.seal span{font-size:9px}
+  .brand h1{font-size:15px}.brand .s{font-size:11px}
+  .nav-right{width:100%;order:3;gap:8px}
+  .status{display:none}
+  .refresh,.entrybtn{flex:1;justify-content:center;text-align:center;padding:11px 12px;font-size:14px}
+  .menu-inner{padding:0 12px}.menu a{padding:12px 14px;font-size:14px}
+  .wrap{padding:18px 14px 48px}
+  .kpis,.grid3,.pub-stats,.sla-board{grid-template-columns:1fr}
+  .kpi{padding:16px}.kpi .num{font-size:34px}
+  .navcards,.dcards{grid-template-columns:1fr}
+  .page-title{font-size:20px}
+  .chart-box{height:260px}.chart-box.sm{height:240px}
+  .card{padding:16px}
+  .filters input,.filters select{flex:1 1 100%;min-width:0;padding:11px 13px;font-size:15px}
+  .detail-grid{grid-template-columns:1fr}
+  .detail-head{padding:22px 18px}.detail-head h2{font-size:20px}
+  tbody td,thead th{padding:10px}
+  .li{padding:13px}.backbtn{font-size:15px}
+}
 </style>
 </head>
 <body>
@@ -146,6 +176,7 @@ tbody tr{cursor:pointer;transition:.12s}tbody tr:hover{background:#f8faff}
     <div class="nav-right">
       <div class="status" id="status"><span class="live-dot"></span>กำลังเชื่อมต่อ…</div>
       <button class="refresh" onclick="reload()">⟳ รีเฟรช</button>
+      <a class="entrybtn" href="entry.html">✏️ กรอกข้อมูล</a>
     </div>
   </div>
   <nav class="menu"><div class="menu-inner" id="menu">
@@ -275,6 +306,7 @@ function viewHome(){
     <div class="navcard" onclick="go('urgent')"><div class="ic">⚠️</div><div><div class="t">เรื่องเร่งรัด ${over+near}</div><div class="d">เกิน/ใกล้ครบกำหนดรายงาน</div></div></div>
     <div class="navcard" onclick="go('districts')"><div class="ic">🗺️</div><div><div class="t">รายอำเภอ</div><div class="d">เปรียบเทียบผลงานรายพื้นที่</div></div></div>
     <div class="navcard" onclick="go('consumer')"><div class="ic">⚖️</div><div><div class="t">คุ้มครองผู้บริโภค ${CONSUMER.length}</div><div class="d">งานแยกต่างหาก</div></div></div>
+    <div class="navcard" onclick="location.href='entry.html'" style="border-color:var(--gold);background:linear-gradient(135deg,#fff,#fdf9ee)"><div class="ic" style="background:#f6ecc8">✏️</div><div><div class="t">กรอก / แก้ไขข้อมูล</div><div class="d">เพิ่มเรื่องใหม่หรือปรับสถานะ (ใช้ PIN)</div></div></div>
   </div>
   <div class="grid2">
     <div class="card"><h3>เปรียบเทียบรายอำเภอ</h3><div class="chart-box"><canvas id="cDist"></canvas></div></div>
