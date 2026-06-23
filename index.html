@@ -10,63 +10,48 @@
 <style>
   :root{
     --navy:#16325c; --navy2:#1e426f; --indigo:#24508f;
-    --gold:#c9a227; --gold-soft:#e7d49a;
-    --green:#1f9d6b; --amber:#e0a000; --red:#d64545;
+    --gold:#c9a227; --green:#1f9d6b; --amber:#e0a000; --red:#d64545; --purple:#7c4dff;
     --ink:#1f2733; --muted:#6b7686; --line:#e6eaf1;
     --bg:#eef1f8; --card:#ffffff;
-    --shadow:0 10px 30px rgba(22,50,92,.08);
-    --shadow-sm:0 4px 14px rgba(22,50,92,.06);
+    --shadow:0 10px 30px rgba(22,50,92,.08); --shadow-sm:0 4px 14px rgba(22,50,92,.06);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Sarabun',sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
   h1,h2,h3,.kanit{font-family:'Kanit',sans-serif;font-weight:600}
-
-  /* HEADER */
-  .topbar{background:linear-gradient(135deg,var(--navy),var(--indigo));color:#fff;padding:0}
+  .topbar{background:linear-gradient(135deg,var(--navy),var(--indigo));color:#fff}
   .topbar-inner{max-width:1240px;margin:0 auto;padding:20px 24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
   .seal{width:62px;height:62px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#f3e8c4);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:3px solid var(--gold);box-shadow:0 4px 12px rgba(0,0,0,.25)}
   .seal span{font-family:'Kanit';font-weight:700;font-size:13px;color:var(--navy);text-align:center;line-height:1.05}
-  .htext h1{font-size:22px;font-weight:600;letter-spacing:.2px}
-  .htext .sub{font-size:13.5px;opacity:.85;font-weight:300}
+  .htext h1{font-size:22px;font-weight:600}.htext .sub{font-size:13.5px;opacity:.85;font-weight:300}
   .updated{margin-left:auto;text-align:right;font-size:12.5px;opacity:.8;font-weight:300}
   .updated b{font-weight:500;opacity:1}
-
-  /* ROLE TABS */
+  .live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#5fe6a0;margin-right:5px;animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
   .roles{background:var(--navy2);border-top:1px solid rgba(255,255,255,.08)}
   .roles-inner{max-width:1240px;margin:0 auto;padding:0 24px;display:flex;gap:4px;overflow-x:auto}
-  .role-btn{background:none;border:none;color:#cdd8ec;font-family:'Kanit';font-weight:500;font-size:15px;padding:14px 22px;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:.2s;display:flex;align-items:center;gap:8px}
-  .role-btn:hover{color:#fff}
-  .role-btn.active{color:#fff;border-bottom-color:var(--gold)}
+  .role-btn{background:none;border:none;color:#cdd8ec;font-family:'Kanit';font-weight:500;font-size:15px;padding:14px 20px;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:.2s;display:flex;align-items:center;gap:8px}
+  .role-btn:hover{color:#fff}.role-btn.active{color:#fff;border-bottom-color:var(--gold)}
   .role-btn .ic{font-size:17px}
-
   .wrap{max-width:1240px;margin:0 auto;padding:26px 24px 60px}
-  .view{display:none;animation:fade .35s ease}
-  .view.active{display:block}
+  .view{display:none;animation:fade .35s ease}.view.active{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-
-  .section-title{font-size:15px;color:var(--muted);font-weight:600;font-family:'Kanit';text-transform:none;margin:8px 2px 14px;display:flex;align-items:center;gap:9px}
+  .section-title{font-size:15px;color:var(--muted);font-weight:600;font-family:'Kanit';margin:8px 2px 14px;display:flex;align-items:center;gap:9px}
   .section-title::before{content:"";width:4px;height:18px;background:var(--gold);border-radius:3px}
-
-  /* KPI */
   .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:26px}
   .kpi{background:var(--card);border-radius:16px;padding:20px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;border:1px solid var(--line)}
   .kpi::after{content:"";position:absolute;right:-20px;top:-20px;width:90px;height:90px;border-radius:50%;opacity:.08}
-  .kpi.k1::after{background:var(--navy)} .kpi.k2::after{background:var(--green)}
-  .kpi.k3::after{background:var(--amber)} .kpi.k4::after{background:var(--red)}
+  .kpi.k1::after{background:var(--navy)}.kpi.k2::after{background:var(--green)}
+  .kpi.k3::after{background:var(--amber)}.kpi.k4::after{background:var(--red)}
   .kpi .lab{font-size:13.5px;color:var(--muted);font-weight:500}
   .kpi .num{font-family:'Kanit';font-weight:700;font-size:40px;line-height:1.1;margin-top:4px}
-  .kpi.k1 .num{color:var(--navy)} .kpi.k2 .num{color:var(--green)}
-  .kpi.k3 .num{color:var(--amber)} .kpi.k4 .num{color:var(--red)}
+  .kpi.k1 .num{color:var(--navy)}.kpi.k2 .num{color:var(--green)}
+  .kpi.k3 .num{color:var(--amber)}.kpi.k4 .num{color:var(--red)}
   .kpi .foot{font-size:12.5px;color:var(--muted);margin-top:4px}
-
   .grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin-bottom:22px}
   .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:22px}
   .card{background:var(--card);border-radius:16px;padding:20px;box-shadow:var(--shadow-sm);border:1px solid var(--line)}
   .card h3{font-size:16px;margin-bottom:14px;color:var(--navy)}
-  .chart-box{position:relative;height:280px}
-  .chart-box.sm{height:230px}
-
-  /* ALERT PANEL */
+  .chart-box{position:relative;height:280px}.chart-box.sm{height:230px}
   .alert-card{background:linear-gradient(135deg,#fff,#fff7f3);border:1px solid #f3d6cc}
   .alert-card h3{color:var(--red);display:flex;align-items:center;gap:8px}
   .alert-list{display:flex;flex-direction:column;gap:9px;max-height:280px;overflow-y:auto}
@@ -75,70 +60,59 @@
   .alert-item .badge.warn{background:#fdf3df;color:#b07d00}
   .alert-item .t{font-size:13.5px;font-weight:500;line-height:1.35}
   .alert-item .m{font-size:12px;color:var(--muted);margin-top:2px}
-
-  /* PUBLIC */
   .hero-public{background:linear-gradient(135deg,var(--navy),var(--indigo));color:#fff;border-radius:20px;padding:30px 28px;margin-bottom:24px;box-shadow:var(--shadow)}
   .hero-public h2{font-size:24px;color:#fff;margin-bottom:8px}
   .hero-public p{opacity:.9;font-weight:300;max-width:680px}
   .pub-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:26px}
   .pub-stat{background:var(--card);border-radius:18px;padding:26px 20px;text-align:center;box-shadow:var(--shadow-sm);border:1px solid var(--line)}
-  .pub-stat .ic{font-size:34px}
-  .pub-stat .n{font-family:'Kanit';font-weight:700;font-size:42px;margin:6px 0 2px}
-  .pub-stat.s1 .n{color:var(--navy)} .pub-stat.s2 .n{color:var(--green)} .pub-stat.s3 .n{color:var(--amber)}
+  .pub-stat .ic{font-size:34px}.pub-stat .n{font-family:'Kanit';font-weight:700;font-size:42px;margin:6px 0 2px}
+  .pub-stat.s1 .n{color:var(--navy)}.pub-stat.s2 .n{color:var(--green)}.pub-stat.s3 .n{color:var(--amber)}
   .pub-stat .l{color:var(--muted);font-weight:500}
-  .type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:13px}
+  .type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:13px;margin-bottom:26px}
   .type-chip{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm)}
   .type-chip .ic{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:#eef2fb}
   .type-chip .n{font-family:'Kanit';font-weight:600;font-size:20px;color:var(--navy)}
   .type-chip .l{font-size:12.5px;color:var(--muted);line-height:1.3}
-  .channel-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+  .channel-row{display:flex;flex-wrap:wrap;gap:10px}
   .ch-pill{background:#eef2fb;border:1px solid #dde5f3;border-radius:30px;padding:9px 16px;font-size:13.5px;display:flex;align-items:center;gap:8px}
   .ch-pill b{font-family:'Kanit';color:var(--navy)}
-
-  /* OFFICER */
   .filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;align-items:center}
   .filters select,.filters input{font-family:'Sarabun';font-size:13.5px;padding:9px 13px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);outline:none}
   .filters input{flex:1;min-width:180px}
   .filters select:focus,.filters input:focus{border-color:var(--indigo)}
   .toggle{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);cursor:pointer;user-select:none}
   .toggle input{width:16px;height:16px}
-
   .sla-board{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
   .sla{border-radius:14px;padding:16px 18px;color:#fff;box-shadow:var(--shadow-sm)}
   .sla.over{background:linear-gradient(135deg,#d64545,#b53030)}
   .sla.near{background:linear-gradient(135deg,#e0a000,#c08500)}
   .sla.ok{background:linear-gradient(135deg,#1f9d6b,#178355)}
-  .sla .n{font-family:'Kanit';font-weight:700;font-size:34px}
-  .sla .l{font-size:13px;opacity:.92;font-weight:300}
-
+  .sla .n{font-family:'Kanit';font-weight:700;font-size:34px}.sla .l{font-size:13px;opacity:.92;font-weight:300}
   .table-wrap{background:var(--card);border-radius:14px;border:1px solid var(--line);overflow:hidden;box-shadow:var(--shadow-sm)}
   table{width:100%;border-collapse:collapse;font-size:13px}
-  thead th{background:#f3f6fc;color:var(--navy);font-family:'Kanit';font-weight:500;text-align:left;padding:12px 12px;position:sticky;top:0;white-space:nowrap;border-bottom:2px solid var(--line)}
+  thead th{background:#f3f6fc;color:var(--navy);font-family:'Kanit';font-weight:500;text-align:left;padding:12px;position:sticky;top:0;white-space:nowrap;border-bottom:2px solid var(--line)}
   tbody td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
   tbody tr:hover{background:#f8faff}
   .st{display:inline-block;font-family:'Kanit';font-weight:500;font-size:11.5px;padding:3px 10px;border-radius:20px;white-space:nowrap}
-  .st.done{background:#e3f5ec;color:var(--green)}
-  .st.prog{background:#fdf3df;color:#b07d00}
+  .st.done{background:#e3f5ec;color:var(--green)}.st.prog{background:#fdf3df;color:#b07d00}
   .dl{font-weight:600;white-space:nowrap}
-  .dl.over{color:var(--red)} .dl.near{color:#b07d00} .dl.ok{color:var(--muted);font-weight:400}
+  .dl.over{color:var(--red)}.dl.near{color:#b07d00}.dl.ok{color:var(--muted);font-weight:400}
   .ttl{font-weight:500;max-width:330px}
-  .scroll{max-height:560px;overflow:auto}
-  .empty{padding:34px;text-align:center;color:var(--muted)}
-
+  .scroll{max-height:560px;overflow:auto}.empty{padding:34px;text-align:center;color:var(--muted)}
   .note{font-size:12.5px;color:var(--muted);margin-top:14px;padding:12px 15px;background:#f3f6fc;border-radius:10px;border-left:3px solid var(--gold)}
-
-  @media(max-width:920px){
-    .kpis,.grid3,.pub-stats,.sla-board{grid-template-columns:repeat(2,1fr)}
-    .grid2{grid-template-columns:1fr}
-  }
-  @media(max-width:560px){
-    .kpis,.pub-stats,.sla-board{grid-template-columns:1fr}
-    .updated{margin-left:0;text-align:left;width:100%}
-    .kpi .num{font-size:34px}
-  }
+  /* loading / error */
+  #loader{position:fixed;inset:0;background:rgba(238,241,248,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99;gap:16px}
+  .spin{width:42px;height:42px;border:4px solid #d3ddf0;border-top-color:var(--indigo);border-radius:50%;animation:sp .8s linear infinite}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  #loader .lt{font-family:'Kanit';color:var(--navy);font-weight:500}
+  .banner{background:#fff4f4;border:1px solid #f3d0d0;color:#a23a3a;padding:11px 16px;border-radius:10px;font-size:13.5px;margin-bottom:18px;display:none}
+  @media(max-width:920px){.kpis,.grid3,.pub-stats,.sla-board{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
+  @media(max-width:560px){.kpis,.pub-stats,.sla-board{grid-template-columns:1fr}.updated{margin-left:0;text-align:left;width:100%}.kpi .num{font-size:34px}}
 </style>
 </head>
 <body>
+
+<div id="loader"><div class="spin"></div><div class="lt">กำลังดึงข้อมูลสดจาก Google Sheet…</div></div>
 
 <header class="topbar">
   <div class="topbar-inner">
@@ -147,344 +121,284 @@
       <h1>ศูนย์ดำรงธรรมจังหวัดหนองบัวลำภู</h1>
       <div class="sub">รายงานผลการดำเนินงานเรื่องร้องเรียนร้องทุกข์ · ปีงบประมาณ 2569</div>
     </div>
-    <div class="updated">ข้อมูล ณ <b id="today"></b><br>แหล่งข้อมูล: ฐานข้อมูลเรื่องร้องเรียน 2569</div>
+    <div class="updated"><span class="live-dot"></span>ข้อมูลสด ณ <b id="today"></b><br>เชื่อมต่อ Google Sheet โดยตรง</div>
   </div>
   <nav class="roles">
     <div class="roles-inner">
       <button class="role-btn active" data-v="exec"><span class="ic">👔</span> ผู้บริหาร</button>
       <button class="role-btn" data-v="public"><span class="ic">👥</span> ประชาชน</button>
       <button class="role-btn" data-v="officer"><span class="ic">⚙️</span> เจ้าหน้าที่ / ผู้ดูแลระบบ</button>
+      <button class="role-btn" data-v="consumer"><span class="ic">⚖️</span> คุ้มครองผู้บริโภค</button>
     </div>
   </nav>
 </header>
 
 <div class="wrap">
+  <div class="banner" id="banner"></div>
 
-  <!-- ===================== EXECUTIVE ===================== -->
+  <!-- EXECUTIVE -->
   <section class="view active" id="exec">
     <div class="kpis">
-      <div class="kpi k1"><div class="lab">เรื่องร้องเรียนทั้งหมด</div><div class="num">82</div><div class="foot">6 อำเภอ + งานคุ้มครองผู้บริโภค</div></div>
-      <div class="kpi k2"><div class="lab">ยุติเรื่องแล้ว</div><div class="num">50</div><div class="foot" id="rate">คิดเป็น 61.0% ของเรื่องทั้งหมด</div></div>
-      <div class="kpi k3"><div class="lab">อยู่ระหว่างดำเนินการ</div><div class="num">32</div><div class="foot">ยังคงติดตามอยู่</div></div>
-      <div class="kpi k4"><div class="lab">เกินกำหนดรายงาน</div><div class="num" id="overdueNum">–</div><div class="foot">ต้องเร่งรัดด่วน (คำนวณสด)</div></div>
+      <div class="kpi k1"><div class="lab">เรื่องร้องเรียนทั้งหมด</div><div class="num" id="kTotal">–</div><div class="foot">6 อำเภอ</div></div>
+      <div class="kpi k2"><div class="lab">ยุติเรื่องแล้ว</div><div class="num" id="kDone">–</div><div class="foot" id="kRate">–</div></div>
+      <div class="kpi k3"><div class="lab">อยู่ระหว่างดำเนินการ</div><div class="num" id="kProg">–</div><div class="foot">ยังคงติดตามอยู่</div></div>
+      <div class="kpi k4"><div class="lab">เกินกำหนดรายงาน</div><div class="num" id="kOver">–</div><div class="foot">ต้องเร่งรัดด่วน</div></div>
     </div>
-
     <div class="grid2">
-      <div class="card">
-        <h3>เปรียบเทียบรายอำเภอ — ยุติแล้ว vs อยู่ระหว่างดำเนินการ</h3>
-        <div class="chart-box"><canvas id="cDistrict"></canvas></div>
-      </div>
-      <div class="card alert-card">
-        <h3>⚠️ เรื่องที่ต้องเร่งรัด (เกิน/ใกล้ครบกำหนด)</h3>
-        <div class="alert-list" id="alertList"></div>
-      </div>
+      <div class="card"><h3>เปรียบเทียบรายอำเภอ — ยุติแล้ว vs อยู่ระหว่างดำเนินการ</h3><div class="chart-box"><canvas id="cDistrict"></canvas></div></div>
+      <div class="card alert-card"><h3>⚠️ เรื่องที่ต้องเร่งรัด (เกิน/ใกล้ครบกำหนด)</h3><div class="alert-list" id="alertList"></div></div>
     </div>
-
     <div class="grid3">
-      <div class="card">
-        <h3>สัดส่วนตามประเภทเรื่อง</h3>
-        <div class="chart-box sm"><canvas id="cType"></canvas></div>
-      </div>
-      <div class="card">
-        <h3>ช่องทางการรับเรื่อง</h3>
-        <div class="chart-box sm"><canvas id="cChannel"></canvas></div>
-      </div>
-      <div class="card">
-        <h3>ความสำเร็จในการยุติเรื่อง</h3>
-        <div class="chart-box sm"><canvas id="cDonut"></canvas></div>
-      </div>
+      <div class="card"><h3>สัดส่วนตามประเภทเรื่อง</h3><div class="chart-box sm"><canvas id="cType"></canvas></div></div>
+      <div class="card"><h3>ช่องทางการรับเรื่อง</h3><div class="chart-box sm"><canvas id="cChannel"></canvas></div></div>
+      <div class="card"><h3>ความสำเร็จในการยุติเรื่อง</h3><div class="chart-box sm"><canvas id="cDonut"></canvas></div></div>
     </div>
-    <div class="note">มุมผู้บริหารเน้น "สั่งการได้ทันที" — ตัวเลขเกินกำหนด การ์ดเร่งรัด และการเทียบรายอำเภอ ช่วยชี้ว่าอำเภอ/หน่วยงานใดควรกำชับ</div>
   </section>
 
-  <!-- ===================== PUBLIC ===================== -->
+  <!-- PUBLIC -->
   <section class="view" id="public">
     <div class="hero-public">
       <h2>ศูนย์ดำรงธรรม รับเรื่อง แก้ปัญหา เพื่อพี่น้องประชาชน</h2>
-      <p>ทุกเรื่องที่พี่น้องประชาชนร้องเรียนเข้ามา ศูนย์ดำรงธรรมจังหวัดหนองบัวลำภูดำเนินการประสานหน่วยงานที่เกี่ยวข้องเพื่อแก้ไขอย่างโปร่งใส ติดตามได้ นี่คือผลการดำเนินงานในปีงบประมาณ 2569</p>
+      <p>ทุกเรื่องที่ร้องเรียนเข้ามา ศูนย์ดำรงธรรมจังหวัดหนองบัวลำภูประสานหน่วยงานที่เกี่ยวข้องแก้ไขอย่างโปร่งใส ติดตามได้ นี่คือผลการดำเนินงานปีงบประมาณ 2569</p>
     </div>
     <div class="pub-stats">
-      <div class="pub-stat s1"><div class="ic">📥</div><div class="n">82</div><div class="l">เรื่องที่รับเข้ามาดูแล</div></div>
-      <div class="pub-stat s2"><div class="ic">✅</div><div class="n">50</div><div class="l">เรื่องที่แก้ไขจนยุติแล้ว</div></div>
-      <div class="pub-stat s3"><div class="ic">🔄</div><div class="n">32</div><div class="l">เรื่องที่กำลังเร่งดำเนินการ</div></div>
+      <div class="pub-stat s1"><div class="ic">📥</div><div class="n" id="pTotal">–</div><div class="l">เรื่องที่รับเข้ามาดูแล</div></div>
+      <div class="pub-stat s2"><div class="ic">✅</div><div class="n" id="pDone">–</div><div class="l">เรื่องที่แก้ไขจนยุติแล้ว</div></div>
+      <div class="pub-stat s3"><div class="ic">🔄</div><div class="n" id="pProg">–</div><div class="l">เรื่องที่กำลังเร่งดำเนินการ</div></div>
     </div>
-
     <div class="section-title">ประเภทปัญหาที่ศูนย์ฯ ดูแล</div>
-    <div class="type-grid" style="margin-bottom:26px">
-      <div class="type-chip"><div class="ic">🤝</div><div><div class="n">33</div><div class="l">ขอความช่วยเหลือ</div></div></div>
-      <div class="type-chip"><div class="ic">🏛️</div><div><div class="n">21</div><div class="l">กล่าวโทษเจ้าหน้าที่รัฐ</div></div></div>
-      <div class="type-chip"><div class="ic">😣</div><div><div class="n">19</div><div class="l">ปัญหาความเดือดร้อน</div></div></div>
-      <div class="type-chip"><div class="ic">🌾</div><div><div class="n">7</div><div class="l">ปัญหาที่ดิน</div></div></div>
-      <div class="type-chip"><div class="ic">📢</div><div><div class="n">2</div><div class="l">แจ้งเบาะแส</div></div></div>
-    </div>
-
+    <div class="type-grid" id="pubTypeGrid"></div>
     <div class="grid2">
-      <div class="card">
-        <h3>การกระจายเรื่องตามอำเภอ</h3>
-        <div class="chart-box"><canvas id="cPubDistrict"></canvas></div>
-      </div>
+      <div class="card"><h3>การกระจายเรื่องตามอำเภอ</h3><div class="chart-box"><canvas id="cPubDistrict"></canvas></div></div>
       <div class="card">
         <h3>ช่องทางที่ประชาชนใช้ร้องเรียน</h3>
-        <div class="channel-row">
-          <div class="ch-pill">🚶 ด้วยตนเอง <b>34</b></div>
-          <div class="ch-pill">✉️ จดหมาย <b>22</b></div>
-          <div class="ch-pill">☎️ สายด่วน สปน.1111 <b>15</b></div>
-          <div class="ch-pill">📱 สื่อโซเชียล <b>5</b></div>
-          <div class="ch-pill">🏢 ศดธ.มท. <b>3</b></div>
-          <div class="ch-pill">📨 จากหน่วยงานอื่น <b>2</b></div>
-          <div class="ch-pill">💻 ไปรษณีย์อิเล็กทรอนิกส์ <b>1</b></div>
-        </div>
-        <div class="note" style="margin-top:18px">
-          <b>ร้องเรียนกับศูนย์ดำรงธรรมได้ที่:</b> ศาลากลางจังหวัดหนองบัวลำภู · สายด่วน 1567 · สายด่วนรัฐบาล 1111 · หรือศูนย์ดำรงธรรมอำเภอทุกอำเภอ
-        </div>
+        <div class="channel-row" id="pubChannels"></div>
+        <div class="note" style="margin-top:18px"><b>ร้องเรียนกับศูนย์ดำรงธรรมได้ที่:</b> ศาลากลางจังหวัดหนองบัวลำภู · สายด่วน 1567 · สายด่วนรัฐบาล 1111 · หรือศูนย์ดำรงธรรมอำเภอทุกอำเภอ</div>
       </div>
     </div>
-    <div class="note">มุมประชาชนแสดงเฉพาะภาพรวมเพื่อความโปร่งใส <b>ไม่เปิดเผยชื่อผู้ร้องเรียนหรือรายละเอียดรายบุคคล</b> เพื่อคุ้มครองข้อมูลส่วนบุคคล</div>
+    <div class="note">มุมประชาชนแสดงเฉพาะภาพรวมเพื่อความโปร่งใส <b>ไม่เปิดเผยชื่อผู้ร้องเรียนหรือรายละเอียดรายบุคคล</b></div>
   </section>
 
-  <!-- ===================== OFFICER ===================== -->
+  <!-- OFFICER -->
   <section class="view" id="officer">
     <div class="sla-board">
       <div class="sla over"><div class="n" id="slaOver">–</div><div class="l">เกินกำหนดรายงานแล้ว — ต้องเร่งรัด</div></div>
       <div class="sla near"><div class="n" id="slaNear">–</div><div class="l">ใกล้ครบกำหนด (ภายใน 7 วัน)</div></div>
       <div class="sla ok"><div class="n" id="slaOk">–</div><div class="l">ยังอยู่ในกำหนด / ยุติแล้ว</div></div>
     </div>
-
     <div class="filters">
       <input type="text" id="fSearch" placeholder="🔍 ค้นหาชื่อเรื่อง / หน่วยงาน...">
       <select id="fDistrict"><option value="">ทุกอำเภอ</option></select>
       <select id="fType"><option value="">ทุกประเภท</option></select>
-      <select id="fStatus">
-        <option value="">ทุกสถานะ</option>
-        <option value="อยู่ระหว่างดำเนินการ">อยู่ระหว่างดำเนินการ</option>
-        <option value="ยุติแล้ว">ยุติแล้ว</option>
-      </select>
-      <select id="fSla">
-        <option value="">ทุก SLA</option>
-        <option value="over">เกินกำหนด</option>
-        <option value="near">ใกล้ครบกำหนด</option>
-      </select>
+      <select id="fStatus"><option value="">ทุกสถานะ</option><option>อยู่ระหว่างดำเนินการ</option><option>ยุติแล้ว</option></select>
+      <select id="fSla"><option value="">ทุก SLA</option><option value="over">เกินกำหนด</option><option value="near">ใกล้ครบกำหนด</option></select>
       <label class="toggle"><input type="checkbox" id="fMask"> ปกปิดชื่อผู้ร้อง</label>
     </div>
-
-    <div class="table-wrap">
-      <div class="scroll">
-        <table>
-          <thead><tr>
-            <th>เรื่อง</th><th>อำเภอ</th><th>ประเภท</th><th>ผู้ร้องเรียน</th>
-            <th>หน่วยงานรับผิดชอบ</th><th>ช่องทาง</th><th>กำหนดรายงาน</th><th>สถานะ</th>
-          </tr></thead>
-          <tbody id="tbody"></tbody>
-        </table>
-      </div>
-    </div>
+    <div class="table-wrap"><div class="scroll"><table>
+      <thead><tr><th>เรื่อง</th><th>อำเภอ</th><th>ประเภท</th><th>ผู้ร้องเรียน</th><th>หน่วยงานรับผิดชอบ</th><th>ช่องทาง</th><th>กำหนดรายงาน</th><th>สถานะ</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table></div></div>
     <div class="note" id="cnt"></div>
   </section>
 
+  <!-- CONSUMER -->
+  <section class="view" id="consumer">
+    <div class="section-title">งานคุ้มครองผู้บริโภค (แยกจากเรื่องร้องเรียนทั่วไป)</div>
+    <div class="kpis" style="grid-template-columns:repeat(3,1fr)">
+      <div class="kpi k1"><div class="lab">เรื่องผู้บริโภคทั้งหมด</div><div class="num" id="cTotalC">–</div></div>
+      <div class="kpi k2"><div class="lab">ยุติเรื่องแล้ว</div><div class="num" id="cDoneC">–</div></div>
+      <div class="kpi k3"><div class="lab">อยู่ระหว่างดำเนินการ</div><div class="num" id="cProgC">–</div></div>
+    </div>
+    <div class="card">
+      <div class="filters"><input type="text" id="cSearch" placeholder="🔍 ค้นหา..."><label class="toggle"><input type="checkbox" id="cMask"> ปกปิดชื่อผู้ร้อง</label></div>
+      <div class="table-wrap"><div class="scroll"><table>
+        <thead><tr><th>เรื่อง</th><th>ผู้ร้องเรียน</th><th>ผู้ถูกร้องเรียน</th><th>วันที่ร้องเรียน</th><th>กำหนดรายงาน</th><th>สถานะ</th><th>หมายเหตุ</th></tr></thead>
+        <tbody id="cBody"></tbody>
+      </table></div></div>
+    </div>
+    <div class="note">งานคุ้มครองผู้บริโภคส่วนใหญ่เป็นการประสานส่งต่อให้ผู้ประกอบการ/หน่วยงานชี้แจงข้อเท็จจริง จึงแยกตัวชี้วัดออกจากเรื่องร้องเรียนทั่วไป</div>
+  </section>
 </div>
 
 <script>
-/* ===== ข้อมูลรวมตามชีต (ตัวเลขจริงจากตารางสรุป) ===== */
-const DISTRICTS = [
-  {name:'เมืองหนองบัวลำภู', total:32, prog:7, done:25},
-  {name:'นากลาง',         total:17, prog:7, done:10},
-  {name:'ศรีบุญเรือง',     total:10, prog:7, done:3},
-  {name:'สุวรรณคูหา',     total:9,  prog:5, done:4},
-  {name:'นาวัง',          total:8,  prog:4, done:4},
-  {name:'โนนสัง',         total:6,  prog:2, done:4},
-];
-const TYPES = [
-  {l:'ขอความช่วยเหลือ',n:33,c:'#24508f'},
-  {l:'กล่าวโทษเจ้าหน้าที่รัฐ',n:21,c:'#c9a227'},
-  {l:'ปัญหาความเดือดร้อน',n:19,c:'#1f9d6b'},
-  {l:'ปัญหาที่ดิน',n:7,c:'#d6863f'},
-  {l:'แจ้งเบาะแส',n:2,c:'#8a5cf6'},
-];
-const CHANNELS = [
-  {l:'ด้วยตนเอง',n:34},{l:'จดหมาย',n:22},{l:'สปน.1111',n:15},
-  {l:'สื่อโซเชียล',n:5},{l:'ศดธ.มท.',n:3},{l:'จากหน่วยงานอื่น',n:2},{l:'ไปรษณีย์อิเล็กทรอนิกส์',n:1},
-];
+const API='https://script.google.com/macros/s/AKfycby_DgqQHA42cvJzfrsiKMtfuki3ctC1b3xhH9QUOwek-DMz1C1Xqv9VRhnwMyB8Ol98/exec';
+const DISTRICT_ORDER=['เมืองหนองบัวลำภู','ศรีบุญเรือง','นากลาง','โนนสัง','สุวรรณคูหา','นาวัง'];
+const TYPE_COLORS={'ขอความช่วยเหลือ':'#24508f','กล่าวโทษเจ้าหน้าที่รัฐ':'#c9a227','ปัญหาความเดือดร้อน':'#1f9d6b','ปัญหาที่ดิน':'#d6863f','แจ้งเบาะแส':'#7c4dff','หนี้นอกระบบ':'#e0697f','ทูลเกล้าถวายฎีกา':'#5c6bc0'};
+const TYPE_ICONS={'ขอความช่วยเหลือ':'🤝','กล่าวโทษเจ้าหน้าที่รัฐ':'🏛️','ปัญหาความเดือดร้อน':'😣','ปัญหาที่ดิน':'🌾','แจ้งเบาะแส':'📢','หนี้นอกระบบ':'💸','ทูลเกล้าถวายฎีกา':'👑'};
+const CHANNEL_ICONS={'ด้วยตนเอง':'🚶','จดหมาย':'✉️','สปน.1111':'☎️','สื่อโซเชียล':'📱','ศดธ.มท.':'🏢','จากหน่วยงานอื่น':'📨','ไปรษณีย์อิเล็กทรอนิกส์':'💻'};
 
-/* ===== เคสจริง (ตัวอย่างครอบคลุมทุกอำเภอ/สถานะ) — ตารางเจ้าหน้าที่ ===== */
-const R = (title,district,type,name,agency,channel,deadline,status)=>({title,district,type,name,agency,channel,deadline,status});
-const RECORDS = [
-  R('ปัญหาน้ำท่วมในพื้นที่อำเภอเมืองหนองบัวลำภู','เมืองหนองบัวลำภู','ขอความช่วยเหลือ','นางตรึงตรา โคตรเวียง','สนง.ปภ. / ชลประทาน / เทศบาลเมือง','ด้วยตนเอง','30/10/2568','ยุติแล้ว'),
-  R('ขอเร่งรัดติดตามความคืบหน้าการออกโฉนดที่ดิน','เมืองหนองบัวลำภู','ปัญหาที่ดิน','นางพร จันทร์แซม','สนง.ที่ดินจังหวัด','ด้วยตนเอง','14/11/2568','ยุติแล้ว'),
-  R('ขอความช่วยเหลือติดตามไกล่เกลี่ยข้อพิพาทที่ดิน','เมืองหนองบัวลำภู','ขอความช่วยเหลือ','นางเรียมศิริ เลิศพัฒนาสุข','อำเภอเมืองหนองบัวลำภู','สปน.1111','30/4/2569','อยู่ระหว่างดำเนินการ'),
-  R('ร้องเรียนเก็บค่าบริการโลงเย็น วัดศรีสว่างสมสะอาด','เมืองหนองบัวลำภู','ขอความช่วยเหลือ','ปกปิดชื่อ-สกุล','อำเภอเมืองหนองบัวลำภู','ด้วยตนเอง','16/2/2569','อยู่ระหว่างดำเนินการ'),
-  R('ขอความช่วยเหลือเร่งรัดติดตามคดี','เมืองหนองบัวลำภู','ขอความช่วยเหลือ','นายอาทิตย์ ศรีบัวเผื่อน','ตำรวจภูธรจังหวัด','ด้วยตนเอง','26/5/2569','อยู่ระหว่างดำเนินการ'),
-  R('ตรวจสอบการปฏิบัติหน้าที่ของนิติกรเทศบาลเมือง','เมืองหนองบัวลำภู','กล่าวโทษเจ้าหน้าที่รัฐ','นางนิฎฐา ไชยแสง','สนง.ท้องถิ่นจังหวัด','จดหมาย','30/6/2569','อยู่ระหว่างดำเนินการ'),
-  R('ร้องเรียนนายก อบจ.หนองบัวลำภู (ตัดไม้ทำลายป่า)','เมืองหนองบัวลำภู','กล่าวโทษเจ้าหน้าที่รัฐ','นางสาวพูนทรัพย์ สุวรรณงาม','สนง.ทรัพยากรธรรมชาติฯ','จดหมาย','28/11/2568','ยุติแล้ว'),
-  R('กลิ่นเหม็นรบกวนจากลานรับซื้อขี้ยางพารา','เมืองหนองบัวลำภู','ขอความช่วยเหลือ','ปกปิด','สสจ. / อำเภอเมือง','สื่อโซเชียล','6/2/2569','ยุติแล้ว'),
-  R('ติดตามการโอนสิทธิที่ดินในเขตปฏิรูปที่ดิน','นากลาง','ปัญหาที่ดิน','นายวิชิต เชื้อแก้ว','สนง.ปฏิรูปที่ดินจังหวัด','สปน.1111','21/11/2568','อยู่ระหว่างดำเนินการ'),
-  R('ตรวจสอบการเพิกถอนบัตรประชาชน/หนังสือรับรองเกิด','นากลาง','ขอความช่วยเหลือ','นางสาวลีลาวดี สมเสียง','ที่ทำการปกครองจังหวัด','ด้วยตนเอง','28/11/2568','อยู่ระหว่างดำเนินการ'),
-  R('ตรวจสอบคำสั่งเทศบาลตำบลกุดดินจี่ (เวรยาม)','นากลาง','กล่าวโทษเจ้าหน้าที่รัฐ','นายชัยวัฒน์ วงษ์ไชยา','สนง.ส่งเสริมการปกครองท้องถิ่น','ศดธ.มท.','27/2/2569','อยู่ระหว่างดำเนินการ'),
-  R('ตรวจสอบการรังวัดแนวเขตที่ดิน ส.ป.ก.','นากลาง','ปัญหาที่ดิน','นางคำพันธ์ พลศรี','สนง.ปฏิรูปที่ดินจังหวัด','จดหมาย','24/3/2569','อยู่ระหว่างดำเนินการ'),
-  R('ขออนุเคราะห์ค่าตอบแทนผู้ปฏิบัติหน้าที่','นากลาง','ขอความช่วยเหลือ','นางสาวนันทนา นาคำ','ที่ทำการปกครอง / สสจ.','จดหมาย','30/4/2569','อยู่ระหว่างดำเนินการ'),
-  R('ตรวจสอบพฤติกรรมผู้ใหญ่บ้าน บ้านกู่ทอง','นากลาง','กล่าวโทษเจ้าหน้าที่รัฐ','ปชช.บ้านกู่ทอง','ที่ทำการปกครองจังหวัด','ด้วยตนเอง','18/5/2569','อยู่ระหว่างดำเนินการ'),
-  R('ตรวจสอบธนบัตรปลอมในตลาดนัดคลองถม','นากลาง','ปัญหาความเดือดร้อน','ประชาชนอำเภอนากลาง','ตำรวจภูธรจังหวัด','สื่อโซเชียล','20/5/2569','อยู่ระหว่างดำเนินการ'),
-  R('ถนนน้ำท่วมขังและไม่มีน้ำประปา บ้านม่วงแก้ว','ศรีบุญเรือง','ปัญหาความเดือดร้อน','นางสาวสุนิศา ศรีมงคล','อำเภอศรีบุญเรือง','จดหมาย','10/11/2568','อยู่ระหว่างดำเนินการ'),
-  R('การปล่อยน้ำเสียลงที่ดินเกษตร บ้านนาชุมแสง','ศรีบุญเรือง','ปัญหาความเดือดร้อน','นายทองประการ เหลาเป','สนง.ทรัพยากรธรรมชาติฯ','จากหน่วยงานอื่น','2/2/2569','อยู่ระหว่างดำเนินการ'),
-  R('ตรวจสอบการปฏิบัติหน้าที่ปลัดอำเภอ/ผู้ใหญ่บ้าน','ศรีบุญเรือง','กล่าวโทษเจ้าหน้าที่รัฐ','ปกปิดชื่อ-สกุล','ที่ทำการปกครองจังหวัด','สปน.1111','1/6/2569','อยู่ระหว่างดำเนินการ'),
-  R('ขอความเป็นธรรมกรณีข้าราชการครูเปิดวงแชร์','ศรีบุญเรือง','กล่าวโทษเจ้าหน้าที่รัฐ','นางปารมี เริ่มสัมฤทธิ์ผล','ตำรวจภูธร / สพป.เขต 1','ด้วยตนเอง','15/6/2569','อยู่ระหว่างดำเนินการ'),
-  R('ตรวจสอบผู้ใหญ่บ้านประพฤติไม่เหมาะสม','ศรีบุญเรือง','กล่าวโทษเจ้าหน้าที่รัฐ','นายประพันธ์ มาลาศรี','อำเภอศรีบุญเรือง','จดหมาย','25/6/2569','อยู่ระหว่างดำเนินการ'),
-  R('ตรวจสอบการบุกรุกที่สาธารณะ "ห้วยบะหมี่"','ศรีบุญเรือง','ปัญหาที่ดิน','อำเภอศรีบุญเรือง','สนง.ปฏิรูปที่ดินจังหวัด','จากหน่วยงานอื่น','22/6/2569','อยู่ระหว่างดำเนินการ'),
-  R('โครงการทางหลวง 288 บ้านห้วยสายหนัง','ศรีบุญเรือง','ปัญหาความเดือดร้อน','ผู้ใหญ่บ้าน หมู่ 6,7,17,23','แขวงทางหลวงหนองบัวลำภู','จดหมาย','20/3/2569','ยุติแล้ว'),
-  R('ลักลอบขนย้ายแร่ พื้นที่เหมืองสิ้นอายุประทานบัตร','สุวรรณคูหา','ปัญหาที่ดิน','กลุ่มอนุรักษ์ป่าชุมชนเขาเหล่าใหญ่','สนง.อุตสาหกรรม / อำเภอสุวรรณคูหา','จดหมาย','30/10/2568','ยุติแล้ว'),
-  R('ขอออกโฉนดเพื่อเกษตรในที่ดิน ส.ป.ก.','สุวรรณคูหา','ขอความช่วยเหลือ','นางเลื่อน นาดี','สนง.ปฏิรูปที่ดินจังหวัด','จดหมาย','30/1/2569','อยู่ระหว่างดำเนินการ'),
-  R('ตรวจสอบเงินโครงการน้ำประปาหมู่บ้าน บ้านวิจิตรพัฒนา','สุวรรณคูหา','กล่าวโทษเจ้าหน้าที่รัฐ','ปชช.บ้านวิจิตรพัฒนา','อำเภอสุวรรณคูหา','ด้วยตนเอง','30/4/2569','อยู่ระหว่างดำเนินการ'),
-  R('แก้ปัญหาพื้นที่ทับซ้อนเขตป่าชุมชนภูหมี','สุวรรณคูหา','ปัญหาที่ดิน','นายพิทักษ์ ดวงพรมยาว','สนง.ปฏิรูปที่ดินจังหวัด','ด้วยตนเอง','20/5/2569','อยู่ระหว่างดำเนินการ'),
-  R('ซ่อมแซมถนนชำรุด ร้านโสภณอิฐบล็อค','สุวรรณคูหา','ปัญหาความเดือดร้อน','ปกปิดชื่อ-สกุล','อบจ.หนองบัวลำภู','สปน.1111','6/7/2569','อยู่ระหว่างดำเนินการ'),
-  R('ตรวจสอบความคืบหน้ายกเลิกประกาศแหล่งหินผาจันได','สุวรรณคูหา','ปัญหาที่ดิน','กลุ่มอนุรักษ์ป่าชุมชนเขาเหล่าใหญ่','ที่ทำการปกครอง / อุตสาหกรรม','ด้วยตนเอง','15/6/2569','อยู่ระหว่างดำเนินการ'),
-  R('ปัญหาน้ำประปาไม่ไหล/ไม่ได้คุณภาพ ต.นาเหล่า','นาวัง','ขอความช่วยเหลือ','ปกปิดชื่อ-สกุล','อำเภอนาวัง','สปน.1111','23/2/2569','ยุติแล้ว'),
-  R('เปลี่ยนชื่อผู้ถือครองที่ดิน ส.ป.ก.','นาวัง','ขอความช่วยเหลือ','นางพรเกิด วงค์ใหญ่','สปก.นภ.','ด้วยตนเอง','27/2/2569','อยู่ระหว่างดำเนินการ'),
-  R('ตรวจสอบการปฏิบัติหน้าที่ผู้ใหญ่บ้าน ต.นาแก','นาวัง','กล่าวโทษเจ้าหน้าที่รัฐ','นายประสาน ศรีใส','ที่ทำการปกครองจังหวัด','ด้วยตนเอง','16/3/2569','อยู่ระหว่างดำเนินการ'),
-  R('ยักยอกเบี้ยประชุม คกก.สถานศึกษา 3 นาแกวิทยา','นาวัง','กล่าวโทษเจ้าหน้าที่รัฐ','นายบุญทัน หลาบหนองแสง','อบจ.หนองบัวลำภู','ด้วยตนเอง','31/3/2569','อยู่ระหว่างดำเนินการ'),
-  R('ถนนชำรุดทางเข้าอ่างเก็บน้ำผาวัง','นาวัง','ปัญหาความเดือดร้อน','ปชช.ตำบลวังทอง','แขวงทางหลวงหนองบัวลำภู','สื่อโซเชียล','5/6/2569','อยู่ระหว่างดำเนินการ'),
-  R('นักเรียนได้รับผลกระทบจากกลิ่นโรงเรือนกัญชา','นาวัง','ปัญหาความเดือดร้อน','อำเภอนาวัง','สสจ. / อบต.วังทอง','จดหมาย','','ยุติแล้ว'),
-  R('ติดตามผลทางคดี (เหตุกระทำชำเรา)','โนนสัง','ขอความช่วยเหลือ','นางสาวแสงอรุณ จันทะรส','ตำรวจภูธร / พมจ. / ยุติธรรม','ด้วยตนเอง','24/10/2568','ยุติแล้ว'),
-  R('ซ่อมแซมสะพานชำรุด หินสิ่ว–โสกแคน','โนนสัง','ปัญหาความเดือดร้อน','นายจิรวัฒน์ จงอางจิตร','อบจ.หนองบัวลำภู','สปน.1111','28/11/2568','ยุติแล้ว'),
-  R('ขาดแคลนน้ำประปา/น้ำขุ่นเหม็น บ้านกุดดู่','โนนสัง','ปัญหาความเดือดร้อน','ประชาชนบ้านกุดดู่','การประปาส่วนภูมิภาค','จดหมาย','28/11/2568','ยุติแล้ว'),
-  R('ร้องเรียนพฤติกรรมผู้ใหญ่บ้าน หมู่ 9 บ้านถิ่น','โนนสัง','กล่าวโทษเจ้าหน้าที่รัฐ','นายสมพร โชคลา','ที่ทำการปกครองจังหวัด','ด้วยตนเอง','17/4/2569','อยู่ระหว่างดำเนินการ'),
-  R('ตรวจสอบจริยธรรมผู้บริหารเทศบาลตำบลกุดดู่','โนนสัง','กล่าวโทษเจ้าหน้าที่รัฐ','นายปรนรรท์ วิเศษคามิน','สนง.ท้องถิ่นจังหวัด','ด้วยตนเอง','30/4/2569','อยู่ระหว่างดำเนินการ'),
-];
-
-/* ===== วันที่ปัจจุบัน (พ.ศ.) ===== */
 const TH_M=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
 const now=new Date();
-const todayBE=`${now.getDate()} ${TH_M[now.getMonth()]} ${now.getFullYear()+543-2500}`;
-document.getElementById('today').textContent=todayBE;
+document.getElementById('today').textContent=`${now.getDate()} ${TH_M[now.getMonth()]} ${now.getFullYear()+543}`;
 
-function parseBE(s){ // "30/10/2568" -> Date (ค.ศ.)
-  if(!s) return null;
-  const p=s.split('/'); if(p.length!==3) return null;
-  const d=+p[0], m=+p[1]-1, y=+p[2]-543;
-  const dt=new Date(y,m,d); return isNaN(dt)?null:dt;
+let RECORDS=[], CONSUMER=[];
+
+function jsonp(params){
+  return new Promise((resolve,reject)=>{
+    const cb='cb_'+Date.now()+Math.floor(Math.random()*9999);
+    const url=API+'?'+Object.keys(params).map(k=>encodeURIComponent(k)+'='+encodeURIComponent(params[k])).join('&')+'&callback='+cb;
+    const s=document.createElement('script');
+    const timer=setTimeout(()=>{cleanup();reject('หมดเวลาเชื่อมต่อ');},25000);
+    function cleanup(){clearTimeout(timer);delete window[cb];s.remove();}
+    window[cb]=d=>{cleanup();resolve(d);};
+    s.onerror=()=>{cleanup();reject('เชื่อมต่อไม่ได้');};
+    s.src=url;document.body.appendChild(s);
+  });
 }
-function slaOf(rec){
-  if(rec.status==='ยุติแล้ว') return {k:'done',days:null};
-  const dl=parseBE(rec.deadline); if(!dl) return {k:'ok',days:null};
+function parseBE(s){if(!s)return null;const p=String(s).split('/');if(p.length!==3)return null;const dt=new Date(+p[2]-543,+p[1]-1,+p[0]);return isNaN(dt)?null:dt;}
+function slaOf(r){
+  if(r.status==='ยุติแล้ว')return{k:'done',days:null};
+  const dl=parseBE(r.deadline);if(!dl)return{k:'ok',days:null};
   const diff=Math.round((dl-now)/86400000);
-  if(diff<0) return {k:'over',days:diff};
-  if(diff<=7) return {k:'near',days:diff};
-  return {k:'ok',days:diff};
+  if(diff<0)return{k:'over',days:diff};
+  if(diff<=7)return{k:'near',days:diff};
+  return{k:'ok',days:diff};
+}
+function count(arr,key){const m={};arr.forEach(r=>{const v=r[key];if(v)m[v]=(m[v]||0)+1;});return m;}
+
+async function init(){
+  try{
+    const d=await jsonp({action:'all'});
+    if(!d.ok) throw d.error||'ผิดพลาด';
+    RECORDS=d.records||[]; CONSUMER=d.consumer||[];
+    document.getElementById('loader').style.display='none';
+    renderAll();
+  }catch(e){
+    document.getElementById('loader').style.display='none';
+    const b=document.getElementById('banner');
+    b.style.display='block';
+    b.innerHTML='⚠️ ดึงข้อมูลสดไม่สำเร็จ: '+e+' — ตรวจสอบว่า Deploy เป็น Web app (Anyone) และรัน setup() แล้ว';
+  }
 }
 
-/* ===== คำนวณ SLA ===== */
-let nOver=0,nNear=0,nOk=0;
-RECORDS.forEach(r=>{const s=slaOf(r); if(s.k==='over')nOver++; else if(s.k==='near')nNear++; else nOk++;});
-document.getElementById('overdueNum').textContent=nOver;
-document.getElementById('slaOver').textContent=nOver;
-document.getElementById('slaNear').textContent=nNear;
-document.getElementById('slaOk').textContent=nOk;
+function renderAll(){
+  const total=RECORDS.length;
+  const done=RECORDS.filter(r=>r.status==='ยุติแล้ว').length;
+  const prog=RECORDS.filter(r=>r.status==='อยู่ระหว่างดำเนินการ').length;
+  let over=0,near=0,ok=0;
+  RECORDS.forEach(r=>{const s=slaOf(r);if(s.k==='over')over++;else if(s.k==='near')near++;else ok++;});
 
-/* ===== Alert list (exec) ===== */
-const alerts=RECORDS.map(r=>({r,s:slaOf(r)}))
-  .filter(x=>x.s.k==='over'||x.s.k==='near')
-  .sort((a,b)=>(a.s.days??0)-(b.s.days??0));
-const al=document.getElementById('alertList');
-alerts.forEach(({r,s})=>{
-  const over=s.k==='over';
-  const label=over?`เกิน ${Math.abs(s.days)} วัน`:`อีก ${s.days} วัน`;
-  al.insertAdjacentHTML('beforeend',
-    `<div class="alert-item"><span class="badge ${over?'':'warn'}">${label}</span>
-     <div><div class="t">${r.title}</div><div class="m">${r.district} · ${r.agency}</div></div></div>`);
-});
-if(!alerts.length) al.innerHTML='<div class="empty">ไม่มีเรื่องเกิน/ใกล้ครบกำหนดในชุดตัวอย่าง</div>';
+  // EXEC kpis
+  set('kTotal',total);set('kDone',done);set('kProg',prog);set('kOver',over);
+  set('kRate',total?`คิดเป็น ${(done/total*100).toFixed(1)}% ของเรื่องทั้งหมด`:'–');
 
-/* ===== Charts ===== */
-const F={font:{family:'Sarabun',size:12}};
-Chart.defaults.font.family='Sarabun';
-Chart.defaults.color='#6b7686';
+  // PUBLIC
+  set('pTotal',total);set('pDone',done);set('pProg',prog);
+  const typeCount=count(RECORDS,'type');
+  document.getElementById('pubTypeGrid').innerHTML=Object.entries(typeCount).sort((a,b)=>b[1]-a[1])
+    .map(([t,n])=>`<div class="type-chip"><div class="ic">${TYPE_ICONS[t]||'📌'}</div><div><div class="n">${n}</div><div class="l">${t}</div></div></div>`).join('');
+  const chCount=count(RECORDS,'channel');
+  document.getElementById('pubChannels').innerHTML=Object.entries(chCount).sort((a,b)=>b[1]-a[1])
+    .map(([c,n])=>`<div class="ch-pill">${CHANNEL_ICONS[c]||'•'} ${c} <b>${n}</b></div>`).join('');
 
-new Chart(document.getElementById('cDistrict'),{
-  type:'bar',
-  data:{labels:DISTRICTS.map(d=>d.name),
-    datasets:[
-      {label:'ยุติแล้ว',data:DISTRICTS.map(d=>d.done),backgroundColor:'#1f9d6b',borderRadius:6},
-      {label:'อยู่ระหว่างดำเนินการ',data:DISTRICTS.map(d=>d.prog),backgroundColor:'#e0a000',borderRadius:6},
-    ]},
-  options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},
-    scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,ticks:{stepSize:5}}}}
-});
+  // SLA board
+  set('slaOver',over);set('slaNear',near);set('slaOk',ok+done);
 
-new Chart(document.getElementById('cType'),{
-  type:'doughnut',
-  data:{labels:TYPES.map(t=>t.l),datasets:[{data:TYPES.map(t=>t.n),backgroundColor:TYPES.map(t=>t.c),borderWidth:2,borderColor:'#fff'}]},
-  options:{maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{boxWidth:12,font:{size:11}}}}}
-});
+  // alerts
+  const alerts=RECORDS.map(r=>({r,s:slaOf(r)})).filter(x=>x.s.k==='over'||x.s.k==='near').sort((a,b)=>(a.s.days??0)-(b.s.days??0));
+  document.getElementById('alertList').innerHTML = alerts.length ? alerts.map(({r,s})=>{
+    const ov=s.k==='over';const lab=ov?`เกิน ${Math.abs(s.days)} วัน`:`อีก ${s.days} วัน`;
+    return `<div class="alert-item"><span class="badge ${ov?'':'warn'}">${lab}</span><div><div class="t">${r.title}</div><div class="m">${r.district} · ${r.agency||''}</div></div></div>`;
+  }).join('') : '<div class="empty">ไม่มีเรื่องเกิน/ใกล้ครบกำหนด</div>';
 
-new Chart(document.getElementById('cChannel'),{
-  type:'bar',
-  data:{labels:CHANNELS.map(c=>c.l),datasets:[{data:CHANNELS.map(c=>c.n),backgroundColor:'#24508f',borderRadius:6}]},
-  options:{maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},
-    scales:{x:{beginAtZero:true,grid:{color:'#eef1f7'}},y:{grid:{display:false}}}}
-});
+  buildCharts();
+  buildOfficer();
+  buildConsumer();
+}
+function set(id,v){document.getElementById(id).textContent=v;}
 
-new Chart(document.getElementById('cDonut'),{
-  type:'doughnut',
-  data:{labels:['ยุติแล้ว','อยู่ระหว่างดำเนินการ'],datasets:[{data:[50,32],backgroundColor:['#1f9d6b','#e0a000'],borderWidth:3,borderColor:'#fff'}]},
-  options:{maintainAspectRatio:false,cutout:'70%',plugins:{legend:{position:'bottom'},
-    tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw} เรื่อง (${(c.raw/82*100).toFixed(1)}%)`}}}}
-});
+let charts={};
+function buildCharts(){
+  Chart.defaults.font.family='Sarabun';Chart.defaults.color='#6b7686';
+  Object.values(charts).forEach(c=>c&&c.destroy());
 
-new Chart(document.getElementById('cPubDistrict'),{
-  type:'bar',
-  data:{labels:DISTRICTS.map(d=>d.name),datasets:[{data:DISTRICTS.map(d=>d.total),backgroundColor:'#24508f',borderRadius:6}]},
-  options:{maintainAspectRatio:false,plugins:{legend:{display:false}},
-    scales:{x:{grid:{display:false}},y:{beginAtZero:true}}}
-});
+  const dDone=DISTRICT_ORDER.map(d=>RECORDS.filter(r=>r.district===d&&r.status==='ยุติแล้ว').length);
+  const dProg=DISTRICT_ORDER.map(d=>RECORDS.filter(r=>r.district===d&&r.status==='อยู่ระหว่างดำเนินการ').length);
+  charts.dist=new Chart(cDistrict,{type:'bar',data:{labels:DISTRICT_ORDER,datasets:[
+    {label:'ยุติแล้ว',data:dDone,backgroundColor:'#1f9d6b',borderRadius:6},
+    {label:'อยู่ระหว่างดำเนินการ',data:dProg,backgroundColor:'#e0a000',borderRadius:6}]},
+    options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,ticks:{stepSize:5}}}}});
 
-/* ===== Officer table ===== */
-const tbody=document.getElementById('tbody');
-const fSearch=document.getElementById('fSearch'),fDistrict=document.getElementById('fDistrict'),
-      fType=document.getElementById('fType'),fStatus=document.getElementById('fStatus'),
-      fSla=document.getElementById('fSla'),fMask=document.getElementById('fMask');
-[...new Set(RECORDS.map(r=>r.district))].forEach(d=>fDistrict.add(new Option(d,d)));
-[...new Set(RECORDS.map(r=>r.type))].forEach(t=>fType.add(new Option(t,t)));
+  const tc=count(RECORDS,'type');const tl=Object.keys(tc);
+  charts.type=new Chart(cType,{type:'doughnut',data:{labels:tl,datasets:[{data:tl.map(t=>tc[t]),backgroundColor:tl.map(t=>TYPE_COLORS[t]||'#999'),borderWidth:2,borderColor:'#fff'}]},
+    options:{maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{boxWidth:12,font:{size:11}}}}}});
 
+  const cc=count(RECORDS,'channel');const cl=Object.keys(cc).sort((a,b)=>cc[b]-cc[a]);
+  charts.ch=new Chart(cChannel,{type:'bar',data:{labels:cl,datasets:[{data:cl.map(c=>cc[c]),backgroundColor:'#24508f',borderRadius:6}]},
+    options:{maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'#eef1f7'}},y:{grid:{display:false}}}}});
+
+  const done=RECORDS.filter(r=>r.status==='ยุติแล้ว').length,prog=RECORDS.length-done;
+  charts.donut=new Chart(cDonut,{type:'doughnut',data:{labels:['ยุติแล้ว','อยู่ระหว่างดำเนินการ'],datasets:[{data:[done,prog],backgroundColor:['#1f9d6b','#e0a000'],borderWidth:3,borderColor:'#fff'}]},
+    options:{maintainAspectRatio:false,cutout:'70%',plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw} เรื่อง (${(c.raw/RECORDS.length*100).toFixed(1)}%)`}}}}});
+
+  charts.pubD=new Chart(cPubDistrict,{type:'bar',data:{labels:DISTRICT_ORDER,datasets:[{data:DISTRICT_ORDER.map(d=>RECORDS.filter(r=>r.district===d).length),backgroundColor:'#24508f',borderRadius:6}]},
+    options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{beginAtZero:true}}}});
+}
+
+/* OFFICER */
 function maskName(n){
-  if(/ปกปิด/.test(n)) return n;
-  if(/^(ปชช|ประชาชน|กลุ่ม|ผู้ใหญ่บ้าน|สมาชิก|อำเภอ|ผู้ปกครอง)/.test(n)) return n;
-  const parts=n.replace(/^(นาย|นาง|นางสาว|พ\.จ\.ท\.|จ่าสิบเอก)/,'$1 ').split(' ').filter(Boolean);
-  if(parts.length>=2){const f=parts[parts.length-2]; return n.replace(f,f[0]+'•••');}
+  if(!n)return'';
+  if(/ปกปิด/.test(n))return n;
+  if(/^(ปชช|ประชาชน|กลุ่ม|ผู้ใหญ่บ้าน|สมาชิก|อำเภอ|ผู้ปกครอง|คณะ)/.test(n))return n;
+  const parts=n.split(' ').filter(Boolean);
+  if(parts.length>=2){const f=parts[parts.length-1];return n.replace(f,f[0]+'•••');}
   return n;
 }
-function render(){
-  const q=fSearch.value.trim(), d=fDistrict.value, t=fType.value, st=fStatus.value, sl=fSla.value, mask=fMask.checked;
-  const rows=RECORDS.filter(r=>{
-    if(q && !(r.title.includes(q)||r.agency.includes(q)||r.name.includes(q))) return false;
-    if(d && r.district!==d) return false;
-    if(t && r.type!==t) return false;
-    if(st && r.status!==st) return false;
-    if(sl && slaOf(r).k!==sl) return false;
-    return true;
-  });
-  tbody.innerHTML = rows.length ? rows.map(r=>{
-    const s=slaOf(r);
-    let dlClass='ok',dlTxt=r.deadline||'—';
-    if(s.k==='over'){dlClass='over';dlTxt=`${r.deadline} (เกิน ${Math.abs(s.days)} วัน)`;}
-    else if(s.k==='near'){dlClass='near';dlTxt=`${r.deadline} (อีก ${s.days} วัน)`;}
-    else if(r.status==='ยุติแล้ว') dlTxt=r.deadline||'—';
-    const stClass=r.status==='ยุติแล้ว'?'done':'prog';
-    return `<tr>
-      <td class="ttl">${r.title}</td><td>${r.district}</td><td>${r.type}</td>
-      <td>${mask?maskName(r.name):r.name}</td><td>${r.agency}</td><td>${r.channel}</td>
-      <td class="dl ${dlClass}">${dlTxt}</td>
-      <td><span class="st ${stClass}">${r.status}</span></td></tr>`;
-  }).join('') : `<tr><td colspan="8" class="empty">ไม่พบเรื่องที่ตรงกับตัวกรอง</td></tr>`;
-  document.getElementById('cnt').textContent=`แสดง ${rows.length} เรื่อง จากตัวอย่างทั้งหมด ${RECORDS.length} เรื่อง · (ระบบจริงจะดึงครบทั้ง 82 เรื่องจาก Google Sheet)`;
+function buildOfficer(){
+  const fD=document.getElementById('fDistrict'),fT=document.getElementById('fType');
+  fD.innerHTML='<option value="">ทุกอำเภอ</option>';fT.innerHTML='<option value="">ทุกประเภท</option>';
+  [...new Set(RECORDS.map(r=>r.district))].forEach(d=>fD.add(new Option(d,d)));
+  [...new Set(RECORDS.map(r=>r.type))].filter(Boolean).forEach(t=>fT.add(new Option(t,t)));
+  ['fSearch','fDistrict','fType','fStatus','fSla','fMask'].forEach(id=>document.getElementById(id).oninput=renderOfficer);
+  renderOfficer();
 }
-[fSearch,fDistrict,fType,fStatus,fSla,fMask].forEach(el=>el.addEventListener('input',render));
-render();
+function renderOfficer(){
+  const q=fSearch.value.trim(),d=fDistrict.value,t=fType.value,st=fStatus.value,sl=fSla.value,mask=fMask.checked;
+  const rows=RECORDS.filter(r=>{
+    if(q&&!((r.title||'').includes(q)||(r.agency||'').includes(q)||(r.complainant||'').includes(q)))return false;
+    if(d&&r.district!==d)return false;if(t&&r.type!==t)return false;
+    if(st&&r.status!==st)return false;if(sl&&slaOf(r).k!==sl)return false;return true;
+  });
+  tbody.innerHTML=rows.length?rows.map(r=>{
+    const s=slaOf(r);let cls='ok',txt=r.deadline||'—';
+    if(s.k==='over'){cls='over';txt=`${r.deadline} (เกิน ${Math.abs(s.days)} วัน)`;}
+    else if(s.k==='near'){cls='near';txt=`${r.deadline} (อีก ${s.days} วัน)`;}
+    const sc=r.status==='ยุติแล้ว'?'done':'prog';
+    return `<tr><td class="ttl">${r.title||''}</td><td>${r.district}</td><td>${r.type||''}</td>
+      <td>${mask?maskName(r.complainant):(r.complainant||'')}</td><td>${r.agency||''}</td><td>${r.channel||''}</td>
+      <td class="dl ${cls}">${txt}</td><td><span class="st ${sc}">${r.status||''}</span></td></tr>`;
+  }).join(''):'<tr><td colspan="8" class="empty">ไม่พบเรื่องที่ตรงกับตัวกรอง</td></tr>';
+  document.getElementById('cnt').textContent=`แสดง ${rows.length} เรื่อง จากทั้งหมด ${RECORDS.length} เรื่อง (ข้อมูลสดจากชีต)`;
+}
 
-/* ===== Role switch ===== */
+/* CONSUMER */
+function buildConsumer(){
+  set('cTotalC',CONSUMER.length);
+  set('cDoneC',CONSUMER.filter(r=>r.status==='ยุติแล้ว').length);
+  set('cProgC',CONSUMER.filter(r=>r.status==='อยู่ระหว่างดำเนินการ').length);
+  document.getElementById('cSearch').oninput=renderConsumer;
+  document.getElementById('cMask').oninput=renderConsumer;
+  renderConsumer();
+}
+function renderConsumer(){
+  const q=document.getElementById('cSearch').value.trim(),mask=document.getElementById('cMask').checked;
+  const rows=CONSUMER.filter(r=>!q||JSON.stringify(r).includes(q));
+  document.getElementById('cBody').innerHTML=rows.length?rows.map(r=>{
+    const sc=r.status==='ยุติแล้ว'?'done':'prog';
+    return `<tr><td class="ttl">${r.title||''}</td><td>${mask?maskName(r.complainant):(r.complainant||'')}</td>
+      <td>${r.accused||''}</td><td>${r.dateIn||''}</td><td>${r.deadline||''}</td>
+      <td><span class="st ${sc}">${r.status||''}</span></td><td>${r.note||''}</td></tr>`;
+  }).join(''):'<tr><td colspan="7" class="empty">ยังไม่มีข้อมูลคุ้มครองผู้บริโภค</td></tr>';
+}
+
+/* tabs */
 document.querySelectorAll('.role-btn').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.role-btn').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');
-  document.getElementById(b.dataset.v).classList.add('active');
+  b.classList.add('active');document.getElementById(b.dataset.v).classList.add('active');
 }));
+
+init();
 </script>
 </body>
 </html>
