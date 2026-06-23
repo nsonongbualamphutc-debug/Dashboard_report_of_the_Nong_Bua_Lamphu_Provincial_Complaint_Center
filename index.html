@@ -3,245 +3,186 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ศูนย์ดำรงธรรมจังหวัดหนองบัวลำภู — รายงานผลการดำเนินงาน</title>
+<title>ศูนย์ดำรงธรรมจังหวัดหนองบัวลำภู — ระบบติดตามงานเรื่องร้องเรียน</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --navy:#16325c; --navy2:#1e426f; --indigo:#24508f;
-    --gold:#c9a227; --green:#1f9d6b; --amber:#e0a000; --red:#d64545; --purple:#7c4dff;
-    --ink:#1f2733; --muted:#6b7686; --line:#e6eaf1;
-    --bg:#eef1f8; --card:#ffffff;
-    --shadow:0 10px 30px rgba(22,50,92,.08); --shadow-sm:0 4px 14px rgba(22,50,92,.06);
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Sarabun',sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
-  h1,h2,h3,.kanit{font-family:'Kanit',sans-serif;font-weight:600}
-  .topbar{background:linear-gradient(135deg,var(--navy),var(--indigo));color:#fff}
-  .topbar-inner{max-width:1240px;margin:0 auto;padding:20px 24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-  .seal{width:62px;height:62px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#f3e8c4);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:3px solid var(--gold);box-shadow:0 4px 12px rgba(0,0,0,.25)}
-  .seal span{font-family:'Kanit';font-weight:700;font-size:13px;color:var(--navy);text-align:center;line-height:1.05}
-  .htext h1{font-size:22px;font-weight:600}.htext .sub{font-size:13.5px;opacity:.85;font-weight:300}
-  .updated{margin-left:auto;text-align:right;font-size:12.5px;opacity:.8;font-weight:300}
-  .updated b{font-weight:500;opacity:1}
-  .live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#5fe6a0;margin-right:5px;animation:pulse 1.6s infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-  .roles{background:var(--navy2);border-top:1px solid rgba(255,255,255,.08)}
-  .roles-inner{max-width:1240px;margin:0 auto;padding:0 24px;display:flex;gap:4px;overflow-x:auto}
-  .role-btn{background:none;border:none;color:#cdd8ec;font-family:'Kanit';font-weight:500;font-size:15px;padding:14px 20px;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:.2s;display:flex;align-items:center;gap:8px}
-  .role-btn:hover{color:#fff}.role-btn.active{color:#fff;border-bottom-color:var(--gold)}
-  .role-btn .ic{font-size:17px}
-  .wrap{max-width:1240px;margin:0 auto;padding:26px 24px 60px}
-  .view{display:none;animation:fade .35s ease}.view.active{display:block}
-  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  .section-title{font-size:15px;color:var(--muted);font-weight:600;font-family:'Kanit';margin:8px 2px 14px;display:flex;align-items:center;gap:9px}
-  .section-title::before{content:"";width:4px;height:18px;background:var(--gold);border-radius:3px}
-  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:26px}
-  .kpi{background:var(--card);border-radius:16px;padding:20px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;border:1px solid var(--line)}
-  .kpi::after{content:"";position:absolute;right:-20px;top:-20px;width:90px;height:90px;border-radius:50%;opacity:.08}
-  .kpi.k1::after{background:var(--navy)}.kpi.k2::after{background:var(--green)}
-  .kpi.k3::after{background:var(--amber)}.kpi.k4::after{background:var(--red)}
-  .kpi .lab{font-size:13.5px;color:var(--muted);font-weight:500}
-  .kpi .num{font-family:'Kanit';font-weight:700;font-size:40px;line-height:1.1;margin-top:4px}
-  .kpi.k1 .num{color:var(--navy)}.kpi.k2 .num{color:var(--green)}
-  .kpi.k3 .num{color:var(--amber)}.kpi.k4 .num{color:var(--red)}
-  .kpi .foot{font-size:12.5px;color:var(--muted);margin-top:4px}
-  .grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin-bottom:22px}
-  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:22px}
-  .card{background:var(--card);border-radius:16px;padding:20px;box-shadow:var(--shadow-sm);border:1px solid var(--line)}
-  .card h3{font-size:16px;margin-bottom:14px;color:var(--navy)}
-  .chart-box{position:relative;height:280px}.chart-box.sm{height:230px}
-  .alert-card{background:linear-gradient(135deg,#fff,#fff7f3);border:1px solid #f3d6cc}
-  .alert-card h3{color:var(--red);display:flex;align-items:center;gap:8px}
-  .alert-list{display:flex;flex-direction:column;gap:9px;max-height:280px;overflow-y:auto}
-  .alert-item{display:flex;gap:12px;align-items:flex-start;padding:11px 13px;background:#fff;border-radius:11px;border:1px solid var(--line)}
-  .alert-item .badge{flex-shrink:0;font-family:'Kanit';font-weight:600;font-size:11.5px;padding:3px 9px;border-radius:20px;background:#fde8e8;color:var(--red)}
-  .alert-item .badge.warn{background:#fdf3df;color:#b07d00}
-  .alert-item .t{font-size:13.5px;font-weight:500;line-height:1.35}
-  .alert-item .m{font-size:12px;color:var(--muted);margin-top:2px}
-  .hero-public{background:linear-gradient(135deg,var(--navy),var(--indigo));color:#fff;border-radius:20px;padding:30px 28px;margin-bottom:24px;box-shadow:var(--shadow)}
-  .hero-public h2{font-size:24px;color:#fff;margin-bottom:8px}
-  .hero-public p{opacity:.9;font-weight:300;max-width:680px}
-  .pub-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:26px}
-  .pub-stat{background:var(--card);border-radius:18px;padding:26px 20px;text-align:center;box-shadow:var(--shadow-sm);border:1px solid var(--line)}
-  .pub-stat .ic{font-size:34px}.pub-stat .n{font-family:'Kanit';font-weight:700;font-size:42px;margin:6px 0 2px}
-  .pub-stat.s1 .n{color:var(--navy)}.pub-stat.s2 .n{color:var(--green)}.pub-stat.s3 .n{color:var(--amber)}
-  .pub-stat .l{color:var(--muted);font-weight:500}
-  .type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:13px;margin-bottom:26px}
-  .type-chip{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm)}
-  .type-chip .ic{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:#eef2fb}
-  .type-chip .n{font-family:'Kanit';font-weight:600;font-size:20px;color:var(--navy)}
-  .type-chip .l{font-size:12.5px;color:var(--muted);line-height:1.3}
-  .channel-row{display:flex;flex-wrap:wrap;gap:10px}
-  .ch-pill{background:#eef2fb;border:1px solid #dde5f3;border-radius:30px;padding:9px 16px;font-size:13.5px;display:flex;align-items:center;gap:8px}
-  .ch-pill b{font-family:'Kanit';color:var(--navy)}
-  .filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;align-items:center}
-  .filters select,.filters input{font-family:'Sarabun';font-size:13.5px;padding:9px 13px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);outline:none}
-  .filters input{flex:1;min-width:180px}
-  .filters select:focus,.filters input:focus{border-color:var(--indigo)}
-  .toggle{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);cursor:pointer;user-select:none}
-  .toggle input{width:16px;height:16px}
-  .sla-board{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
-  .sla{border-radius:14px;padding:16px 18px;color:#fff;box-shadow:var(--shadow-sm)}
-  .sla.over{background:linear-gradient(135deg,#d64545,#b53030)}
-  .sla.near{background:linear-gradient(135deg,#e0a000,#c08500)}
-  .sla.ok{background:linear-gradient(135deg,#1f9d6b,#178355)}
-  .sla .n{font-family:'Kanit';font-weight:700;font-size:34px}.sla .l{font-size:13px;opacity:.92;font-weight:300}
-  .table-wrap{background:var(--card);border-radius:14px;border:1px solid var(--line);overflow:hidden;box-shadow:var(--shadow-sm)}
-  table{width:100%;border-collapse:collapse;font-size:13px}
-  thead th{background:#f3f6fc;color:var(--navy);font-family:'Kanit';font-weight:500;text-align:left;padding:12px;position:sticky;top:0;white-space:nowrap;border-bottom:2px solid var(--line)}
-  tbody td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
-  tbody tr:hover{background:#f8faff}
-  .st{display:inline-block;font-family:'Kanit';font-weight:500;font-size:11.5px;padding:3px 10px;border-radius:20px;white-space:nowrap}
-  .st.done{background:#e3f5ec;color:var(--green)}.st.prog{background:#fdf3df;color:#b07d00}
-  .dl{font-weight:600;white-space:nowrap}
-  .dl.over{color:var(--red)}.dl.near{color:#b07d00}.dl.ok{color:var(--muted);font-weight:400}
-  .ttl{font-weight:500;max-width:330px}
-  .scroll{max-height:560px;overflow:auto}.empty{padding:34px;text-align:center;color:var(--muted)}
-  .note{font-size:12.5px;color:var(--muted);margin-top:14px;padding:12px 15px;background:#f3f6fc;border-radius:10px;border-left:3px solid var(--gold)}
-  /* loading / error */
-  #loader{position:fixed;inset:0;background:rgba(238,241,248,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99;gap:16px}
-  .spin{width:42px;height:42px;border:4px solid #d3ddf0;border-top-color:var(--indigo);border-radius:50%;animation:sp .8s linear infinite}
-  @keyframes sp{to{transform:rotate(360deg)}}
-  #loader .lt{font-family:'Kanit';color:var(--navy);font-weight:500}
-  .banner{background:#fff4f4;border:1px solid #f3d0d0;color:#a23a3a;padding:11px 16px;border-radius:10px;font-size:13.5px;margin-bottom:18px;display:none}
-  @media(max-width:920px){.kpis,.grid3,.pub-stats,.sla-board{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
-  @media(max-width:560px){.kpis,.pub-stats,.sla-board{grid-template-columns:1fr}.updated{margin-left:0;text-align:left;width:100%}.kpi .num{font-size:34px}}
+:root{
+  --navy:#16325c;--navy2:#1e426f;--indigo:#24508f;--gold:#c9a227;
+  --green:#1f9d6b;--amber:#e0a000;--red:#d64545;--purple:#7c4dff;
+  --ink:#1f2733;--muted:#6b7686;--line:#e6eaf1;--bg:#eef1f8;--card:#fff;
+  --shadow:0 10px 30px rgba(22,50,92,.08);--shadow-sm:0 4px 14px rgba(22,50,92,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Sarabun',sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,.kanit{font-family:'Kanit',sans-serif;font-weight:600}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+.nav{background:linear-gradient(135deg,var(--navy),var(--indigo));color:#fff;position:sticky;top:0;z-index:40;box-shadow:0 2px 14px rgba(22,50,92,.25)}
+.nav-top{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.seal{width:50px;height:50px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#f3e8c4);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid var(--gold)}
+.seal span{font:700 11px 'Kanit';color:var(--navy);text-align:center;line-height:1.05}
+.brand h1{font-size:18px;font-weight:600}.brand .s{font-size:12px;opacity:.85;font-weight:300}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:14px}
+.status{font-size:12px;opacity:.9;text-align:right;font-weight:300}
+.status b{font-weight:500}
+.live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#5fe6a0;margin-right:5px;animation:pulse 1.6s infinite}
+.live-dot.err{background:#ff7a7a}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.refresh{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;font:500 13px 'Kanit';padding:7px 14px;border-radius:9px;cursor:pointer;transition:.2s}
+.refresh:hover{background:rgba(255,255,255,.28)}
+.menu{background:var(--navy2)}
+.menu-inner{max-width:1240px;margin:0 auto;padding:0 24px;display:flex;gap:2px;overflow-x:auto}
+.menu a{color:#cdd8ec;font:500 14.5px 'Kanit';padding:13px 18px;border-bottom:3px solid transparent;white-space:nowrap;transition:.2s;display:flex;align-items:center;gap:7px}
+.menu a:hover{color:#fff}.menu a.active{color:#fff;border-bottom-color:var(--gold)}
+
+.wrap{max-width:1240px;margin:0 auto;padding:26px 24px 60px}
+.banner{background:#fff4f4;border:1px solid #f3d0d0;color:#a23a3a;padding:11px 16px;border-radius:10px;font-size:13.5px;margin-bottom:18px;display:none}
+
+/* generic */
+.crumb{font-size:13px;color:var(--muted);margin-bottom:16px}
+.crumb a{color:var(--indigo);font-weight:500}
+.page-title{font-size:22px;color:var(--navy);margin-bottom:4px}
+.page-sub{color:var(--muted);font-size:14px;margin-bottom:22px}
+.card{background:var(--card);border-radius:16px;padding:20px;box-shadow:var(--shadow-sm);border:1px solid var(--line)}
+.card h3{font-size:16px;color:var(--navy);margin-bottom:14px}
+.grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin-bottom:22px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:22px}
+.chart-box{position:relative;height:280px}.chart-box.sm{height:230px}
+
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.kpi{background:var(--card);border-radius:16px;padding:20px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;border:1px solid var(--line)}
+.kpi::after{content:"";position:absolute;right:-20px;top:-20px;width:90px;height:90px;border-radius:50%;opacity:.08}
+.kpi.k1::after{background:var(--navy)}.kpi.k2::after{background:var(--green)}.kpi.k3::after{background:var(--amber)}.kpi.k4::after{background:var(--red)}
+.kpi .lab{font-size:13.5px;color:var(--muted);font-weight:500}
+.kpi .num{font-family:'Kanit';font-weight:700;font-size:38px;line-height:1.1;margin-top:4px}
+.kpi.k1 .num{color:var(--navy)}.kpi.k2 .num{color:var(--green)}.kpi.k3 .num{color:var(--amber)}.kpi.k4 .num{color:var(--red)}
+.kpi .foot{font-size:12px;color:var(--muted);margin-top:3px}
+
+/* nav cards (home) */
+.navcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:24px}
+.navcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;cursor:pointer;transition:.2s;box-shadow:var(--shadow-sm);display:flex;gap:14px;align-items:center}
+.navcard:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:#cfd9ec}
+.navcard .ic{width:46px;height:46px;border-radius:12px;background:#eef2fb;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.navcard .t{font:600 15px 'Kanit';color:var(--navy)}
+.navcard .d{font-size:12.5px;color:var(--muted)}
+
+/* list */
+.minilist{display:flex;flex-direction:column;gap:8px;max-height:330px;overflow-y:auto}
+.li{display:flex;gap:12px;align-items:flex-start;padding:11px 13px;background:#fff;border:1px solid var(--line);border-radius:11px;cursor:pointer;transition:.15s}
+.li:hover{border-color:var(--indigo);background:#f8faff}
+.li .badge{flex-shrink:0;font:600 11px 'Kanit';padding:3px 9px;border-radius:20px}
+.badge.over{background:#fde8e8;color:var(--red)}.badge.near{background:#fdf3df;color:#b07d00}
+.badge.done{background:#e3f5ec;color:var(--green)}.badge.new{background:#eaf0fb;color:var(--indigo)}
+.li .t{font-size:13.5px;font-weight:500;line-height:1.35}
+.li .m{font-size:12px;color:var(--muted);margin-top:2px}
+
+/* filters + table */
+.filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;align-items:center}
+.filters select,.filters input{font-family:'Sarabun';font-size:13.5px;padding:9px 13px;border:1px solid var(--line);border-radius:10px;background:#fff;outline:none}
+.filters input{flex:1;min-width:200px}
+.filters select:focus,.filters input:focus{border-color:var(--indigo)}
+.table-wrap{background:var(--card);border-radius:14px;border:1px solid var(--line);overflow:hidden;box-shadow:var(--shadow-sm)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{background:#f3f6fc;color:var(--navy);font:500 13px 'Kanit';text-align:left;padding:12px;position:sticky;top:0;white-space:nowrap;border-bottom:2px solid var(--line)}
+tbody td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr{cursor:pointer;transition:.12s}tbody tr:hover{background:#f8faff}
+.ttl{font-weight:500;max-width:340px}
+.st{display:inline-block;font:500 11.5px 'Kanit';padding:3px 10px;border-radius:20px;white-space:nowrap}
+.st.done{background:#e3f5ec;color:var(--green)}.st.prog{background:#fdf3df;color:#b07d00}
+.dl{font-weight:600;white-space:nowrap}.dl.over{color:var(--red)}.dl.near{color:#b07d00}.dl.ok{color:var(--muted);font-weight:400}
+.scroll{max-height:600px;overflow:auto}.empty{padding:34px;text-align:center;color:var(--muted)}
+.note{font-size:12.5px;color:var(--muted);margin-top:14px;padding:12px 15px;background:#f3f6fc;border-radius:10px;border-left:3px solid var(--gold)}
+
+/* district cards */
+.dcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-bottom:22px}
+.dcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow-sm);cursor:pointer;transition:.2s}
+.dcard:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.dcard h4{font-size:16px;color:var(--navy);margin-bottom:10px}
+.dcard .big{font:700 32px 'Kanit';color:var(--navy)}
+.bar{height:8px;border-radius:5px;background:#eef1f7;overflow:hidden;display:flex;margin:10px 0 6px}
+.bar .seg.done{background:var(--green)}.bar .seg.prog{background:var(--amber)}
+.dcard .legend{font-size:12px;color:var(--muted);display:flex;gap:14px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px}.dot.done{background:var(--green)}.dot.prog{background:var(--amber)}
+
+/* DETAIL PAGE */
+.detail-head{background:linear-gradient(135deg,var(--navy),var(--indigo));color:#fff;border-radius:18px;padding:26px 28px;margin-bottom:20px;box-shadow:var(--shadow)}
+.detail-head .tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.tag{font:500 12px 'Kanit';padding:4px 12px;border-radius:20px;background:rgba(255,255,255,.18)}
+.tag.over{background:var(--red)}.tag.near{background:var(--amber)}.tag.done{background:var(--green)}
+.detail-head h2{font-size:23px;line-height:1.3}
+.detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px}
+.df{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 17px}
+.df .l{font-size:12px;color:var(--muted);font-weight:500;margin-bottom:3px}
+.df .v{font-size:15px;font-weight:500}
+.df.full{grid-column:1/-1}
+.detail-body{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow-sm)}
+.detail-body h3{color:var(--navy);font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.detail-body .txt{font-size:15px;line-height:1.75;white-space:pre-wrap;color:#2a3340}
+.backbtn{display:inline-flex;align-items:center;gap:7px;font:500 14px 'Kanit';color:var(--indigo);margin-bottom:16px;cursor:pointer}
+
+#loader{position:fixed;inset:0;background:rgba(238,241,248,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99;gap:16px}
+.spin{width:42px;height:42px;border:4px solid #d3ddf0;border-top-color:var(--indigo);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+#loader .lt{font:500 16px 'Kanit';color:var(--navy)}
+
+@media(max-width:920px){.kpis,.grid3{grid-template-columns:repeat(2,1fr)}.grid2,.detail-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.kpis{grid-template-columns:1fr}.status{display:none}}
 </style>
 </head>
 <body>
 
 <div id="loader"><div class="spin"></div><div class="lt">กำลังดึงข้อมูลสดจาก Google Sheet…</div></div>
 
-<header class="topbar">
-  <div class="topbar-inner">
+<header class="nav">
+  <div class="nav-top">
     <div class="seal"><span>ศูนย์<br>ดำรงธรรม</span></div>
-    <div class="htext">
+    <div class="brand">
       <h1>ศูนย์ดำรงธรรมจังหวัดหนองบัวลำภู</h1>
-      <div class="sub">รายงานผลการดำเนินงานเรื่องร้องเรียนร้องทุกข์ · ปีงบประมาณ 2569</div>
+      <div class="s">ระบบติดตามงานเรื่องร้องเรียนร้องทุกข์ · ปีงบประมาณ 2569</div>
     </div>
-    <div class="updated"><span class="live-dot"></span>ข้อมูลสด ณ <b id="today"></b><br>เชื่อมต่อ Google Sheet โดยตรง</div>
+    <div class="nav-right">
+      <div class="status" id="status"><span class="live-dot"></span>กำลังเชื่อมต่อ…</div>
+      <button class="refresh" onclick="reload()">⟳ รีเฟรช</button>
+    </div>
   </div>
-  <nav class="roles">
-    <div class="roles-inner">
-      <button class="role-btn active" data-v="exec"><span class="ic">👔</span> ผู้บริหาร</button>
-      <button class="role-btn" data-v="public"><span class="ic">👥</span> ประชาชน</button>
-      <button class="role-btn" data-v="officer"><span class="ic">⚙️</span> เจ้าหน้าที่ / ผู้ดูแลระบบ</button>
-      <button class="role-btn" data-v="consumer"><span class="ic">⚖️</span> คุ้มครองผู้บริโภค</button>
-    </div>
-  </nav>
+  <nav class="menu"><div class="menu-inner" id="menu">
+    <a href="#home">🏠 ภาพรวม</a>
+    <a href="#cases">📋 ทะเบียนเรื่อง</a>
+    <a href="#districts">🗺️ รายอำเภอ</a>
+    <a href="#urgent">⚠️ เรื่องเร่งรัด</a>
+    <a href="#consumer">⚖️ คุ้มครองผู้บริโภค</a>
+  </div></nav>
 </header>
 
 <div class="wrap">
   <div class="banner" id="banner"></div>
-
-  <!-- EXECUTIVE -->
-  <section class="view active" id="exec">
-    <div class="kpis">
-      <div class="kpi k1"><div class="lab">เรื่องร้องเรียนทั้งหมด</div><div class="num" id="kTotal">–</div><div class="foot">6 อำเภอ</div></div>
-      <div class="kpi k2"><div class="lab">ยุติเรื่องแล้ว</div><div class="num" id="kDone">–</div><div class="foot" id="kRate">–</div></div>
-      <div class="kpi k3"><div class="lab">อยู่ระหว่างดำเนินการ</div><div class="num" id="kProg">–</div><div class="foot">ยังคงติดตามอยู่</div></div>
-      <div class="kpi k4"><div class="lab">เกินกำหนดรายงาน</div><div class="num" id="kOver">–</div><div class="foot">ต้องเร่งรัดด่วน</div></div>
-    </div>
-    <div class="grid2">
-      <div class="card"><h3>เปรียบเทียบรายอำเภอ — ยุติแล้ว vs อยู่ระหว่างดำเนินการ</h3><div class="chart-box"><canvas id="cDistrict"></canvas></div></div>
-      <div class="card alert-card"><h3>⚠️ เรื่องที่ต้องเร่งรัด (เกิน/ใกล้ครบกำหนด)</h3><div class="alert-list" id="alertList"></div></div>
-    </div>
-    <div class="grid3">
-      <div class="card"><h3>สัดส่วนตามประเภทเรื่อง</h3><div class="chart-box sm"><canvas id="cType"></canvas></div></div>
-      <div class="card"><h3>ช่องทางการรับเรื่อง</h3><div class="chart-box sm"><canvas id="cChannel"></canvas></div></div>
-      <div class="card"><h3>ความสำเร็จในการยุติเรื่อง</h3><div class="chart-box sm"><canvas id="cDonut"></canvas></div></div>
-    </div>
-  </section>
-
-  <!-- PUBLIC -->
-  <section class="view" id="public">
-    <div class="hero-public">
-      <h2>ศูนย์ดำรงธรรม รับเรื่อง แก้ปัญหา เพื่อพี่น้องประชาชน</h2>
-      <p>ทุกเรื่องที่ร้องเรียนเข้ามา ศูนย์ดำรงธรรมจังหวัดหนองบัวลำภูประสานหน่วยงานที่เกี่ยวข้องแก้ไขอย่างโปร่งใส ติดตามได้ นี่คือผลการดำเนินงานปีงบประมาณ 2569</p>
-    </div>
-    <div class="pub-stats">
-      <div class="pub-stat s1"><div class="ic">📥</div><div class="n" id="pTotal">–</div><div class="l">เรื่องที่รับเข้ามาดูแล</div></div>
-      <div class="pub-stat s2"><div class="ic">✅</div><div class="n" id="pDone">–</div><div class="l">เรื่องที่แก้ไขจนยุติแล้ว</div></div>
-      <div class="pub-stat s3"><div class="ic">🔄</div><div class="n" id="pProg">–</div><div class="l">เรื่องที่กำลังเร่งดำเนินการ</div></div>
-    </div>
-    <div class="section-title">ประเภทปัญหาที่ศูนย์ฯ ดูแล</div>
-    <div class="type-grid" id="pubTypeGrid"></div>
-    <div class="grid2">
-      <div class="card"><h3>การกระจายเรื่องตามอำเภอ</h3><div class="chart-box"><canvas id="cPubDistrict"></canvas></div></div>
-      <div class="card">
-        <h3>ช่องทางที่ประชาชนใช้ร้องเรียน</h3>
-        <div class="channel-row" id="pubChannels"></div>
-        <div class="note" style="margin-top:18px"><b>ร้องเรียนกับศูนย์ดำรงธรรมได้ที่:</b> ศาลากลางจังหวัดหนองบัวลำภู · สายด่วน 1567 · สายด่วนรัฐบาล 1111 · หรือศูนย์ดำรงธรรมอำเภอทุกอำเภอ</div>
-      </div>
-    </div>
-    <div class="note">มุมประชาชนแสดงเฉพาะภาพรวมเพื่อความโปร่งใส <b>ไม่เปิดเผยชื่อผู้ร้องเรียนหรือรายละเอียดรายบุคคล</b></div>
-  </section>
-
-  <!-- OFFICER -->
-  <section class="view" id="officer">
-    <div class="sla-board">
-      <div class="sla over"><div class="n" id="slaOver">–</div><div class="l">เกินกำหนดรายงานแล้ว — ต้องเร่งรัด</div></div>
-      <div class="sla near"><div class="n" id="slaNear">–</div><div class="l">ใกล้ครบกำหนด (ภายใน 7 วัน)</div></div>
-      <div class="sla ok"><div class="n" id="slaOk">–</div><div class="l">ยังอยู่ในกำหนด / ยุติแล้ว</div></div>
-    </div>
-    <div class="filters">
-      <input type="text" id="fSearch" placeholder="🔍 ค้นหาชื่อเรื่อง / หน่วยงาน...">
-      <select id="fDistrict"><option value="">ทุกอำเภอ</option></select>
-      <select id="fType"><option value="">ทุกประเภท</option></select>
-      <select id="fStatus"><option value="">ทุกสถานะ</option><option>อยู่ระหว่างดำเนินการ</option><option>ยุติแล้ว</option></select>
-      <select id="fSla"><option value="">ทุก SLA</option><option value="over">เกินกำหนด</option><option value="near">ใกล้ครบกำหนด</option></select>
-      <label class="toggle"><input type="checkbox" id="fMask"> ปกปิดชื่อผู้ร้อง</label>
-    </div>
-    <div class="table-wrap"><div class="scroll"><table>
-      <thead><tr><th>เรื่อง</th><th>อำเภอ</th><th>ประเภท</th><th>ผู้ร้องเรียน</th><th>หน่วยงานรับผิดชอบ</th><th>ช่องทาง</th><th>กำหนดรายงาน</th><th>สถานะ</th></tr></thead>
-      <tbody id="tbody"></tbody>
-    </table></div></div>
-    <div class="note" id="cnt"></div>
-  </section>
-
-  <!-- CONSUMER -->
-  <section class="view" id="consumer">
-    <div class="section-title">งานคุ้มครองผู้บริโภค (แยกจากเรื่องร้องเรียนทั่วไป)</div>
-    <div class="kpis" style="grid-template-columns:repeat(3,1fr)">
-      <div class="kpi k1"><div class="lab">เรื่องผู้บริโภคทั้งหมด</div><div class="num" id="cTotalC">–</div></div>
-      <div class="kpi k2"><div class="lab">ยุติเรื่องแล้ว</div><div class="num" id="cDoneC">–</div></div>
-      <div class="kpi k3"><div class="lab">อยู่ระหว่างดำเนินการ</div><div class="num" id="cProgC">–</div></div>
-    </div>
-    <div class="card">
-      <div class="filters"><input type="text" id="cSearch" placeholder="🔍 ค้นหา..."><label class="toggle"><input type="checkbox" id="cMask"> ปกปิดชื่อผู้ร้อง</label></div>
-      <div class="table-wrap"><div class="scroll"><table>
-        <thead><tr><th>เรื่อง</th><th>ผู้ร้องเรียน</th><th>ผู้ถูกร้องเรียน</th><th>วันที่ร้องเรียน</th><th>กำหนดรายงาน</th><th>สถานะ</th><th>หมายเหตุ</th></tr></thead>
-        <tbody id="cBody"></tbody>
-      </table></div></div>
-    </div>
-    <div class="note">งานคุ้มครองผู้บริโภคส่วนใหญ่เป็นการประสานส่งต่อให้ผู้ประกอบการ/หน่วยงานชี้แจงข้อเท็จจริง จึงแยกตัวชี้วัดออกจากเรื่องร้องเรียนทั่วไป</div>
-  </section>
+  <div id="app"></div>
 </div>
 
 <script>
 const API='https://script.google.com/macros/s/AKfycby_DgqQHA42cvJzfrsiKMtfuki3ctC1b3xhH9QUOwek-DMz1C1Xqv9VRhnwMyB8Ol98/exec';
-const DISTRICT_ORDER=['เมืองหนองบัวลำภู','ศรีบุญเรือง','นากลาง','โนนสัง','สุวรรณคูหา','นาวัง'];
+const EMBEDDED={"records": [{"district": "เมืองหนองบัวลำภู", "title": "ปัญหาน้ำท่วมในพื้นที่อำเภอเมืองหนองบัวลำภู", "complainant": "นางตรึงตรา โคตรเวียง, นายรัตนชัย ภูยี่หวา", "accused": "-", "type": "ขอความช่วยเหลือ", "dateIn": "1/10/2568", "deadline": "30/10/2568", "channel": "ด้วยตนเอง", "agency": "สนง.ป้องกันและบรรเทาสาธารณภัยจังหวัด / โครงการชลประทานจังหวัด / เทศบาลเมืองหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "ยุติ 14 พ.ค. 69", "detail": "ปัญหาน้ำท่วมขังในพื้นที่ชุมชนริมคลองห้วยเชียง บริเวณด้านหลังห้างแม็คโคร สาขาหนองบัวลำภู เสนอแนวทางแก้ไข คือ 1. เพิ่มความสามารถระบายน้ำอ่างเก็บน้ำห้วยเหล่ายาง สร้าง/ปรับปรุงเขื่อนกักเก็บน้ำ สร้างทางผันน้ำหรือคลองใหม่ ขุดลอกลำคลอง สร้างคันกั้นน้ำและพื้นที่ชะลอน้ำ 2. ขุดลอกห้วยเชียงหรือจัดทำโครงการก่อสร้างคลองส่งน้ำคอนกรีตที่ได้มาตรฐาน"}, {"district": "เมืองหนองบัวลำภู", "title": "ปัญหาถนนชำรุด", "complainant": "นางสาวบุญเพ็ง สีสมบัติ", "accused": "-", "type": "ขอความช่วยเหลือ", "dateIn": "10/10/2568", "deadline": "14/11/2568", "channel": "จดหมาย", "agency": "เทศบาลเมืองหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "ถนนเส้นทางระหว่างบ้านลำภู - โรงเรียนพิชญบัณฑิต - วงเวียนบ้านเอื้ออาทร ในความรับผิดชอบของเทศบาลเมืองหนองบัวลำภู มีลักษณะเป็นหลุมเป็นบ่อ ชำรุดเสียหายมานาน ช่วงฤดูฝนมีน้ำขัง เป็นอุปสรรคต่อการสัญจร จึงขอให้ปรับปรุงถนน"}, {"district": "เมืองหนองบัวลำภู", "title": "ขอเร่งรัดและติดตามความคืบหน้าการออกโฉนดที่ดิน", "complainant": "นางพร จันทร์แซม", "accused": "สำนักงานที่ดินจังหวัดหนองบัวลำภู", "type": "ปัญหาที่ดิน", "dateIn": "14/10/2568", "deadline": "14/11/2568", "channel": "ด้วยตนเอง", "agency": "สำนักงานที่ดินจังหวัดหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "ผู้ร้องยื่นคำขอออกโฉนดที่ดิน ประเภท น.ส.3ก/ข เพื่อขอออกโฉนด (น.ส.4) ต่อสำนักงานที่ดินจังหวัด เมื่อ 26 พ.ย. 2564 แต่ปัจจุบันยังไม่มีความคืบหน้า"}, {"district": "เมืองหนองบัวลำภู", "title": "ขอความช่วยเหลือเร่งรัดติดตามคดี", "complainant": "นายชาญชัย ละลี", "accused": "นายปัญญา พันก่ำ", "type": "ขอความช่วยเหลือ", "dateIn": "6/11/2568", "deadline": "4/12/2568", "channel": "ด้วยตนเอง", "agency": "ตำรวจภูธรจังหวัดหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "เมื่อ 10 เม.ย. 2568 ผู้ร้องแจ้งความที่ สภ.เมืองหนองบัวลำภู คดีทำร้ายร่างกายและทรัพย์สิน แต่ปัจจุบันไม่มีความคืบหน้า"}, {"district": "เมืองหนองบัวลำภู", "title": "ขอความช่วยเหลือเร่งรัดติดตามคดี", "complainant": "นางสาวณัฐกิตติ์ ธรรมเจริญ", "accused": "นายสมบูรณ์ แก้วพวงเงิน", "type": "ขอความช่วยเหลือ", "dateIn": "3/11/2568", "deadline": "4/12/2568", "channel": "ด้วยตนเอง", "agency": "ตำรวจภูธรจังหวัดหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "เมื่อ 16 ม.ค. 2568 ผู้ร้องแจ้งความที่ สภ.เมืองหนองบัวลำภู ขอให้ดำเนินคดีฐานหลอกลวง แต่ปัจจุบันไม่มีความคืบหน้า"}, {"district": "เมืองหนองบัวลำภู", "title": "ติดตามเรื่องร้องเรียนเกี่ยวกับทรัพย์สินและค่าเสียหาย", "complainant": "นายชัยโย สุแสง", "accused": "นายเอ๋ สิทธิศักดิ์", "type": "ขอความช่วยเหลือ", "dateIn": "11/11/2568", "deadline": "9/12/2568", "channel": "สปน.1111", "agency": "อำเภอเมืองหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "ผู้ร้องยื่นเรื่องต่ออำเภอเมืองหนองบัวลำภู ขอให้เจรจาไกล่เกลี่ยปัญหาทรัพย์สินและค่าเสียหาย แต่ปัจจุบันไม่มีความคืบหน้า"}, {"district": "เมืองหนองบัวลำภู", "title": "ร้องเรียนนายกองค์การบริหารส่วนจังหวัดหนองบัวลำภู", "complainant": "นางสาวพูนทรัพย์ สุวรรณงาม, นายประไว คงอาษา", "accused": "นางศรัณยา สุวรรณพรม", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "5/11/2568", "deadline": "28/11/2568", "channel": "จดหมาย", "agency": "สนง.ทรัพยากรธรรมชาติและสิ่งแวดล้อมจังหวัด และสำนักจัดการทรัพยากรป่าไม้ที่ 6 (อุดรธานี)", "status": "ยุติแล้ว", "urge": "", "detail": "กล่าวอ้างว่าพบการตัดไม้ทำลายป่าในเขตแหล่งท่องเที่ยวเชิงนิเวศภูพานน้อย โดยการสั่งการของนายก อบจ. ให้เจ้าหน้าที่นำเครื่องจักรหนักแผ้วถาง ขุด โค่น ตัด ฟัน ต้นไม้หวงห้ามตาม พ.ร.บ.ป่าไม้"}, {"district": "เมืองหนองบัวลำภู", "title": "ได้รับความเดือดร้อนจากเสียงดังรบกวนและแจ้งเบาะแสยาเสพติด", "complainant": "ปกปิด", "accused": "หอพัก สบายดี รีสอร์ท", "type": "ปัญหาความเดือดร้อน", "dateIn": "24/11/2568", "deadline": "26/12/2568", "channel": "ด้วยตนเอง", "agency": "ตำรวจภูธรจังหวัด และที่ทำการปกครองจังหวัด", "status": "ยุติแล้ว", "urge": "", "detail": "เดือดร้อนจากเสียงดังรบกวนจากผู้เช่าหอพักสบายดีรีสอร์ท เปิดบริการให้กลุ่มวัยรุ่น นักเรียน มีการมั่วสุมและใช้รถจักรยานยนต์ปรับแต่งท่อเสียงดัง"}, {"district": "เมืองหนองบัวลำภู", "title": "ปัญหากลิ่นเหม็นรบกวนจากการเผาถ่าน", "complainant": "ปกปิด", "accused": "-", "type": "ขอความช่วยเหลือ", "dateIn": "24/11/2568", "deadline": "30/12/2568", "channel": "สปน.1111", "agency": "เทศบาลเมืองหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "ราษฎรตำบลลำภูเดือดร้อนจากการเผาถ่าน บริเวณด้านหลังโรงเรียนอนุบาลหนองบัวลำภู บ้านเหนือ หมู่ 5 ต.ลำภู จากกลิ่นและควันที่ฟุ้งกระจาย"}, {"district": "เมืองหนองบัวลำภู", "title": "ขอความช่วยเหลือประสานสำนักทะเบียนฯ เข้าโครงการตรวจสารพันธุกรรมแก้ปัญหาสถานะและสิทธิคนไทยที่ตกหล่นทางทะเบียนราษฎร ปี 2569", "complainant": "นางปิยะนุช ลายคำ", "accused": "-", "type": "ขอความช่วยเหลือ", "dateIn": "11/12/2568", "deadline": "16/1/2569", "channel": "ด้วยตนเอง", "agency": "เทศบาลเมืองหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "ผู้ร้องขอความช่วยเหลือประสานสำนักทะเบียนเทศบาลเมืองหนองบัวลำภูรับคำขอเข้าร่วมโครงการ"}, {"district": "เมืองหนองบัวลำภู", "title": "ร้องเรียนพฤติกรรมพนักงานราชการหน่วยงานของรัฐ", "complainant": "นางสาวพันธิตา ขันติกรม", "accused": "นางสาวณัฐภ์ฌานิศา ถาวร", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "15/12/2568", "deadline": "-", "channel": "ด้วยตนเอง", "agency": "สำนักงานจัดหางานจังหวัดหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "ผู้ร้องนำรถกระบะเป็นหลักประกันเงินกู้กับนางสาวณัฐภ์ฌานิศา (นักวิชาการแรงงาน สนง.จัดหางานจังหวัด) 100,000 บาท เมื่อถึงกำหนดไถ่ถอนไม่สามารถส่งคืนรถได้ อ้างว่ารถอยู่กับนายทุนขอนแก่น ขอให้ตรวจสอบและดำเนินการทางวินัย เข้าข่ายฉ้อโกง"}, {"district": "เมืองหนองบัวลำภู", "title": "ขอความช่วยเหลือติดตามเรื่องร้องเรียนไกล่เกลี่ยข้อพิพาทที่ดิน", "complainant": "นางเรียมศิริ เลิศพัฒนาสุข", "accused": "-", "type": "ขอความช่วยเหลือ", "dateIn": "28/10/2568", "deadline": "28/11/2568", "channel": "สปน.1111", "agency": "อำเภอเมืองหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "ครั้งที่ 2 กำหนดรายงาน 30 เม.ย. 69", "detail": "ผู้ร้องมีหนังสือถึงอำเภอเมืองหนองบัวลำภู เมื่อ 7 ก.ย. 2568 ขอความช่วยเหลือเจรจาไกล่เกลี่ยข้อพิพาทที่ดินของพี่ชาย แต่ยังไม่ได้รับการติดต่อกลับจากศูนย์ดำรงธรรมอำเภอ"}, {"district": "เมืองหนองบัวลำภู", "title": "ตรวจพิสูจน์พันธุกรรมเพื่อยืนยันความสัมพันธ์", "complainant": "นายวิโรจน์ คงพุฒิคุณ", "accused": "-", "type": "ขอความช่วยเหลือ", "dateIn": "22/12/2568", "deadline": "23/1/2569", "channel": "ด้วยตนเอง", "agency": "เทศบาลเมืองหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "ขอให้ประสานหน่วยงานเพื่ออำนวยความสะดวกในการตรวจสารพันธุกรรมระหว่างครอบครัวของตนและพี่ชาย นายซิว แซ่โค้ว อายุ 75 ปี"}, {"district": "เมืองหนองบัวลำภู", "title": "ปัญหากลิ่นเหม็นรบกวนจากลานรับซื้อขี้ยางพารา", "complainant": "ปกปิด", "accused": "ร้านรับซื้อขี้ยางพารา", "type": "ขอความช่วยเหลือ", "dateIn": "9/1/2569", "deadline": "6/2/2569", "channel": "สื่อโซเชียล", "agency": "สนง.สาธารณสุขจังหวัด / อำเภอเมืองหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "ยุติเรื่อง 19 มิ.ย. 69", "detail": "กลิ่นเหม็นรบกวนจากลานรับซื้อขี้ยางพารา บ้านทุ่งโปร่งพัฒนา หมู่ 12 ต.กุดจิก อ.เมืองหนองบัวลำภู"}, {"district": "เมืองหนองบัวลำภู", "title": "ไม่ได้รับความเป็นธรรมจากการปฏิบัติหน้าที่ของผู้ใหญ่บ้าน หมู่ 2 ต.นามะเฟือง", "complainant": "นายพิชัย วิเศษศักดา", "accused": "นายทวีศักดิ์ หวันลา", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "9/1/2569", "deadline": "10/2/2569", "channel": "จดหมาย", "agency": "ที่ทำการปกครองจังหวัดหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "ขอให้ผู้ใหญ่บ้านรับรองแนวเขตเพื่อขอออกเอกสารสิทธิ์ตามโครงการเดินสำรวจที่ดิน แต่ผู้ใหญ่บ้านสร้างเงื่อนไขที่ไม่จำเป็น ก่อให้เกิดความล่าช้า"}, {"district": "เมืองหนองบัวลำภู", "title": "ขอให้กวดขันการจำหน่ายสุราและยาสูบในงานสักการะสมเด็จพระนเรศวรมหาราช ปี 2569", "complainant": "นายสัญชัย ตุลาบดี", "accused": "-", "type": "แจ้งเบาะแส", "dateIn": "28/12/2568", "deadline": "-", "channel": "จดหมาย", "agency": "ที่ทำการปกครองจังหวัดหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "ผู้ร้องโต้แย้ง จึงแจ้งเน้นย้ำที่ทำการปกครองจังหวัดอีกครั้ง", "detail": "ขอให้กวดขันเรื่องการจำหน่ายสุรา ยาสูบ ภายในงานสักการะสมเด็จพระนเรศวรมหาราช ประจำปี 2569"}, {"district": "เมืองหนองบัวลำภู", "title": "ร้องเรียนการเรียกเก็บค่าเช่าบริการโลงเย็นวัดศรีสว่างสมสะอาด", "complainant": "ปกปิดชื่อ-สกุล", "accused": "-", "type": "ขอความช่วยเหลือ", "dateIn": "15/1/2569", "deadline": "16/2/2569", "channel": "ด้วยตนเอง", "agency": "อำเภอเมืองหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "ประชาชนบ้านนาลาดควาย ต.หนองภัยศูนย์ ขอให้ตรวจสอบการเรียกเก็บเงินค่าบริการโลงเย็น โดยกลุ่มบุคคลตั้งตนเป็นคณะกรรมการวัด เรียกเก็บเงินจากราษฎร ซึ่งขัดวัตถุประสงค์ผู้บริจาค"}, {"district": "เมืองหนองบัวลำภู", "title": "ร้องเรียนพฤติกรรมนายอิทธิเดช โชคเจริญศิริวัชร", "complainant": "นายทวีศักดิ์ อินอุ่นโชติ", "accused": "นายอิทธิเดช โชคเจริญศิริวัชร", "type": "แจ้งเบาะแส", "dateIn": "12/1/2569", "deadline": "-", "channel": "ด้วยตนเอง", "agency": "กอ.รมน.จังหวัด / ตำรวจภูธรจังหวัด / ที่ทำการปกครองจังหวัด", "status": "ยุติแล้ว", "urge": "", "detail": "ร้องเรียนพฤติกรรมที่กล่าวอ้างวุฒิ ดร. ในการหาเสียง อ้างมียศทหารและมีอาวุธในครอบครอง ตั้งตนเป็นสื่อมวลชน ใช้สื่อออนไลน์กล่าวร้ายบุคคล/หน่วยงาน สร้างความหวาดกลัว ขอให้ตรวจสอบ"}, {"district": "เมืองหนองบัวลำภู", "title": "ได้รับความเดือดร้อนจากถนนชำรุดและขอปรับปรุงทางสาธารณประโยชน์", "complainant": "นางธัญชนก สกิดรัมย์", "accused": "-", "type": "ขอความช่วยเหลือ", "dateIn": "23/1/2569", "deadline": "-", "channel": "จดหมาย", "agency": "เทศบาลเมืองหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "บ้านเลขที่ 156/1 หมู่ 12 ชุมชนเทพพิทักษ์ประทุมเมือง ต.ลำภู ขอปรับปรุงถนนทางเข้าบ้านที่เป็นหลุมเป็นบ่อ และปรับปรุงทางสาธารณประโยชน์ให้สัญจรสะดวก"}, {"district": "เมืองหนองบัวลำภู", "title": "ขอความช่วยเหลือแก้ไขปัญหาถนนทางหลวงหมายเลข 210 ชำรุด", "complainant": "นายณฐกร สาเทวิน", "accused": "-", "type": "ปัญหาความเดือดร้อน", "dateIn": "16/2/2569", "deadline": "27/3/2569", "channel": "ด้วยตนเอง", "agency": "แขวงทางหลวงหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "ถนนทางหลวงหมายเลข 210 หน้าโรงงานสาเทวินฟาร์ม ต.นาคำไฮ ด้านข้างถนนถูกน้ำกัดเซาะช่วงฤดูฝนจนเป็นโพรงขนาดใหญ่ ขอให้แก้ไขปรับปรุง"}, {"district": "เมืองหนองบัวลำภู", "title": "ขอให้ตรวจสอบและแก้ไขปัญหาการเผาขยะในที่โล่ง", "complainant": "ธชธร บุญเกี๋ยงวงค์", "accused": "-", "type": "ปัญหาความเดือดร้อน", "dateIn": "16/2/2569", "deadline": "24/3/2569", "channel": "ศดธ.มท.", "agency": "อำเภอเมืองหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "การเผาขยะในที่โล่ง บริเวณไร่อ้อย ใกล้หมู่บ้านสว่างพัฒนา หมู่ 10 ต.โพธิ์ชัย"}, {"district": "เมืองหนองบัวลำภู", "title": "ติดตามความคืบหน้า การเปลี่ยนแปลงแนวเขตการปกครองชุมชนบ้านใหม่ภูเงิน", "complainant": "ประชาชนบ้านใหม่ภูเงิน", "accused": "-", "type": "ปัญหาความเดือดร้อน", "dateIn": "19/2/2569", "deadline": "27/3/2569", "channel": "ด้วยตนเอง", "agency": "ที่ทำการปกครองจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "ประชาชนบ้านใหม่ภูเงินติดตามการเปลี่ยนแปลงแนวเขตการปกครอง"}, {"district": "เมืองหนองบัวลำภู", "title": "ขอให้ตรวจสอบข้อเท็จจริง คุณสมบัติและขั้นตอนการได้รับสมณศักดิ์", "complainant": "ประชาชนตำบลโพธิ์ชัย", "accused": "พระครูจิตตสังวร", "type": "ปัญหาความเดือดร้อน", "dateIn": "27/2/2569", "deadline": "27/3/2569", "channel": "จดหมาย", "agency": "สำนักงานพระพุทธศาสนาจังหวัดหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "ขอให้ตรวจสอบคุณสมบัติและที่มาการดำรงตำแหน่งทางคณะสงฆ์ของพระครูจิตตสังวร เจ้าอาวาสวัดศรีสุมังคล์ บ้านห้วยลึก ต.โพธิ์ชัย ในประเด็นวุฒิการศึกษาและความถูกต้องตามระเบียบมหาเถรสมาคม"}, {"district": "เมืองหนองบัวลำภู", "title": "ขอความช่วยเหลือ กรณีไม่ได้รับเงินชราภาพประกันสังคม", "complainant": "นางชูติมา ดารากุล", "accused": "สำนักงานประกันสังคม", "type": "ขอความช่วยเหลือ", "dateIn": "10/3/2569", "deadline": "31/3/2569", "channel": "ด้วยตนเอง", "agency": "ที่ทำการปกครองจังหวัด / สนง.ประกันสังคมจังหวัด", "status": "ยุติแล้ว", "urge": "", "detail": "ยื่นขอเงินชราภาพประกันสังคมของสามีที่เสียชีวิต แต่เจ้าหน้าที่โอนเข้าบัญชีทายาทเพียง 4 คน ไม่รวมผู้ร้อง ขอให้ชี้แจงข้อเท็จจริง"}, {"district": "เมืองหนองบัวลำภู", "title": "ขอความช่วยเหลือ กรณีเหตุเดือดร้อนรำคาญ", "complainant": "นางรันดร ศรีเกตุ", "accused": "นายถาวร รัดทำ", "type": "ขอความช่วยเหลือ", "dateIn": "23/3/2569", "deadline": "30/4/2569", "channel": "ด้วยตนเอง", "agency": "อำเภอเมืองหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "ยุติ 14 พ.ค. 69", "detail": "ขอให้บุตรชายจัดระเบียบพื้นที่เลี้ยงไก่ให้เป็นสัดส่วน ตรวจสอบการเปิดร้านซ่อมรถจักรยานยนต์ และรื้อถอนสิ่งปลูกสร้างออกจากที่ดินผู้ร้อง"}, {"district": "เมืองหนองบัวลำภู", "title": "การเก็บค่าแรกเข้าและค่าบำรุงการศึกษาของโรงเรียนหนองบัวพิทยาคาร", "complainant": "ผู้ปกครองนักเรียน", "accused": "โรงเรียนหนองบัวพิทยาคาร", "type": "ขอความช่วยเหลือ", "dateIn": "4/4/2569", "deadline": "-", "channel": "สื่อโซเชียล", "agency": "สพม.เลย-หนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "ผู้ปกครองขอให้ตรวจสอบการเก็บค่าแรกเข้าและค่าบำรุงการศึกษา ระดับชั้น ม.1 - ม.4"}, {"district": "เมืองหนองบัวลำภู", "title": "ขอความช่วยเหลือเร่งรัดติดตามคดี", "complainant": "นายอาทิตย์ ศรีบัวเผื่อน", "accused": "กิมชุนไอซ์", "type": "ขอความช่วยเหลือ", "dateIn": "17/4/2569", "deadline": "26/5/2569", "channel": "ด้วยตนเอง", "agency": "ตำรวจภูธรจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "ผู้ร้องประสบอุบัติเหตุรถจักรยานยนต์ชนกับรถขนส่งน้ำแข็งกิมชุนไอซ์ แต่คดีไม่มีความคืบหน้า"}, {"district": "เมืองหนองบัวลำภู", "title": "ได้รับผลกระทบจากโรงน้ำแข็งกรเดช", "complainant": "นางนวลจันทร์ แซ่แต้", "accused": "โรงน้ำแข็งกรเดช", "type": "ขอความช่วยเหลือ", "dateIn": "21/4/2569", "deadline": "26/5/2569", "channel": "จดหมาย", "agency": "สนง.สาธารณสุขจังหวัด / สนง.อุตสาหกรรมจังหวัด / สนง.ทรัพยากรธรรมชาติฯ", "status": "ยุติแล้ว", "urge": "ยุติ 9 มิ.ย. 69", "detail": "ที่ดินของผู้ร้องติดกับโรงน้ำแข็งกรเดช มีน้ำท่วมขังตลอดปี ทำให้ไม่สามารถเพาะปลูกข้าวหรือใช้ประโยชน์ในที่ดินได้"}, {"district": "เมืองหนองบัวลำภู", "title": "ขอความช่วยเหลือเร่งรัดติดตามคดี", "complainant": "นายเอกบุรุษ หอมตระกูลขจร", "accused": "นายศุภัช สิงห์หาญ", "type": "ขอความช่วยเหลือ", "dateIn": "28/4/2569", "deadline": "22/5/2569", "channel": "ด้วยตนเอง", "agency": "ตำรวจภูธรจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "แจ้งความร้องทุกข์ให้ดำเนินคดีกับนายศุภัช สิงห์หาญ แต่ปัจจุบันไม่มีความคืบหน้า"}, {"district": "เมืองหนองบัวลำภู", "title": "ขอความช่วยเหลือแก้ไขปัญหาที่ส่งผลกระทบต่อส่วนรวม", "complainant": "นายไพรัช นุชิต", "accused": "-", "type": "ปัญหาความเดือดร้อน", "dateIn": "20/4/2569", "deadline": "-", "channel": "จดหมาย", "agency": "เทศบาลเมืองหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "ยุติ 19 พ.ค. 69", "detail": "บ้านบริเวณสี่แยกร้านเลียนเฟอร์นิเจอร์ ในเขตเทศบาลเมือง มีต้นไม้ใหญ่ปกคลุมวิสัยทัศน์ เสี่ยงอุบัติเหตุ และมีการสะสมวัสดุที่อาจเป็นเชื้อเพลิง"}, {"district": "เมืองหนองบัวลำภู", "title": "ขอความช่วยเหลือเร่งรัดติดตามคดี", "complainant": "นายมีชัย บุญครอง", "accused": "-", "type": "ขอความช่วยเหลือ", "dateIn": "21/5/2569", "deadline": "26/6/2569", "channel": "ด้วยตนเอง", "agency": "ตำรวจภูธรจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "แจ้งความร้องทุกข์ต่อพนักงานสอบสวน สภ.เมืองหนองบัวลำภู ตั้งแต่ 19 ก.พ. 2569 แต่คดีไม่มีความคืบหน้า"}, {"district": "เมืองหนองบัวลำภู", "title": "ร้องเรียนขอให้ตรวจสอบการปฏิบัติหน้าที่ของนิติกรเทศบาลเมืองหนองบัวลำภู (ลับ)", "complainant": "นางนิฎฐา ไชยแสง", "accused": "นายฉัตรมงคล ศรีเมือง", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "5/6/2569", "deadline": "30/6/2569", "channel": "จดหมาย", "agency": "สำนักงานท้องถิ่นจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "ขอให้ตรวจสอบการปฏิบัติหน้าที่ของนิติกรเทศบาลเมืองหนองบัวลำภู"}, {"district": "นากลาง", "title": "ติดตามการโอนสิทธิการเข้าทำประโยชน์ที่ดินในเขตปฏิรูปที่ดิน", "complainant": "นายวิชิต เชื้อแก้ว", "accused": "-", "type": "ปัญหาที่ดิน", "dateIn": "28/10/2568", "deadline": "21/11/2568", "channel": "สปน.1111", "agency": "สำนักงานการปฏิรูปที่ดินจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "ขอติดตามการโอนสิทธิการเข้าทำประโยชน์ในเขตปฏิรูปที่ดินตั้งแต่ปี 2564 จากพี่สาวเป็นผู้ร้อง เจ้าหน้าที่ ส.ป.ก. แจ้งว่าเอกสารสูญหาย ปัจจุบันไม่มีความคืบหน้า"}, {"district": "นากลาง", "title": "ขอให้ตรวจสอบแนวเขตชุมชนและแก้ไขรายการในทะเบียนบ้าน ชุมชนกุดกระสู้ ต.เก่ากลอย", "complainant": "นายสุนทร แสนบัวคำ", "accused": "-", "type": "ขอความช่วยเหลือ", "dateIn": "28/10/2568", "deadline": "28/11/2568", "channel": "ด้วยตนเอง", "agency": "ที่ทำการปกครองจังหวัดหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "ยุติ 11 มิ.ย. 69", "detail": "ประชาชนคุ้มโนนสังข์ทอง หมู่ 2 กว่า 17 หลังคาเรือน แต่รายการทะเบียนบ้านระบุเป็นหมู่ 10, 13, 1 ผิดจากความจริง ขอให้ตรวจสอบแนวเขตชุมชนให้ตรงตามจริง"}, {"district": "นากลาง", "title": "ขอให้ตรวจสอบการเพิกถอนบัตรประชาชนและการออกหนังสือรับรองสถานที่เกิด", "complainant": "นางสาวลีลาวดี สมเสียง", "accused": "นายกิตตินันท์ สุนทราภิราม", "type": "ขอความช่วยเหลือ", "dateIn": "30/10/2568", "deadline": "28/11/2568", "channel": "ด้วยตนเอง", "agency": "ที่ทำการปกครองจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "ครั้งที่ 1", "detail": "ผู้ร้องถูกแจ้งความคดีหมิ่นประมาท แต่สงสัยว่าผู้แจ้งมีพฤติกรรมทุจริตทางทะเบียน โดยสวมบัตรประชาชนของผู้เสียชีวิต ขอให้ตรวจสอบว่ายังใช้บัตรเดิมแจ้งความได้หรือไม่"}, {"district": "นากลาง", "title": "ที่ดินข้างเคียงทุบทำลายหลักหมุดที่ดินและสร้างส่วนควบรุกล้ำพื้นที่บ้าน", "complainant": "นางสาวจันทร์สิริ สุขโขเจริญ", "accused": "-", "type": "ขอความช่วยเหลือ", "dateIn": "18/11/2568", "deadline": "19/12/2568", "channel": "ด้วยตนเอง", "agency": "อำเภอนากลาง", "status": "ยุติแล้ว", "urge": "ยุติ 14 พ.ค. 69", "detail": "บ้านเลขที่ 382/2 หมู่ 21 ต.กุดดินจี่ ที่ดินข้างเคียงก่อสร้างบ้านและขุดหลุมติดกำแพง อาจเสียหายต่อบ้านผู้ร้อง พบหลักหมุดที่ดินถูกขุดและทุบทำลาย และเกรงการก่อสร้างรางน้ำรุกล้ำเขตบ้าน"}, {"district": "นากลาง", "title": "ติดตามผลการดำเนินการทางคดี", "complainant": "นายพรมมา รัตนพลที", "accused": "-", "type": "ขอความช่วยเหลือ", "dateIn": "26/12/2568", "deadline": "30/1/2569", "channel": "ด้วยตนเอง", "agency": "ตำรวจภูธรจังหวัดหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "แจ้งความร้องทุกข์ต่อ สภ.นากลาง เมื่อ 10 ธ.ค. 2568 ขอให้ตรวจสอบร้านโรงพักคาเฟ่ เปิดเพลงเสียงดังก่อความรำคาญ แต่ไม่มีความคืบหน้า"}, {"district": "นากลาง", "title": "ขอให้ปรับปรุงการให้บริการของพนักงานลูกจ้างภายในหน่วยงานรัฐ", "complainant": "ปกปิด", "accused": "องค์การบริหารส่วนตำบลด่านช้าง", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "9/1/2569", "deadline": "-", "channel": "สปน.1111", "agency": "อำเภอนากลาง", "status": "ยุติแล้ว", "urge": "", "detail": "ขอให้ปรับปรุงการให้บริการพนักงานลูกจ้างภายในหน่วยงานรัฐ"}, {"district": "นากลาง", "title": "ขอให้ตรวจสอบคำสั่งเทศบาลตำบลกุดดินจี่ เรื่องการปฏิบัติหน้าที่เวรยาม ณ โรงเรียนอนุบาลเทศบาลตำบลกุดดินจี่", "complainant": "นายชัยวัฒน์ วงษ์ไชยา", "accused": "เทศบาลตำบลกุดดินจี่", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "28/1/2569", "deadline": "27/2/2569", "channel": "ศดธ.มท.", "agency": "สำนักงานส่งเสริมการปกครองท้องถิ่นจังหวัด", "status": "อยู่ระหว่างดำเนินการ", "urge": "ครั้งที่ 1", "detail": "ขอให้ตรวจสอบคำสั่งให้พนักงานปฏิบัติหน้าที่เวรยาม เนื่องจากมีมติคณะรัฐมนตรียกเลิกการอยู่เวรยามแล้ว"}, {"district": "นากลาง", "title": "ปัญหาฝุ่นละอองและฝาบ่อพักระบายน้ำบนทางเท้าชำรุด บริเวณตลาดบ้านกกค้อ ต.นากลาง", "complainant": "ประชาชนบ้านกกค้อ", "accused": "แขวงทางหลวงหนองบัวลำภู", "type": "ขอความช่วยเหลือ", "dateIn": "16/2/2569", "deadline": "25/3/2569", "channel": "จดหมาย", "agency": "แขวงทางหลวงหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "เดือดร้อนบริเวณสองฝั่งทางหลวงหมายเลข 210 เขตตลาดบ้านกกค้อ จากฝุ่นละอองดิน หิน เศษวัชพืช ไม่มีการเก็บกวาด และฝาบ่อพักระบายน้ำชำรุดขาดการดูแล"}, {"district": "นากลาง", "title": "ขอให้ตรวจสอบการดำเนินงานของคณะกรรมการกองทุนสัจจะออมทรัพย์ หมู่ 5 ต.นากลาง", "complainant": "สมาชิกกองทุนเงินสัจจะออมทรัพย์", "accused": "คณะกรรมการกองทุน", "type": "ขอความช่วยเหลือ", "dateIn": "18/2/2569", "deadline": "25/3/2569", "channel": "ด้วยตนเอง", "agency": "สำนักงานพัฒนาชุมชนจังหวัดหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "การบริหารงานขาดความโปร่งใส ไม่เปิดเผยบัญชีรายรับ-รายจ่าย ไม่จัดประชุมชี้แจงงบการเงิน พบข้อสงสัยยอดคงเหลือ ผู้ร้องไม่ได้รับเงินปันผลกว่า 10 ปี"}, {"district": "นากลาง", "title": "ขอความช่วยเหลือแก้ไขปัญหาระบบไฟฟ้าส่องสว่างขัดข้องบนทางหลวง 210 ต.นากลาง", "complainant": "ปกปิดชื่อ-สกุล", "accused": "-", "type": "ปัญหาความเดือดร้อน", "dateIn": "20/2/2569", "deadline": "26/3/2569", "channel": "สปน.1111", "agency": "แขวงทางหลวงหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "ไฟฟ้าส่องสว่างบนทางหลวง 210 แยกสัญญาณไฟจราจรหน้าโรงโม่หินต้อยติ่งขัดข้อง ระยะทางประมาณ 3 กม. ต่อเนื่อง 3 เดือน"}, {"district": "นากลาง", "title": "ขอให้ตรวจสอบการรังวัดแนวเขตที่ดิน ส.ป.ก.", "complainant": "นางคำพันธ์ พลศรี", "accused": "นางพิมพา พรหมดาว", "type": "ปัญหาที่ดิน", "dateIn": "24/2/2569", "deadline": "24/3/2569", "channel": "จดหมาย", "agency": "สำนักงานการปฏิรูปที่ดินจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "อ้างว่า ส.ป.ก. รังวัดและปักหมุดที่ดินใหม่ตามคำขอของนางพิมพา รุกล้ำที่ดินผู้ร้องประมาณ 90 ซม. ยื่นร้องเรียนตั้งแต่ 26 ธ.ค. 2568 แต่ยังไม่มีความคืบหน้า"}, {"district": "นากลาง", "title": "ขอให้ตรวจสอบการใช้อากาศยานไร้คนขับ (โดรน) ของเจ้าหน้าที่ปกครอง ในพื้นที่อำเภอนากลาง", "complainant": "ปกปิดชื่อ-สกุล", "accused": "-", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "4/3/2569", "deadline": "30/3/2569", "channel": "สปน.1111", "agency": "อำเภอนากลาง", "status": "ยุติแล้ว", "urge": "ยุติ 19 มิ.ย. 69", "detail": "ช่วง ธ.ค.-ม.ค. 2569 มีเจ้าหน้าที่ฝ่ายปกครองนำโดรนบินในพื้นที่ หมู่ 6 ต.นาหนองทุ่ม ซึ่งประชาชนเห็นว่าไม่ชัดเจนและบินเข้าพื้นที่ส่วนบุคคล"}, {"district": "นากลาง", "title": "ร้องเรียนร้องทุกข์ในพื้นที่อำเภอนากลาง", "complainant": "นายภูริพัฒน์", "accused": "เทศบาลตำบลนากลาง และร้านแคมป์ปิ้งบ้านเพื่อน", "type": "ปัญหาความเดือดร้อน", "dateIn": "16/3/2569", "deadline": "20/4/2569", "channel": "สปน.1111", "agency": "อำเภอนากลาง", "status": "ยุติแล้ว", "urge": "ยุติ 15 มิ.ย. 69", "detail": "น้ำประปาไหลอ่อน และเดือดร้อนจากร้านแคมป์ปิ้งบ้านเพื่อน บ้านหนองด่าน ต.ด่านช้าง เสียงดังรบกวน"}, {"district": "นากลาง", "title": "ขอความอนุเคราะห์ช่วยเหลือค่าตอบแทนและสวัสดิการของผู้ปฏิบัติหน้าที่", "complainant": "นางสาวนันทนา นาคำ", "accused": "-", "type": "ขอความช่วยเหลือ", "dateIn": "30/3/2569", "deadline": "30/4/2569", "channel": "จดหมาย", "agency": "ที่ทำการปกครองจังหวัด / สนง.สาธารณสุขจังหวัด", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "ขอให้พิจารณาค่าตอบแทน สวัสดิการช่วยเหลือกำนัน ผู้ใหญ่บ้าน และเจ้าหน้าที่ที่เกี่ยวข้องในพื้นที่อำเภอนากลาง เพื่อเป็นขวัญกำลังใจ"}, {"district": "นากลาง", "title": "ขอให้ตรวจสอบการดำเนินงานของคณะกรรมการกองทุนหมู่บ้าน (เงินล้าน) บ้านศรีสังวาลย์ หมู่ 1 ต.ด่านช้าง", "complainant": "นางสาวณฐพร สังข์ทอง", "accused": "คณะกรรมการกองทุนหมู่บ้าน", "type": "ขอความช่วยเหลือ", "dateIn": "9/4/2569", "deadline": "8/5/2569", "channel": "ด้วยตนเอง", "agency": "สำนักงานพัฒนาชุมชนจังหวัดหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "ยุติ 22 พ.ค. 69", "detail": "เดือดร้อนจากการบริหารกองทุนหมู่บ้าน เนื่องจากคณะกรรมการเรียกเก็บเงินสมาชิกแต่ไม่นำเข้าบัญชีธนาคาร"}, {"district": "นากลาง", "title": "ขอให้ตรวจสอบพฤติกรรมของผู้ใหญ่บ้าน บ้านกู่ทอง หมู่ 10 ต.เก่ากลอย", "complainant": "ปชช.บ้านกู่ทอง", "accused": "นายทรงยศ โยธาศรี", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "17/4/2569", "deadline": "18/5/2569", "channel": "ด้วยตนเอง", "agency": "ที่ทำการปกครองจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "ครั้งที่ 1 กำหนด 15 มิ.ย. 69", "detail": "ร้องเรียนพฤติกรรมผู้ใหญ่บ้าน ประเด็นการประเมินผลการปฏิบัติหน้าที่ การเรียกรับผลประโยชน์ และการบริหารกองทุนน้ำประปาชุมชน"}, {"district": "นากลาง", "title": "ขอให้ตรวจสอบการกระทำความผิดเกี่ยวกับการใช้ธนบัตรปลอม", "complainant": "ประชาชนอำเภอนากลาง", "accused": "-", "type": "ปัญหาความเดือดร้อน", "dateIn": "5/5/2569", "deadline": "20/5/2569", "channel": "สื่อโซเชียล", "agency": "ตำรวจภูธรจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "มิจฉาชีพนำธนบัตรปลอมชนิด 1,000 บาท ตระเวนซื้อสินค้าในตลาดนัดคลองถม ข้างวัดบูรพาราม อ.นากลาง มีผู้เสียหายเบื้องต้น 3 ราย"}, {"district": "ศรีบุญเรือง", "title": "ถนนน้ำท่วมขังและไม่มีน้ำประปาเพื่อใช้อุปโภค บ้านม่วงแก้ว ต.เมืองใหม่", "complainant": "นางสาวสุนิศา ศรีมงคล", "accused": "-", "type": "ปัญหาความเดือดร้อน", "dateIn": "16/10/2568", "deadline": "10/11/2568", "channel": "จดหมาย", "agency": "อำเภอศรีบุญเรือง", "status": "อยู่ระหว่างดำเนินการ", "urge": "ครั้งที่ 1 กำหนดรายงาน 23 ก.พ. 69", "detail": "บ้านเลขที่ 355 บ้านม่วงแก้ว หมู่ 7 ต.เมืองใหม่ ถนนสาธารณะมีน้ำท่วมขังช่วงฤดูฝน ไม่มีไฟฟ้าส่องสว่าง ขอให้ก่อสร้างถนน คสล./ลาดยาง ติดตั้งไฟฟ้า และเดินท่อประปาระยะประมาณ 100 เมตร"}, {"district": "ศรีบุญเรือง", "title": "ขอให้ระงับการปล่อยน้ำเสียลงทางสาธารณะและปรับปรุงซ่อมแซมถนนชำรุด บ้านโนนข่า", "complainant": "ปกปิดชื่อ-สกุล", "accused": "-", "type": "ปัญหาความเดือดร้อน", "dateIn": "9/11/2568", "deadline": "1/12/2568", "channel": "ศดธ.มท.", "agency": "อำเภอศรีบุญเรือง", "status": "ยุติแล้ว", "urge": "", "detail": "ซอย 1 บ้านโนนข่า หมู่ 6 ต.หันนางาม มีการปล่อยน้ำเสียลงถนนกว่า 2 ปี ทำให้น้ำท่วมขัง ส่งกลิ่นเหม็น ผิวถนนพังและลื่น แจ้ง อบต.หันนางามแล้วไม่มีความคืบหน้า"}, {"district": "ศรีบุญเรือง", "title": "การปล่อยน้ำเสียลงที่ดินการเกษตร บ้านนาชุมแสง ต.กุดสะเทียน", "complainant": "นายทองประการ เหลาเป", "accused": "-", "type": "ปัญหาความเดือดร้อน", "dateIn": "9/1/2569", "deadline": "2/2/2569", "channel": "จากหน่วยงานอื่น", "agency": "สำนักงานทรัพยากรธรรมชาติและสิ่งแวดล้อมจังหวัด", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "เดือดร้อนจากลานยางของกลุ่มวิสาหกิจชุมชนบ้านนาชุมแสง ปล่อยน้ำเสียไหลลงที่ดินของผู้ร้อง"}, {"district": "ศรีบุญเรือง", "title": "โครงการก่อสร้างทางหลวงหมายเลข 288 สายชุมแพ-หนองบัวลำภู ตอนบ้านห้วยสายหนัง", "complainant": "ผู้ใหญ่บ้าน หมู่ 6,7,17,23", "accused": "แขวงทางหลวงหนองบัวลำภู", "type": "ปัญหาความเดือดร้อน", "dateIn": "12/2/2569", "deadline": "20/3/2569", "channel": "จดหมาย", "agency": "แขวงทางหลวงหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "ยุติ 15 พ.ค. 69", "detail": "ผู้ใหญ่บ้าน หมู่ 6,7,17,23 ต.นากอก เสนอประเด็นทางเข้าหมู่บ้านและการวางท่อลอดถนนก่อนเข้าหมู่บ้าน ของโครงการก่อสร้างทางหลวง 288"}, {"district": "ศรีบุญเรือง", "title": "ขอให้ตรวจสอบการบุกรุกที่ดิน ส.ป.ก. และการปฏิบัติหน้าที่โดยมิชอบของเจ้าหน้าที่รัฐ", "complainant": "นายศตายุ รำพรรณนิยม", "accused": "ส.ป.ก. หนองบัวลำภู", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "17/3/2569", "deadline": "6/4/2569", "channel": "ไปรษณีย์อิเล็กทรอนิกส์", "agency": "ส.ป.ก. หนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "ขอให้ตรวจสอบการบุกรุกที่ดิน ส.ป.ก. โดยมิชอบ ในพื้นที่บริษัท ปลาร้าแม่เหรียญ จำกัด"}, {"district": "ศรีบุญเรือง", "title": "ขอให้ตรวจสอบพฤติการณ์ในการปฏิบัติหน้าที่ของเจ้าหน้าที่รัฐ", "complainant": "ปกปิดชื่อ-สกุล", "accused": "ปลัดอำเภอศรีบุญเรืองและผู้ใหญ่บ้าน บ้านศรีนคร", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "6/5/2569", "deadline": "1/6/2569", "channel": "สปน.1111", "agency": "ที่ทำการปกครองจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "ขอให้ตรวจสอบพฤติการณ์ของปลัดอำเภอศรีบุญเรืองและผู้ใหญ่บ้าน บ้านศรีนคร หมู่ 15 ต.ยางหล่อ"}, {"district": "ศรีบุญเรือง", "title": "ขอความเป็นธรรมในการกำกับติดตามการดำเนินการข้าราชการครู", "complainant": "นางปารมี เริ่มสัมฤทธิ์ผล", "accused": "นางสาวชุติมา ผลชอบ", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "14/5/2569", "deadline": "15/6/2569", "channel": "ด้วยตนเอง", "agency": "ตำรวจภูธรจังหวัด / สพป.หนองบัวลำภู เขต 1", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "ข้าราชการครูโรงเรียนบ้านดอนปอ เปิดวงแชร์ชักชวนประชาชนผ่านสื่อออนไลน์ เป็นเหตุให้เสียหายมูลค่าสูง ร้องเรียน สพป.เขต 1 แล้วแต่เกรงไม่ได้รับความเป็นธรรม"}, {"district": "ศรีบุญเรือง", "title": "ขอให้ตรวจสอบผู้ใหญ่บ้านประพฤติตนไม่เหมาะสมกับตำแหน่งหน้าที่", "complainant": "นายประพันธ์ มาลาศรี", "accused": "นายวีระ เมฆวัน", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "18/5/2569", "deadline": "25/6/2569", "channel": "จดหมาย", "agency": "อำเภอศรีบุญเรือง", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "ขอให้ตรวจสอบพฤติกรรมผู้ใหญ่บ้าน บ้านชมพูทอง หมู่ 5 ต.เมืองใหม่"}, {"district": "ศรีบุญเรือง", "title": "ติดตามความคืบหน้า กรณีการบุกรุกที่สาธารณประโยชน์ แปลง ห้วยบะหมี่", "complainant": "อำเภอศรีบุญเรือง", "accused": "-", "type": "ปัญหาที่ดิน", "dateIn": "22/5/2569", "deadline": "22/6/2569", "channel": "จากหน่วยงานอื่น", "agency": "สำนักงานการปฏิรูปที่ดินจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "อำเภอศรีบุญเรืองติดตามการเพิกถอนเอกสารสิทธิ ส.ป.ก. 4-01 แปลงห้วยบะหมี่ ซึ่งเป็นเขตปฏิรูปที่ดินที่ประชาชนใช้ร่วมกันเป็นทุ่งเลี้ยงสัตว์มาตั้งแต่ปี 2472"}, {"district": "ศรีบุญเรือง", "title": "ขอให้ตรวจสอบพฤติการณ์ในการปฏิบัติหน้าที่ของเจ้าหน้าที่รัฐ", "complainant": "นายมงคล พรมดวงดี", "accused": "นางสาวคณานิตย์ ทองเดช", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "26/5/2569", "deadline": "25/6/2569", "channel": "จดหมาย", "agency": "สำนักงานท้องถิ่นจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "ร้องเรียนว่าปลัด อบต.นากอก ไม่มาปฏิบัติราชการตามวันเวลาที่ราชการกำหนด"}, {"district": "สุวรรณคูหา", "title": "ขอให้ตรวจสอบข้อเท็จจริง การลักลอบขนย้ายแร่และบุคคลต้องสงสัยในพื้นที่เหมืองแร่ที่สิ้นอายุประทานบัตร ต.ดงมะไฟ", "complainant": "กลุ่มอนุรักษ์ป่าชุมชนเขาเหล่าใหญ่-ผาจันได", "accused": "-", "type": "ปัญหาที่ดิน", "dateIn": "2/10/2568", "deadline": "30/10/2568", "channel": "จดหมาย", "agency": "สนง.อุตสาหกรรมจังหวัด / อำเภอสุวรรณคูหา", "status": "ยุติแล้ว", "urge": "", "detail": "ขอตรวจสอบว่าเมื่อ 8 มิ.ย. 2568 มีชายอ้างได้รับว่าจ้างให้เฝ้าดูแลพื้นที่เหมืองแร่ เนื่องจากมี สว. จะเข้ามาขอสัมปทานอีกครั้ง"}, {"district": "สุวรรณคูหา", "title": "ร้องทุกข์ กรณีสถานบริการเปิดเพลงเสียงดัง", "complainant": "ประชาชนบ้านดงยาง", "accused": "ร้านคูตับเต่า", "type": "ปัญหาความเดือดร้อน", "dateIn": "21/10/2568", "deadline": "30/10/2568", "channel": "จดหมาย", "agency": "ที่ทำการปกครองจังหวัด / สนง.สาธารณสุขจังหวัด", "status": "ยุติแล้ว", "urge": "", "detail": "ร้านคูตับเต่า บ้านดงยาง ต.นาสี เปิดบริการ 18.00-00.00 น. ขายสุรา เบียร์ เปิดเพลงเสียงดัง บางครั้งจ้างวงดนตรีหมอลำ ห่างชุมชนเพียง 50 เมตร"}, {"district": "สุวรรณคูหา", "title": "ได้รับความเดือดร้อนจากถนนชำรุด", "complainant": "นายเสาร์ บุญยอ", "accused": "-", "type": "ขอความช่วยเหลือ", "dateIn": "7/10/2568", "deadline": "14/11/2568", "channel": "จดหมาย", "agency": "องค์การบริหารส่วนจังหวัดหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "อำเภอสุวรรณคูหารายงานปัญหาถนนหลายสาย เช่น บ้านทรายทอง-อ.สุวรรณคูหา, บ้านพนมพัฒนา-บ้านภูวงศ์, บ้านนาไร่เดียว-บ้านนาอ่าง, บ้านวิจิตรพัฒนา-บ้านบนศรีวิไล"}, {"district": "สุวรรณคูหา", "title": "การขอออกโฉนดเพื่อเกษตรในที่ดิน ส.ป.ก.", "complainant": "นางเลื่อน นาดี", "accused": "-", "type": "ขอความช่วยเหลือ", "dateIn": "12/1/2569", "deadline": "30/1/2569", "channel": "จดหมาย", "agency": "สำนักงานการปฏิรูปที่ดินจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "ผู้ร้องขอออกโฉนดเพื่อการเกษตร ส.ป.ก. แต่มีผู้อื่นมาขอรับไปแล้ว ขอให้ตรวจสอบข้อเท็จจริง"}, {"district": "สุวรรณคูหา", "title": "ขอให้ตรวจสอบความคืบหน้าการยกเลิกประกาศแหล่งหินอุตสาหกรรมเขาผาจันได และเร่งรัดขึ้นทะเบียนป่าชุมชน", "complainant": "กลุ่มอนุรักษ์ป่าชุมชนเขาเหล่าใหญ่-ผาจันได", "accused": "-", "type": "ปัญหาที่ดิน", "dateIn": "27/1/2569", "deadline": "-", "channel": "ด้วยตนเอง", "agency": "ที่ทำการปกครองจังหวัด / สนง.อุตสาหกรรมจังหวัด / สำนักจัดการทรัพยากรป่าไม้ที่ 6 อุดรธานี", "status": "อยู่ระหว่างดำเนินการ", "urge": "เร่งรัดสำนักจัดการทรัพยากรป่าไม้ที่ 6 ให้แจ้งแนวทาง กรณีอาคารเก็บวัตถุระเบิดและสิ่งก่อสร้าง ภายใน 15 วัน", "detail": "ขอให้ตรวจสอบความคืบหน้าการยกเลิกประกาศแหล่งหินอุตสาหกรรมเขาผาจันได และเร่งรัดขึ้นทะเบียนป่าชุมชนเขาผาฮวก ผาจันได ผาน้ำลอด ต.ดงมะไฟ เนื่องจากล่วงเลยมากว่า 1 ปี"}, {"district": "สุวรรณคูหา", "title": "ขอให้ปรับปรุงการให้บริการของเจ้าหน้าที่เทศบาลตำบลนาดี", "complainant": "ปกปิดชื่อ-สกุล", "accused": "เจ้าหน้าที่เทศบาลตำบลนาดี", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "16/3/2569", "deadline": "7/4/2569", "channel": "สปน.1111", "agency": "อำเภอสุวรรณคูหา", "status": "ยุติแล้ว", "urge": "ยุติ 10 มิ.ย. 69", "detail": "ขอให้ปรับปรุงการบริการของเจ้าหน้าที่เทศบาลตำบลนาดี ขาดการแจ้งข้อมูลเรื่องคนพิการ ทำให้ประชาชนได้รับเงินล่าช้า"}, {"district": "สุวรรณคูหา", "title": "ขอให้ตรวจสอบเงินโครงการน้ำประปาหมู่บ้าน หมู่ 5 ต.นาดี", "complainant": "ปชช.บ้านวิจิตรพัฒนา", "accused": "คณะกรรมการกองทุนหมู่บ้าน", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "8/4/2569", "deadline": "30/4/2569", "channel": "ด้วยตนเอง", "agency": "อำเภอสุวรรณคูหา", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "ขอให้ตรวจสอบการบริหารจัดการเงินโครงการน้ำประปาหมู่บ้าน เนื่องจากคณะกรรมการชุดเดิมจัดเก็บรายได้และฝากธนาคารไว้ แต่ไม่ได้รับคำชี้แจงว่านำเงินไปใช้กิจการใด"}, {"district": "สุวรรณคูหา", "title": "ขอให้ตรวจสอบและแก้ไขปัญหาพื้นที่ทับซ้อนในเขตป่าชุมชนภูหมี ต.นาดี", "complainant": "นายพิทักษ์ ดวงพรมยาว", "accused": "-", "type": "ปัญหาที่ดิน", "dateIn": "28/4/2569", "deadline": "20/5/2569", "channel": "ด้วยตนเอง", "agency": "สำนักงานการปฏิรูปที่ดินจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "บ้านเซิน หมู่ 3 ต.นาดี ขอให้ตรวจสอบแนวเขตพื้นที่ทับซ้อนระหว่างที่ดินทำกินกับเขตป่าชุมชนภูหมี ซึ่งยังขาดความชัดเจน"}, {"district": "สุวรรณคูหา", "title": "ขอความช่วยเหลือซ่อมแซมถนนชำรุด", "complainant": "ปกปิดชื่อ-สกุล", "accused": "-", "type": "ปัญหาความเดือดร้อน", "dateIn": "11/6/2569", "deadline": "6/7/2569", "channel": "สปน.1111", "agency": "องค์การบริหารส่วนจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "ขอซ่อมแซมถนนชำรุด บริเวณร้านโสภณอิฐบล็อค หมู่ 5 ต.สุวรรณคูหา เป็นหลุมเป็นบ่อ ระยะทางประมาณ 500 เมตร"}, {"district": "โนนสัง", "title": "ติดตามผลทางคดี", "complainant": "นางสาวแสงอรุณ จันทะรส", "accused": "-", "type": "ขอความช่วยเหลือ", "dateIn": "1/10/2568", "deadline": "24/10/2568", "channel": "ด้วยตนเอง", "agency": "ตำรวจภูธรจังหวัด / พมจ. / สนง.ยุติธรรมจังหวัด", "status": "ยุติแล้ว", "urge": "", "detail": "เมื่อ 19 ก.พ. 2568 ผู้ร้องแจ้งความที่ สภ.โนนสัง กรณีบุตรสาวหายตัวไป ต่อมาทราบว่าถูกกระทำชำเรา แต่คดียังไม่มีความคืบหน้า"}, {"district": "โนนสัง", "title": "ขอให้ซ่อมแซมสะพานชำรุด", "complainant": "นายจิรวัฒน์ จงอางจิตร", "accused": "-", "type": "ปัญหาความเดือดร้อน", "dateIn": "31/10/2568", "deadline": "28/11/2568", "channel": "สปน.1111", "agency": "องค์การบริหารส่วนจังหวัดหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "สะพานปูนระหว่างบ้านหินสิ่ว หมู่ 3 ต.บ้านถิ่น และบ้านโสกแคน ต.ปางกู่ ชำรุด เมื่อ 30 ต.ค. 2568 ฝนตกทำให้สะพานทรุดตัว สัญจรลำบาก"}, {"district": "โนนสัง", "title": "ร้องเรียนปัญหาการขาดแคลนน้ำประปาและน้ำประปาขุ่นเหม็น บ้านกุดดู่", "complainant": "ประชาชนบ้านกุดดู่", "accused": "-", "type": "ปัญหาความเดือดร้อน", "dateIn": "5/11/2568", "deadline": "28/11/2568", "channel": "จดหมาย", "agency": "การประปาส่วนภูมิภาค สาขาหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "น้ำประปาไม่ไหลช่วง 06.00-12.00 น. และไหลอ่อนช่วงค่ำ บ้านกุดดู่ หมู่ 2 ต.กุดดู่ ขอให้ประสานการประปาขยายเขตบริการให้ครบ หมู่ 1,2,12,13"}, {"district": "โนนสัง", "title": "ร้องเรียนเรื่องชู้สาวและกระทำความผิดต่อศีลธรรม โดยใช้สถานที่ราชการ", "complainant": "นายกิติศักดิ์ สาขามุละ", "accused": "นางสาววันทา กุลากุล", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "12/11/2568", "deadline": "12/12/2568", "channel": "จดหมาย", "agency": "องค์การบริหารส่วนจังหวัดหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "", "detail": "กล่าวอ้างว่าภรรยาซึ่งเป็นลูกจ้าง รพ.สต.บ้านหนองตานา ต.โคกใหญ่ มีชู้และกระทำผิดในสถานที่ราชการ"}, {"district": "โนนสัง", "title": "ร้องเรียนพฤติกรรมของผู้ใหญ่บ้าน หมู่ 9 ต.บ้านถิ่น", "complainant": "นายสมพร โชคลา", "accused": "นายสุพจน์ พิมพ์คต", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "12/1/2569", "deadline": "17/4/2569", "channel": "ด้วยตนเอง", "agency": "ที่ทำการปกครองจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "ร้องเรียนพฤติกรรมชู้สาวของผู้ใหญ่บ้าน หมู่ 9 ว่าเป็นการกระทำที่เสื่อมเสียชื่อเสียง"}, {"district": "โนนสัง", "title": "ขอให้ตรวจสอบพฤติกรรมที่เข้าข่ายฝ่าฝืนประมวลจริยธรรมของผู้บริหารฯ เทศบาลตำบลกุดดู่", "complainant": "นายปรนรรท์ วิเศษคามิน", "accused": "ผู้บริหาร สมาชิกสภา และพนักงานท้องถิ่นเทศบาลตำบลกุดดู่", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "20/3/2569", "deadline": "30/4/2569", "channel": "ด้วยตนเอง", "agency": "สำนักงานท้องถิ่นจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "ขอให้ตรวจสอบพฤติกรรมของผู้บริหารและพนักงานท้องถิ่น เนื่องจากกลุ่มบุคคลใช้สื่อเฟซบุ๊กโพสต์ข้อความดูหมิ่นเหยียดหยามและแสดงข้อมูลอันเป็นเท็จ"}, {"district": "นาวัง", "title": "ปัญหาน้ำประปาหมู่บ้านไม่ไหลและไม่ได้คุณภาพ", "complainant": "ปกปิดชื่อ-สกุล", "accused": "-", "type": "ขอความช่วยเหลือ", "dateIn": "30/1/2569", "deadline": "23/2/2569", "channel": "สปน.1111", "agency": "อำเภอนาวัง", "status": "ยุติแล้ว", "urge": "", "detail": "น้ำประปาหมู่บ้านไม่ไหลและไม่ได้คุณภาพ บริเวณหมู่ 1 ต.นาเหล่า น้ำขุ่นดำ ไม่สามารถใช้อาบได้"}, {"district": "นาวัง", "title": "เด็กนักเรียนได้รับผลกระทบจากกลิ่นเหม็นของโรงเรือนปลูกกัญชา", "complainant": "อำเภอนาวัง", "accused": "บริษัท คิว คิว เอ็น เมดิคอล จำกัด", "type": "ปัญหาความเดือดร้อน", "dateIn": "10/2/2569", "deadline": "-", "channel": "จดหมาย", "agency": "สนง.สาธารณสุขจังหวัด / องค์การบริหารส่วนตำบลวังทอง", "status": "ยุติแล้ว", "urge": "", "detail": "นักเรียนโรงเรียนบ้านผาวัง 6 คน ได้รับผลกระทบจากโรงปลูกกัญชา มีอาการเวียนหัวอาเจียน 1 รายต้องเข้ารักษาที่ รพ.นาวังฯ เคยร่วมแก้ปัญหากับส่วนราชการแต่ยังไม่เป็นรูปธรรม"}, {"district": "นาวัง", "title": "ขอความช่วยเหลือ กรณีเร่งรัดการเปลี่ยนชื่อผู้ถือครองที่ดิน ส.ป.ก.", "complainant": "นางพรเกิด วงค์ใหญ่", "accused": "ส.ป.ก. หนองบัวลำภู", "type": "ขอความช่วยเหลือ", "dateIn": "4/2/2569", "deadline": "27/2/2569", "channel": "ด้วยตนเอง", "agency": "ส.ป.ก. หนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "ครั้งที่ 2", "detail": "ยื่นขอเปลี่ยนชื่อผู้ถือครองที่ดิน ส.ป.ก. เลขที่ 01539 อ.นาวัง จากผู้ร้องเป็นบุตรสาว ยื่นไว้ตั้งแต่ปี 2565 แต่ปัจจุบันไม่มีความคืบหน้า"}, {"district": "นาวัง", "title": "ขอให้ตรวจสอบการปฏิบัติหน้าที่ของผู้ใหญ่บ้าน บ้านค้อใหม่ หมู่ 4 ต.นาแก", "complainant": "นายประสาน ศรีใส", "accused": "นางสุพัตรา สารีอาจ", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "16/2/2569", "deadline": "16/3/2569", "channel": "ด้วยตนเอง", "agency": "ที่ทำการปกครองจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "ครั้งที่ 1", "detail": "ขอให้ตรวจสอบการปฏิบัติหน้าที่ของผู้ใหญ่บ้าน เรื่องเงินสาธารณะของวัดโพนงามบ้านค้อใหม่ หมู่ 4 ขาดหายไปจำนวนหนึ่ง และมีพฤติการณ์ทำเกินกว่าเหตุ"}, {"district": "นาวัง", "title": "ขอให้ติดตามเรื่องร้องเรียน กรณียักยอกเงินค่าเบี้ยประชุมคณะกรรมการสถานศึกษา ร.ร. อบจ.นภ. 3 นาแกวิทยา", "complainant": "นายบุญทัน หลาบหนองแสง", "accused": "คณะกรรมการสถานศึกษา", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "12/3/2569", "deadline": "31/3/2569", "channel": "ด้วยตนเอง", "agency": "องค์การบริหารส่วนจังหวัดหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "ครั้งที่ 1", "detail": "ติดตามการดำเนินการกรณียักยอกเงินค่าเบี้ยประชุมคณะกรรมการสถานศึกษาและการทุจริตงบประมาณโครงการทัศนศึกษา ที่เคยยื่นไว้แต่ไม่มีความคืบหน้า"}, {"district": "นาวัง", "title": "ร้องเรียนการให้บริการของเจ้าหน้าที่รัฐ", "complainant": "ปกปิดชื่อ-สกุล", "accused": "อำเภอนาวัง", "type": "กล่าวโทษเจ้าหน้าที่รัฐ", "dateIn": "4/3/2569", "deadline": "31/3/2569", "channel": "สปน.1111", "agency": "อำเภอนาวัง", "status": "ยุติแล้ว", "urge": "", "detail": "ร้องเรียนการปฏิบัติหน้าที่ของเจ้าหน้าที่อำเภอนาวัง กลุ่มงานทะเบียน ว่าให้บริการไม่สุภาพ ไม่เต็มใจให้บริการ"}, {"district": "นาวัง", "title": "ขอให้ยกเลิกการลาออกจากราชการ", "complainant": "นางชุติมาศ วงษ์จวง", "accused": "สำนักงานสาธารณสุขจังหวัดหนองบัวลำภู", "type": "ขอความช่วยเหลือ", "dateIn": "15/5/2569", "deadline": "26/5/2569", "channel": "ด้วยตนเอง", "agency": "สำนักงานสาธารณสุขจังหวัดหนองบัวลำภู", "status": "ยุติแล้ว", "urge": "ยุติ 19 มิ.ย. 69", "detail": "ปฏิบัติงาน ณ รพ.เฉลิมพระเกียรติ 80 พรรษา ยื่นลาออกด้วยเหตุผลส่วนตัว แล้วขอยกเลิก แต่เจ้าหน้าที่ สสจ. มิได้ชี้แจงขั้นตอน จึงขอให้พิจารณายกเลิกการลาออก"}, {"district": "นาวัง", "title": "ปัญหาความเดือดร้อนจากถนนชำรุดเสียหาย", "complainant": "ปชช.ตำบลวังทอง", "accused": "-", "type": "ปัญหาความเดือดร้อน", "dateIn": "19/5/2569", "deadline": "5/6/2569", "channel": "สื่อโซเชียล", "agency": "แขวงทางหลวงหนองบัวลำภู", "status": "อยู่ระหว่างดำเนินการ", "urge": "", "detail": "ถนนทางเข้าแหล่งท่องเที่ยวอ่างเก็บน้ำผาวัง บ้านไทยนิยม ต.วังทอง ช่วงฤดูฝนมีน้ำท่วมขัง เป็นหลุมเป็นบ่อ สัญจรลำบาก"}], "consumer": [{"title": "ขอให้ตรวจสอบข้อเท็จจริง กรณีคุณภาพสินค้าร้าน 62 bbq สาขาศรีบุญเรือง", "complainant": "นางสาววิภาวี สุพรรณ", "accused": "ร้าน 62 bbq สาขาศรีบุญเรือง", "dateIn": "1/12/2568", "deadline": "24/12/2568", "detail": "ผู้ร้องไปรับประทานอาหารที่ร้าน 62 bbq สาขาศรีบุญเรือง และมีอาการท้องเสีย อาเจียน จึงขอให้หน่วยงานตรวจสอบคุณภาพ", "status": "อยู่ระหว่างดำเนินการ", "note": "ส่งต่อ อบต."}, {"title": "ไม่ได้รับความเป็นธรรมจากการซ่อมรถยนต์ของผู้ประกอบธุรกิจ", "complainant": "พ.จ.ท. อรุณโรจน์ เชลงนาท", "accused": "อู่เกรียงไกร เจริญการช่าง", "dateIn": "6/1/2569", "deadline": "30/1/2569", "detail": "ผู้ร้องนำรถยนต์ไปซ่อมที่อู่เกรียงไกร แต่ยังไม่ได้รับรถคืน", "status": "อยู่ระหว่างดำเนินการ", "note": "ส่งต่อเทศบาลเมืองหนองบัวลำภู"}, {"title": "ได้รับความเสียหายจากการซ่อมรถยนต์", "complainant": "จ่าสิบเอกนรินทร์ สีหาปัญญา", "accused": "นายสุพจน์ โพธิ์ทอง", "dateIn": "15/1/2569", "deadline": "23/2/2569", "detail": "ผู้ร้องได้รับความเสียหายจากการซ่อมรถยนต์และการซื้อขายรถยนต์", "status": "ยุติแล้ว", "note": "ส่งต่อเทศบาลตำบลเก่ากลอย"}, {"title": "ขอให้ชี้แจงขั้นตอนการดำเนินการของโรงแรม Rooftop room", "complainant": "นางสาวอนัญพร บุญเสริฐ", "accused": "โรงแรม Rooftop room", "dateIn": "29/1/2569", "deadline": "23/2/2569", "detail": "โรงแรมเปลี่ยนห้องพักจาก Rooftop room เป็น Hidden room โดยเปลี่ยนที่อยู่และไม่แจ้งล่วงหน้า คุณภาพไม่ตรงตามที่โฆษณา ขอให้ชี้แจงข้อเท็จจริง", "status": "อยู่ระหว่างดำเนินการ", "note": "ส่งให้โรงแรมชี้แจงข้อเท็จจริง"}, {"title": "ขอให้ชี้แจงขั้นตอนการดำเนินการของร้านทองเยาวราชสินทวี สาขาโลตัสหนองบัวลำภู", "complainant": "นายบุญฤทธิ์ บุญปัญญา", "accused": "ร้านทองเยาวราชสินทวี สาขาโลตัสหนองบัวลำภู", "dateIn": "29/1/2569", "deadline": "23/2/2569", "detail": "ผู้ร้องนำสร้อยคอทองคำ 1 บาท ไปขาย และซื้อสร้อยใหม่ 2 สลึง ราคา 21,900 บาท ต่อมานำไปขายคืนที่ร้านเดิม แต่ได้รับแจ้งว่าไม่ใช่ทองของร้าน ขอให้ร้านชี้แจงข้อเท็จจริง", "status": "อยู่ระหว่างดำเนินการ", "note": "ส่งให้ร้านทองชี้แจงข้อเท็จจริง"}, {"title": "ขอให้ชี้แจงขั้นตอนการดำเนินการของบริษัท แฟลช เอ็กซ์เพรส จำกัด", "complainant": "นางสาวหนึ่งฤทัย บาฤษี", "accused": "บริษัท แฟลช เอ็กซ์เพรส สาขาหนองบัวลำภู", "dateIn": "7/5/2569", "deadline": "29/5/2569", "detail": "ผู้ร้องส่งพัสดุเสื้อผ้าแฟชั่น (กางเกง) 545 ตัว บรรจุ 2 กระสอบ ผ่านบริษัท แฟลช เอ็กซ์เพรส แต่ไม่ถึงปลายทางตามกำหนด", "status": "อยู่ระหว่างดำเนินการ", "note": "ส่งให้บริษัทชี้แจงข้อเท็จจริง"}]};
+const PREFERRED=['เมืองหนองบัวลำภู','เมือง','ศรีบุญเรือง','นากลาง','โนนสัง','สุวรรณคูหา','นาวัง'];
 const TYPE_COLORS={'ขอความช่วยเหลือ':'#24508f','กล่าวโทษเจ้าหน้าที่รัฐ':'#c9a227','ปัญหาความเดือดร้อน':'#1f9d6b','ปัญหาที่ดิน':'#d6863f','แจ้งเบาะแส':'#7c4dff','หนี้นอกระบบ':'#e0697f','ทูลเกล้าถวายฎีกา':'#5c6bc0'};
-const TYPE_ICONS={'ขอความช่วยเหลือ':'🤝','กล่าวโทษเจ้าหน้าที่รัฐ':'🏛️','ปัญหาความเดือดร้อน':'😣','ปัญหาที่ดิน':'🌾','แจ้งเบาะแส':'📢','หนี้นอกระบบ':'💸','ทูลเกล้าถวายฎีกา':'👑'};
-const CHANNEL_ICONS={'ด้วยตนเอง':'🚶','จดหมาย':'✉️','สปน.1111':'☎️','สื่อโซเชียล':'📱','ศดธ.มท.':'🏢','จากหน่วยงานอื่น':'📨','ไปรษณีย์อิเล็กทรอนิกส์':'💻'};
-
 const TH_M=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
 const now=new Date();
-document.getElementById('today').textContent=`${now.getDate()} ${TH_M[now.getMonth()]} ${now.getFullYear()+543}`;
 
-let RECORDS=[], CONSUMER=[];
+let RECORDS=[], CONSUMER=[], SUMMARY={}, UPDATED='';
+let charts={};
 
+/* ---------- data ---------- */
 function jsonp(params){
-  return new Promise((resolve,reject)=>{
+  return new Promise((res,rej)=>{
     const cb='cb_'+Date.now()+Math.floor(Math.random()*9999);
     const url=API+'?'+Object.keys(params).map(k=>encodeURIComponent(k)+'='+encodeURIComponent(params[k])).join('&')+'&callback='+cb;
     const s=document.createElement('script');
-    const timer=setTimeout(()=>{cleanup();reject('หมดเวลาเชื่อมต่อ');},25000);
-    function cleanup(){clearTimeout(timer);delete window[cb];s.remove();}
-    window[cb]=d=>{cleanup();resolve(d);};
-    s.onerror=()=>{cleanup();reject('เชื่อมต่อไม่ได้');};
+    const t=setTimeout(()=>{cln();rej('หมดเวลาเชื่อมต่อ');},25000);
+    function cln(){clearTimeout(t);delete window[cb];s.remove();}
+    window[cb]=d=>{cln();res(d);};
+    s.onerror=()=>{cln();rej('เชื่อมต่อไม่ได้');};
     s.src=url;document.body.appendChild(s);
   });
 }
@@ -250,155 +191,289 @@ function slaOf(r){
   if(r.status==='ยุติแล้ว')return{k:'done',days:null};
   const dl=parseBE(r.deadline);if(!dl)return{k:'ok',days:null};
   const diff=Math.round((dl-now)/86400000);
-  if(diff<0)return{k:'over',days:diff};
-  if(diff<=7)return{k:'near',days:diff};
-  return{k:'ok',days:diff};
+  if(diff<0)return{k:'over',days:diff};if(diff<=7)return{k:'near',days:diff};return{k:'ok',days:diff};
 }
-function count(arr,key){const m={};arr.forEach(r=>{const v=r[key];if(v)m[v]=(m[v]||0)+1;});return m;}
+function ageOf(r){const d=parseBE(r.dateIn);if(!d)return null;return Math.round((now-d)/86400000);}
+function count(arr,key){const m={};arr.forEach(r=>{const v=(r[key]||'').toString().trim();if(v)m[v]=(m[v]||0)+1;});return m;}
+function districtList(){
+  const set=[...new Set(RECORDS.map(r=>r.district))];
+  return set.sort((a,b)=>{
+    const ia=PREFERRED.findIndex(p=>a.indexOf(p)>=0), ib=PREFERRED.findIndex(p=>b.indexOf(p)>=0);
+    return (ia<0?99:ia)-(ib<0?99:ib);
+  });
+}
+function esc(s){return (s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 
-async function init(){
+function useEmbedded(reason){
+  RECORDS=(EMBEDDED.records||[]).map((r,i)=>(r._id=i,r));
+  CONSUMER=(EMBEDDED.consumer||[]).map((r,i)=>(r._id=i,r));
+  SUMMARY={}; UPDATED='ชุดข้อมูลในระบบ';
+  document.getElementById('loader').style.display='none';
+  document.getElementById('status').innerHTML='<span class="live-dot"></span>ข้อมูลในระบบ ('+RECORDS.length+' เรื่อง)';
+  const b=document.getElementById('banner');
+  if(reason){ b.style.display='block';
+    b.innerHTML='ℹ️ กำลังแสดง<b>ข้อมูลที่ฝังไว้ในระบบ</b> (ยังเชื่อมต่อข้อมูลสดจาก Google Sheet ไม่ได้: '+esc(reason)+') — เมื่อตั้งค่า GAS เสร็จ ระบบจะดึงสดอัตโนมัติ'; }
+  router();
+}
+async function load(){
   try{
     const d=await jsonp({action:'all'});
     if(!d.ok) throw d.error||'ผิดพลาด';
-    RECORDS=d.records||[]; CONSUMER=d.consumer||[];
+    if(!d.records || !d.records.length) throw 'ไม่พบข้อมูลในชีต';
+    RECORDS=d.records.map((r,i)=>(r._id=i,r));
+    CONSUMER=(d.consumer||[]).map((r,i)=>(r._id=i,r));
+    SUMMARY=d.summary||{}; UPDATED=d.updated||'';
     document.getElementById('loader').style.display='none';
-    renderAll();
+    const sheetTxt=(SUMMARY.sheets||[]).length?` · ${SUMMARY.sheets.length} ชีต`:'';
+    document.getElementById('status').innerHTML=`<span class="live-dot"></span>ข้อมูลสด ${esc(UPDATED)}${sheetTxt}`;
+    document.getElementById('banner').style.display='none';
+    router();
   }catch(e){
-    document.getElementById('loader').style.display='none';
-    const b=document.getElementById('banner');
-    b.style.display='block';
-    b.innerHTML='⚠️ ดึงข้อมูลสดไม่สำเร็จ: '+e+' — ตรวจสอบว่า Deploy เป็น Web app (Anyone) และรัน setup() แล้ว';
+    useEmbedded(e);
   }
 }
-
-function renderAll(){
-  const total=RECORDS.length;
-  const done=RECORDS.filter(r=>r.status==='ยุติแล้ว').length;
-  const prog=RECORDS.filter(r=>r.status==='อยู่ระหว่างดำเนินการ').length;
-  let over=0,near=0,ok=0;
-  RECORDS.forEach(r=>{const s=slaOf(r);if(s.k==='over')over++;else if(s.k==='near')near++;else ok++;});
-
-  // EXEC kpis
-  set('kTotal',total);set('kDone',done);set('kProg',prog);set('kOver',over);
-  set('kRate',total?`คิดเป็น ${(done/total*100).toFixed(1)}% ของเรื่องทั้งหมด`:'–');
-
-  // PUBLIC
-  set('pTotal',total);set('pDone',done);set('pProg',prog);
-  const typeCount=count(RECORDS,'type');
-  document.getElementById('pubTypeGrid').innerHTML=Object.entries(typeCount).sort((a,b)=>b[1]-a[1])
-    .map(([t,n])=>`<div class="type-chip"><div class="ic">${TYPE_ICONS[t]||'📌'}</div><div><div class="n">${n}</div><div class="l">${t}</div></div></div>`).join('');
-  const chCount=count(RECORDS,'channel');
-  document.getElementById('pubChannels').innerHTML=Object.entries(chCount).sort((a,b)=>b[1]-a[1])
-    .map(([c,n])=>`<div class="ch-pill">${CHANNEL_ICONS[c]||'•'} ${c} <b>${n}</b></div>`).join('');
-
-  // SLA board
-  set('slaOver',over);set('slaNear',near);set('slaOk',ok+done);
-
-  // alerts
-  const alerts=RECORDS.map(r=>({r,s:slaOf(r)})).filter(x=>x.s.k==='over'||x.s.k==='near').sort((a,b)=>(a.s.days??0)-(b.s.days??0));
-  document.getElementById('alertList').innerHTML = alerts.length ? alerts.map(({r,s})=>{
-    const ov=s.k==='over';const lab=ov?`เกิน ${Math.abs(s.days)} วัน`:`อีก ${s.days} วัน`;
-    return `<div class="alert-item"><span class="badge ${ov?'':'warn'}">${lab}</span><div><div class="t">${r.title}</div><div class="m">${r.district} · ${r.agency||''}</div></div></div>`;
-  }).join('') : '<div class="empty">ไม่มีเรื่องเกิน/ใกล้ครบกำหนด</div>';
-
-  buildCharts();
-  buildOfficer();
-  buildConsumer();
+function reload(){
+  Object.values(charts).forEach(c=>c&&c.destroy());charts={};
+  document.getElementById('loader').style.display='flex';
+  load();
 }
-function set(id,v){document.getElementById(id).textContent=v;}
 
-let charts={};
-function buildCharts(){
+/* ---------- router ---------- */
+function router(){
+  Object.values(charts).forEach(c=>c&&c.destroy());charts={};
+  const raw=(location.hash||'#home').slice(1);
+  const [path,arg]=raw.split('/');
+  document.querySelectorAll('#menu a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+(path||'home')));
+  const app=document.getElementById('app');
+  if(path==='case'){ app.innerHTML=viewCase(+arg); afterCase(); }
+  else if(path==='cdetail'){ app.innerHTML=viewConsumerDetail(+arg); }
+  else if(path==='cases'){ app.innerHTML=viewCases(arg?decodeURIComponent(arg):''); afterCases(); }
+  else if(path==='districts'){ app.innerHTML=viewDistricts(); afterDistricts(); }
+  else if(path==='urgent'){ app.innerHTML=viewUrgent(); }
+  else if(path==='consumer'){ app.innerHTML=viewConsumer(); afterConsumer(); }
+  else { app.innerHTML=viewHome(); afterHome(); }
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',router);
+function go(h){location.hash='#'+h;}
+
+/* ---------- HOME ---------- */
+function viewHome(){
+  const total=RECORDS.length, done=RECORDS.filter(r=>r.status==='ยุติแล้ว').length, prog=total-done;
+  let over=0,near=0;RECORDS.forEach(r=>{const s=slaOf(r);if(s.k==='over')over++;else if(s.k==='near')near++;});
+  return `
+  <h2 class="page-title">ภาพรวมการดำเนินงาน</h2>
+  <p class="page-sub">สรุปสถานะเรื่องร้องเรียนร้องทุกข์ทั้งจังหวัด · ข้อมูลสด ${esc(UPDATED)}</p>
+  <div class="kpis">
+    <div class="kpi k1"><div class="lab">เรื่องทั้งหมด</div><div class="num">${total}</div><div class="foot">${districtList().length} อำเภอ</div></div>
+    <div class="kpi k2"><div class="lab">ยุติแล้ว</div><div class="num">${done}</div><div class="foot">${total?(done/total*100).toFixed(1):0}% ของทั้งหมด</div></div>
+    <div class="kpi k3"><div class="lab">อยู่ระหว่างดำเนินการ</div><div class="num">${prog}</div><div class="foot">ยังติดตามอยู่</div></div>
+    <div class="kpi k4"><div class="lab">เกินกำหนดรายงาน</div><div class="num">${over}</div><div class="foot">+ ใกล้ครบ ${near} เรื่อง</div></div>
+  </div>
+  <div class="navcards">
+    <div class="navcard" onclick="go('cases')"><div class="ic">📋</div><div><div class="t">ทะเบียนเรื่องทั้งหมด</div><div class="d">ค้นหา/กรอง แล้วคลิกดูรายละเอียด</div></div></div>
+    <div class="navcard" onclick="go('urgent')"><div class="ic">⚠️</div><div><div class="t">เรื่องเร่งรัด ${over+near}</div><div class="d">เกิน/ใกล้ครบกำหนดรายงาน</div></div></div>
+    <div class="navcard" onclick="go('districts')"><div class="ic">🗺️</div><div><div class="t">รายอำเภอ</div><div class="d">เปรียบเทียบผลงานรายพื้นที่</div></div></div>
+    <div class="navcard" onclick="go('consumer')"><div class="ic">⚖️</div><div><div class="t">คุ้มครองผู้บริโภค ${CONSUMER.length}</div><div class="d">งานแยกต่างหาก</div></div></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>เปรียบเทียบรายอำเภอ</h3><div class="chart-box"><canvas id="cDist"></canvas></div></div>
+    <div class="card"><h3>เรื่องรับเข้าล่าสุด</h3><div class="minilist">${recentList()}</div></div>
+  </div>
+  <div class="grid3">
+    <div class="card"><h3>ตามประเภทเรื่อง</h3><div class="chart-box sm"><canvas id="cType"></canvas></div></div>
+    <div class="card"><h3>ตามช่องทาง</h3><div class="chart-box sm"><canvas id="cCh"></canvas></div></div>
+    <div class="card"><h3>ความสำเร็จในการยุติเรื่อง</h3><div class="chart-box sm"><canvas id="cDonut"></canvas></div></div>
+  </div>`;
+}
+function recentList(){
+  const sorted=[...RECORDS].filter(r=>parseBE(r.dateIn)).sort((a,b)=>parseBE(b.dateIn)-parseBE(a.dateIn)).slice(0,7);
+  if(!sorted.length) return '<div class="empty">—</div>';
+  return sorted.map(r=>`<div class="li" onclick="go('case/${r._id}')"><span class="badge new">${esc(r.dateIn)}</span><div><div class="t">${esc(r.title)}</div><div class="m">${esc(r.district)} · ${esc(r.type||'')}</div></div></div>`).join('');
+}
+function afterHome(){
   Chart.defaults.font.family='Sarabun';Chart.defaults.color='#6b7686';
-  Object.values(charts).forEach(c=>c&&c.destroy());
-
-  const dDone=DISTRICT_ORDER.map(d=>RECORDS.filter(r=>r.district===d&&r.status==='ยุติแล้ว').length);
-  const dProg=DISTRICT_ORDER.map(d=>RECORDS.filter(r=>r.district===d&&r.status==='อยู่ระหว่างดำเนินการ').length);
-  charts.dist=new Chart(cDistrict,{type:'bar',data:{labels:DISTRICT_ORDER,datasets:[
-    {label:'ยุติแล้ว',data:dDone,backgroundColor:'#1f9d6b',borderRadius:6},
-    {label:'อยู่ระหว่างดำเนินการ',data:dProg,backgroundColor:'#e0a000',borderRadius:6}]},
-    options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,ticks:{stepSize:5}}}}});
-
-  const tc=count(RECORDS,'type');const tl=Object.keys(tc);
-  charts.type=new Chart(cType,{type:'doughnut',data:{labels:tl,datasets:[{data:tl.map(t=>tc[t]),backgroundColor:tl.map(t=>TYPE_COLORS[t]||'#999'),borderWidth:2,borderColor:'#fff'}]},
-    options:{maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{boxWidth:12,font:{size:11}}}}}});
-
-  const cc=count(RECORDS,'channel');const cl=Object.keys(cc).sort((a,b)=>cc[b]-cc[a]);
-  charts.ch=new Chart(cChannel,{type:'bar',data:{labels:cl,datasets:[{data:cl.map(c=>cc[c]),backgroundColor:'#24508f',borderRadius:6}]},
-    options:{maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'#eef1f7'}},y:{grid:{display:false}}}}});
-
-  const done=RECORDS.filter(r=>r.status==='ยุติแล้ว').length,prog=RECORDS.length-done;
-  charts.donut=new Chart(cDonut,{type:'doughnut',data:{labels:['ยุติแล้ว','อยู่ระหว่างดำเนินการ'],datasets:[{data:[done,prog],backgroundColor:['#1f9d6b','#e0a000'],borderWidth:3,borderColor:'#fff'}]},
-    options:{maintainAspectRatio:false,cutout:'70%',plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw} เรื่อง (${(c.raw/RECORDS.length*100).toFixed(1)}%)`}}}}});
-
-  charts.pubD=new Chart(cPubDistrict,{type:'bar',data:{labels:DISTRICT_ORDER,datasets:[{data:DISTRICT_ORDER.map(d=>RECORDS.filter(r=>r.district===d).length),backgroundColor:'#24508f',borderRadius:6}]},
-    options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{beginAtZero:true}}}});
+  const dl=districtList();
+  const done=dl.map(d=>RECORDS.filter(r=>r.district===d&&r.status==='ยุติแล้ว').length);
+  const prog=dl.map(d=>RECORDS.filter(r=>r.district===d&&r.status!=='ยุติแล้ว').length);
+  charts.d=new Chart(cDist,{type:'bar',data:{labels:dl,datasets:[
+    {label:'ยุติแล้ว',data:done,backgroundColor:'#1f9d6b',borderRadius:6},
+    {label:'ดำเนินการ',data:prog,backgroundColor:'#e0a000',borderRadius:6}]},
+    options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true}}}});
+  const tc=count(RECORDS,'type'),tl=Object.keys(tc);
+  charts.t=new Chart(cType,{type:'doughnut',data:{labels:tl,datasets:[{data:tl.map(t=>tc[t]),backgroundColor:tl.map(t=>TYPE_COLORS[t]||'#999'),borderWidth:2,borderColor:'#fff'}]},options:{maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{boxWidth:11,font:{size:10.5}}}}}});
+  const cc=count(RECORDS,'channel'),cl=Object.keys(cc).sort((a,b)=>cc[b]-cc[a]);
+  charts.c=new Chart(cCh,{type:'bar',data:{labels:cl,datasets:[{data:cl.map(c=>cc[c]),backgroundColor:'#24508f',borderRadius:6}]},options:{maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'#eef1f7'}},y:{grid:{display:false}}}}});
+  const done2=RECORDS.filter(r=>r.status==='ยุติแล้ว').length;
+  charts.o=new Chart(cDonut,{type:'doughnut',data:{labels:['ยุติแล้ว','ดำเนินการ'],datasets:[{data:[done2,RECORDS.length-done2],backgroundColor:['#1f9d6b','#e0a000'],borderWidth:3,borderColor:'#fff'}]},options:{maintainAspectRatio:false,cutout:'70%',plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw} (${(c.raw/RECORDS.length*100).toFixed(1)}%)`}}}}});
 }
 
-/* OFFICER */
-function maskName(n){
-  if(!n)return'';
-  if(/ปกปิด/.test(n))return n;
-  if(/^(ปชช|ประชาชน|กลุ่ม|ผู้ใหญ่บ้าน|สมาชิก|อำเภอ|ผู้ปกครอง|คณะ)/.test(n))return n;
-  const parts=n.split(' ').filter(Boolean);
-  if(parts.length>=2){const f=parts[parts.length-1];return n.replace(f,f[0]+'•••');}
-  return n;
+/* ---------- CASES ---------- */
+function viewCases(preDistrict){
+  const dl=districtList();
+  return `
+  <h2 class="page-title">ทะเบียนเรื่องร้องเรียน</h2>
+  <p class="page-sub">คลิกที่เรื่องเพื่อดูรายละเอียดทั้งหมดที่บันทึกไว้</p>
+  <div class="filters">
+    <input id="q" placeholder="🔍 ค้นหาชื่อเรื่อง / ผู้ร้อง / หน่วยงาน...">
+    <select id="fd"><option value="">ทุกอำเภอ</option>${dl.map(d=>`<option ${d===preDistrict?'selected':''}>${esc(d)}</option>`).join('')}</select>
+    <select id="ft"><option value="">ทุกประเภท</option>${[...new Set(RECORDS.map(r=>r.type))].filter(Boolean).map(t=>`<option>${esc(t)}</option>`).join('')}</select>
+    <select id="fs"><option value="">ทุกสถานะ</option><option>อยู่ระหว่างดำเนินการ</option><option>ยุติแล้ว</option></select>
+    <select id="fl"><option value="">ทุก SLA</option><option value="over">เกินกำหนด</option><option value="near">ใกล้ครบกำหนด</option></select>
+  </div>
+  <div class="table-wrap"><div class="scroll"><table>
+    <thead><tr><th>เรื่อง</th><th>อำเภอ</th><th>ประเภท</th><th>ผู้ร้องเรียน</th><th>กำหนดรายงาน</th><th>สถานะ</th></tr></thead>
+    <tbody id="tb"></tbody></table></div></div>
+  <div class="note" id="cnt"></div>`;
 }
-function buildOfficer(){
-  const fD=document.getElementById('fDistrict'),fT=document.getElementById('fType');
-  fD.innerHTML='<option value="">ทุกอำเภอ</option>';fT.innerHTML='<option value="">ทุกประเภท</option>';
-  [...new Set(RECORDS.map(r=>r.district))].forEach(d=>fD.add(new Option(d,d)));
-  [...new Set(RECORDS.map(r=>r.type))].filter(Boolean).forEach(t=>fT.add(new Option(t,t)));
-  ['fSearch','fDistrict','fType','fStatus','fSla','fMask'].forEach(id=>document.getElementById(id).oninput=renderOfficer);
-  renderOfficer();
-}
-function renderOfficer(){
-  const q=fSearch.value.trim(),d=fDistrict.value,t=fType.value,st=fStatus.value,sl=fSla.value,mask=fMask.checked;
-  const rows=RECORDS.filter(r=>{
-    if(q&&!((r.title||'').includes(q)||(r.agency||'').includes(q)||(r.complainant||'').includes(q)))return false;
-    if(d&&r.district!==d)return false;if(t&&r.type!==t)return false;
-    if(st&&r.status!==st)return false;if(sl&&slaOf(r).k!==sl)return false;return true;
-  });
-  tbody.innerHTML=rows.length?rows.map(r=>{
-    const s=slaOf(r);let cls='ok',txt=r.deadline||'—';
-    if(s.k==='over'){cls='over';txt=`${r.deadline} (เกิน ${Math.abs(s.days)} วัน)`;}
-    else if(s.k==='near'){cls='near';txt=`${r.deadline} (อีก ${s.days} วัน)`;}
-    const sc=r.status==='ยุติแล้ว'?'done':'prog';
-    return `<tr><td class="ttl">${r.title||''}</td><td>${r.district}</td><td>${r.type||''}</td>
-      <td>${mask?maskName(r.complainant):(r.complainant||'')}</td><td>${r.agency||''}</td><td>${r.channel||''}</td>
-      <td class="dl ${cls}">${txt}</td><td><span class="st ${sc}">${r.status||''}</span></td></tr>`;
-  }).join(''):'<tr><td colspan="8" class="empty">ไม่พบเรื่องที่ตรงกับตัวกรอง</td></tr>';
-  document.getElementById('cnt').textContent=`แสดง ${rows.length} เรื่อง จากทั้งหมด ${RECORDS.length} เรื่อง (ข้อมูลสดจากชีต)`;
-}
-
-/* CONSUMER */
-function buildConsumer(){
-  set('cTotalC',CONSUMER.length);
-  set('cDoneC',CONSUMER.filter(r=>r.status==='ยุติแล้ว').length);
-  set('cProgC',CONSUMER.filter(r=>r.status==='อยู่ระหว่างดำเนินการ').length);
-  document.getElementById('cSearch').oninput=renderConsumer;
-  document.getElementById('cMask').oninput=renderConsumer;
-  renderConsumer();
-}
-function renderConsumer(){
-  const q=document.getElementById('cSearch').value.trim(),mask=document.getElementById('cMask').checked;
-  const rows=CONSUMER.filter(r=>!q||JSON.stringify(r).includes(q));
-  document.getElementById('cBody').innerHTML=rows.length?rows.map(r=>{
-    const sc=r.status==='ยุติแล้ว'?'done':'prog';
-    return `<tr><td class="ttl">${r.title||''}</td><td>${mask?maskName(r.complainant):(r.complainant||'')}</td>
-      <td>${r.accused||''}</td><td>${r.dateIn||''}</td><td>${r.deadline||''}</td>
-      <td><span class="st ${sc}">${r.status||''}</span></td><td>${r.note||''}</td></tr>`;
-  }).join(''):'<tr><td colspan="7" class="empty">ยังไม่มีข้อมูลคุ้มครองผู้บริโภค</td></tr>';
+function afterCases(){
+  const q=document.getElementById('q'),fd=document.getElementById('fd'),ft=document.getElementById('ft'),fs=document.getElementById('fs'),fl=document.getElementById('fl');
+  function draw(){
+    const rows=RECORDS.filter(r=>{
+      const t=q.value.trim();
+      if(t&&!((r.title||'').includes(t)||(r.complainant||'').includes(t)||(r.agency||'').includes(t)))return false;
+      if(fd.value&&r.district!==fd.value)return false;
+      if(ft.value&&r.type!==ft.value)return false;
+      if(fs.value&&r.status!==fs.value)return false;
+      if(fl.value&&slaOf(r).k!==fl.value)return false;
+      return true;
+    });
+    document.getElementById('tb').innerHTML=rows.length?rows.map(r=>{
+      const s=slaOf(r);let cls='ok',txt=r.deadline||'—';
+      if(s.k==='over'){cls='over';txt=`${r.deadline} (เกิน ${Math.abs(s.days)} วัน)`;}
+      else if(s.k==='near'){cls='near';txt=`${r.deadline} (อีก ${s.days} วัน)`;}
+      const sc=r.status==='ยุติแล้ว'?'done':'prog';
+      return `<tr onclick="go('case/${r._id}')"><td class="ttl">${esc(r.title)}</td><td>${esc(r.district)}</td><td>${esc(r.type||'')}</td><td>${esc(r.complainant||'')}</td><td class="dl ${cls}">${esc(txt)}</td><td><span class="st ${sc}">${esc(r.status||'')}</span></td></tr>`;
+    }).join(''):'<tr><td colspan="6" class="empty">ไม่พบเรื่องที่ตรงกับตัวกรอง</td></tr>';
+    document.getElementById('cnt').textContent=`แสดง ${rows.length} จาก ${RECORDS.length} เรื่อง`;
+  }
+  [q,fd,ft,fs,fl].forEach(el=>el.addEventListener('input',draw));draw();
 }
 
-/* tabs */
-document.querySelectorAll('.role-btn').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('.role-btn').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');document.getElementById(b.dataset.v).classList.add('active');
-}));
+/* ---------- DISTRICTS ---------- */
+function viewDistricts(){
+  const dl=districtList();
+  const cards=dl.map(d=>{
+    const all=RECORDS.filter(r=>r.district===d);
+    const done=all.filter(r=>r.status==='ยุติแล้ว').length, prog=all.length-done;
+    const pd=all.length?done/all.length*100:0;
+    return `<div class="dcard" onclick="go('cases/${encodeURIComponent(d)}')">
+      <h4>${esc(d)}</h4><div class="big">${all.length}</div>
+      <div class="bar"><div class="seg done" style="width:${pd}%"></div><div class="seg prog" style="width:${100-pd}%"></div></div>
+      <div class="legend"><span><span class="dot done"></span>ยุติ ${done}</span><span><span class="dot prog"></span>ดำเนินการ ${prog}</span></div>
+    </div>`;
+  }).join('');
+  return `<h2 class="page-title">ผลการดำเนินงานรายอำเภอ</h2>
+  <p class="page-sub">คลิกอำเภอเพื่อดูรายการเรื่องของพื้นที่นั้น</p>
+  <div class="dcards">${cards}</div>
+  <div class="card"><h3>เปรียบเทียบประเภทเรื่องรายอำเภอ</h3><div class="chart-box"><canvas id="cDT"></canvas></div></div>`;
+}
+function afterDistricts(){
+  Chart.defaults.font.family='Sarabun';
+  const dl=districtList();const types=Object.keys(count(RECORDS,'type'));
+  const ds=types.map(t=>({label:t,data:dl.map(d=>RECORDS.filter(r=>r.district===d&&r.type===t).length),backgroundColor:TYPE_COLORS[t]||'#999',borderRadius:4}));
+  charts.dt=new Chart(cDT,{type:'bar',data:{labels:dl,datasets:ds},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:11,font:{size:11}}}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true}}}});
+}
 
-init();
+/* ---------- URGENT ---------- */
+function viewUrgent(){
+  const list=RECORDS.map(r=>({r,s:slaOf(r)})).filter(x=>x.s.k==='over'||x.s.k==='near').sort((a,b)=>(a.s.days??0)-(b.s.days??0));
+  const items=list.length?list.map(({r,s})=>{
+    const ov=s.k==='over';const lab=ov?`เกิน ${Math.abs(s.days)} วัน`:`อีก ${s.days} วัน`;
+    return `<div class="li" onclick="go('case/${r._id}')"><span class="badge ${ov?'over':'near'}">${lab}</span><div><div class="t">${esc(r.title)}</div><div class="m">${esc(r.district)} · ${esc(r.agency||'')} · กำหนด ${esc(r.deadline||'-')}</div></div></div>`;
+  }).join(''):'<div class="empty">ไม่มีเรื่องเกิน/ใกล้ครบกำหนด 🎉</div>';
+  return `<h2 class="page-title">⚠️ เรื่องที่ต้องเร่งรัด</h2>
+  <p class="page-sub">เรียงตามความเร่งด่วน (เกินกำหนดก่อน) · คลิกเพื่อดูรายละเอียด</p>
+  <div class="card"><div class="minilist" style="max-height:none">${items}</div></div>`;
+}
+
+/* ---------- CONSUMER ---------- */
+function viewConsumer(){
+  const done=CONSUMER.filter(r=>r.status==='ยุติแล้ว').length;
+  return `<h2 class="page-title">งานคุ้มครองผู้บริโภค</h2>
+  <p class="page-sub">แยกตัวชี้วัดจากเรื่องร้องเรียนทั่วไป · คลิกเพื่อดูรายละเอียด</p>
+  <div class="kpis" style="grid-template-columns:repeat(3,1fr)">
+    <div class="kpi k1"><div class="lab">ทั้งหมด</div><div class="num">${CONSUMER.length}</div></div>
+    <div class="kpi k2"><div class="lab">ยุติแล้ว</div><div class="num">${done}</div></div>
+    <div class="kpi k3"><div class="lab">อยู่ระหว่างดำเนินการ</div><div class="num">${CONSUMER.length-done}</div></div>
+  </div>
+  <div class="filters"><input id="cq" placeholder="🔍 ค้นหา..."></div>
+  <div class="table-wrap"><div class="scroll"><table>
+    <thead><tr><th>เรื่อง</th><th>ผู้ร้องเรียน</th><th>ผู้ถูกร้องเรียน</th><th>วันที่ร้อง</th><th>กำหนดรายงาน</th><th>สถานะ</th></tr></thead>
+    <tbody id="ctb"></tbody></table></div></div>`;
+}
+function afterConsumer(){
+  const cq=document.getElementById('cq');
+  function draw(){
+    const t=cq.value.trim();
+    const rows=CONSUMER.filter(r=>!t||JSON.stringify(r).includes(t));
+    document.getElementById('ctb').innerHTML=rows.length?rows.map(r=>{
+      const sc=r.status==='ยุติแล้ว'?'done':'prog';
+      return `<tr onclick="go('cdetail/${r._id}')"><td class="ttl">${esc(r.title)}</td><td>${esc(r.complainant||'')}</td><td>${esc(r.accused||'')}</td><td>${esc(r.dateIn||'')}</td><td>${esc(r.deadline||'')}</td><td><span class="st ${sc}">${esc(r.status||'')}</span></td></tr>`;
+    }).join(''):'<tr><td colspan="6" class="empty">ไม่มีข้อมูล</td></tr>';
+  }
+  cq.addEventListener('input',draw);draw();
+}
+
+/* ---------- CASE DETAIL (view only) ---------- */
+function viewCase(id){
+  const r=RECORDS.find(x=>x._id===id);
+  if(!r) return `<div class="card empty">ไม่พบเรื่องนี้ <br><br><span class="backbtn" onclick="go('cases')">← กลับทะเบียนเรื่อง</span></div>`;
+  const s=slaOf(r), age=ageOf(r);
+  let slaTag='';
+  if(s.k==='over') slaTag=`<span class="tag over">เกินกำหนด ${Math.abs(s.days)} วัน</span>`;
+  else if(s.k==='near') slaTag=`<span class="tag near">ใกล้ครบกำหนด อีก ${s.days} วัน</span>`;
+  else if(r.status==='ยุติแล้ว') slaTag=`<span class="tag done">ยุติแล้ว</span>`;
+  const f=(l,v)=>`<div class="df"><div class="l">${l}</div><div class="v">${esc(v||'—')}</div></div>`;
+  return `
+  <span class="backbtn" onclick="go('cases')">← กลับทะเบียนเรื่อง</span>
+  <div class="detail-head">
+    <div class="tags"><span class="tag">${esc(r.district)}</span><span class="tag">${esc(r.type||'ไม่ระบุประเภท')}</span>${slaTag}</div>
+    <h2>${esc(r.title)}</h2>
+  </div>
+  <div class="detail-grid">
+    ${f('ผู้ร้องเรียน',r.complainant)}
+    ${f('ผู้ถูกร้องเรียน',r.accused)}
+    ${f('ประเภทเรื่อง',r.type)}
+    ${f('ช่องทางการรับเรื่อง',r.channel)}
+    ${f('หน่วยงานรับผิดชอบ',r.agency)}
+    ${f('สถานะ',r.status)}
+    ${f('วันที่ร้องเรียน',r.dateIn)}
+    ${f('กำหนดรายงาน',r.deadline)}
+    ${f('การเร่งรัด',r.urge)}
+    ${f('อายุเรื่อง',age!=null?`เปิดมาแล้ว ${age} วัน`:'—')}
+  </div>
+  <div class="detail-body">
+    <h3>📝 รายละเอียดที่บันทึกไว้</h3>
+    <div class="txt">${esc(r.detail)||'<span style="color:#9aa4b2">— ไม่มีการบันทึกรายละเอียด —</span>'}</div>
+  </div>`;
+}
+function afterCase(){}
+
+function viewConsumerDetail(id){
+  const r=CONSUMER.find(x=>x._id===id);
+  if(!r) return `<div class="card empty">ไม่พบเรื่องนี้ <br><br><span class="backbtn" onclick="go('consumer')">← กลับ</span></div>`;
+  const f=(l,v)=>`<div class="df"><div class="l">${l}</div><div class="v">${esc(v||'—')}</div></div>`;
+  const sc=r.status==='ยุติแล้ว'?'done':'';
+  return `
+  <span class="backbtn" onclick="go('consumer')">← กลับงานคุ้มครองผู้บริโภค</span>
+  <div class="detail-head">
+    <div class="tags"><span class="tag">คุ้มครองผู้บริโภค</span><span class="tag ${sc}">${esc(r.status||'')}</span></div>
+    <h2>${esc(r.title)}</h2>
+  </div>
+  <div class="detail-grid">
+    ${f('ผู้ร้องเรียน',r.complainant)}
+    ${f('ผู้ถูกร้องเรียน',r.accused)}
+    ${f('วันที่ร้องเรียน',r.dateIn)}
+    ${f('กำหนดรายงาน',r.deadline)}
+    ${f('สถานะ',r.status)}
+    ${f('หมายเหตุ',r.note)}
+  </div>
+  <div class="detail-body"><h3>📝 รายละเอียดที่บันทึกไว้</h3>
+    <div class="txt">${esc(r.detail)||'<span style="color:#9aa4b2">— ไม่มีการบันทึกรายละเอียด —</span>'}</div></div>`;
+}
+
+load();
 </script>
 </body>
 </html>
