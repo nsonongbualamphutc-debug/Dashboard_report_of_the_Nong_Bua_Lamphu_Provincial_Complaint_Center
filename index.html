@@ -14,6 +14,9 @@
 <meta name="apple-mobile-web-app-title" content="ดำรงธรรม นภ.">
 <meta name="mobile-web-app-capable" content="yes">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson-client/3.1.0/topojson-client.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -141,6 +144,19 @@ tbody tr{cursor:pointer;transition:.12s}tbody tr:hover{background:#f8faff}
 
 .scroll table{min-width:560px}
 .scroll{-webkit-overflow-scrolling:touch}
+/* map */
+#leaflet{height:560px;border-radius:14px;border:1px solid var(--line);box-shadow:var(--shadow-sm);background:#dfe7f2}
+.leaflet-popup-content{font-family:'Sarabun';margin:12px 14px;max-width:280px}
+.pop-h{font-family:'Kanit';font-weight:600;color:var(--navy);font-size:14px;margin-bottom:2px}
+.pop-d{font-size:12px;color:var(--muted);margin-bottom:8px}
+.pop-case{display:block;padding:7px 9px;border:1px solid var(--line);border-radius:8px;margin-bottom:6px;cursor:pointer;font-size:12.5px;line-height:1.35}
+.pop-case:hover{background:#f3f6fc}
+.pop-case .ps{font-family:'Kanit';font-size:10.5px;padding:1px 7px;border-radius:10px}
+.ps.done{background:#e3f5ec;color:var(--green)}.ps.prog{background:#fdf3df;color:#b07d00}
+.maplegend{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin:12px 2px 0;font-size:12.5px;color:var(--muted)}
+.maplegend .sw{display:inline-block;width:16px;height:16px;border-radius:4px;margin-right:5px;vertical-align:-3px;border:1px solid rgba(0,0,0,.1)}
+.btn-out{background:#fff;border:1px solid var(--line);color:var(--navy);font:500 13px 'Kanit';padding:9px 14px;border-radius:10px;cursor:pointer;transition:.15s}
+.btn-out:hover{border-color:var(--indigo);color:var(--indigo)}
 @media(max-width:1024px){
   .wrap{padding:22px 18px 50px}
   .kpis{grid-template-columns:repeat(2,1fr)}
@@ -168,6 +184,15 @@ tbody tr{cursor:pointer;transition:.12s}tbody tr:hover{background:#f8faff}
   .detail-head{padding:22px 18px}.detail-head h2{font-size:20px}
   tbody td,thead th{padding:10px}
   .li{padding:13px}.backbtn{font-size:15px}
+@media print{
+  .nav,.filters,.btn-out,.refresh,.entrybtn,#loader,.banner{display:none!important}
+  body{background:#fff}
+  .wrap{padding:0;max-width:100%}
+  .table-wrap,.card{box-shadow:none;border:1px solid #ccc}
+  .scroll{max-height:none;overflow:visible}
+  thead th{position:static}
+  .page-title{margin-top:10px}
+  tbody tr{cursor:default}
 }
 </style>
 </head>
@@ -192,6 +217,7 @@ tbody tr{cursor:pointer;transition:.12s}tbody tr:hover{background:#f8faff}
     <a href="#home">🏠 ภาพรวม</a>
     <a href="#cases">📋 ทะเบียนเรื่อง</a>
     <a href="#districts">🗺️ รายอำเภอ</a>
+    <a href="#map">📍 แผนที่</a>
     <a href="#urgent">⚠️ เรื่องเร่งรัด</a>
     <a href="#consumer">⚖️ คุ้มครองผู้บริโภค</a>
   </div></nav>
@@ -281,6 +307,7 @@ function reload(){
 /* ---------- router ---------- */
 function router(){
   Object.values(charts).forEach(c=>c&&c.destroy());charts={};
+  if(_mapObj){ try{_mapObj.remove();}catch(e){} _mapObj=null; }
   const raw=(location.hash||'#home').slice(1);
   const [path,arg]=raw.split('/');
   document.querySelectorAll('#menu a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+(path||'home')));
@@ -289,6 +316,7 @@ function router(){
   else if(path==='cdetail'){ app.innerHTML=viewConsumerDetail(+arg); }
   else if(path==='cases'){ app.innerHTML=viewCases(arg?decodeURIComponent(arg):''); afterCases(); }
   else if(path==='districts'){ app.innerHTML=viewDistricts(); afterDistricts(); }
+  else if(path==='map'){ app.innerHTML=viewMap(); afterMap(); }
   else if(path==='urgent'){ app.innerHTML=viewUrgent(); }
   else if(path==='consumer'){ app.innerHTML=viewConsumer(); afterConsumer(); }
   else { app.innerHTML=viewHome(); afterHome(); }
@@ -325,7 +353,8 @@ function viewHome(){
     <div class="card"><h3>ตามประเภทเรื่อง</h3><div class="chart-box sm"><canvas id="cType"></canvas></div></div>
     <div class="card"><h3>ตามช่องทาง</h3><div class="chart-box sm"><canvas id="cCh"></canvas></div></div>
     <div class="card"><h3>ความสำเร็จในการยุติเรื่อง</h3><div class="chart-box sm"><canvas id="cDonut"></canvas></div></div>
-  </div>`;
+  </div>
+  <div class="card"><h3>แนวโน้มเรื่องรับเข้ารายเดือน (แยกตามสถานะ)</h3><div class="chart-box"><canvas id="cTrend"></canvas></div></div>`;
 }
 function recentList(){
   const sorted=[...RECORDS].filter(r=>parseBE(r.dateIn)).sort((a,b)=>parseBE(b.dateIn)-parseBE(a.dateIn)).slice(0,7);
@@ -347,6 +376,17 @@ function afterHome(){
   charts.c=new Chart(cCh,{type:'bar',data:{labels:cl,datasets:[{data:cl.map(c=>cc[c]),backgroundColor:'#24508f',borderRadius:6}]},options:{maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'#eef1f7'}},y:{grid:{display:false}}}}});
   const done2=RECORDS.filter(r=>r.status==='ยุติแล้ว').length;
   charts.o=new Chart(cDonut,{type:'doughnut',data:{labels:['ยุติแล้ว','ดำเนินการ'],datasets:[{data:[done2,RECORDS.length-done2],backgroundColor:['#1f9d6b','#e0a000'],borderWidth:3,borderColor:'#fff'}]},options:{maintainAspectRatio:false,cutout:'70%',plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw} (${(c.raw/RECORDS.length*100).toFixed(1)}%)`}}}}});
+
+  // monthly trend by intake month
+  const mk=r=>{const d=parseBE(r.dateIn);if(!d)return null;return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');};
+  const months=[...new Set(RECORDS.map(mk).filter(Boolean))].sort();
+  const lab=months.map(m=>{const[y,mo]=m.split('-');return TH_M[+mo-1]+' '+String((+y+543)).slice(-2);});
+  const doneM=months.map(m=>RECORDS.filter(r=>mk(r)===m&&r.status==='ยุติแล้ว').length);
+  const progM=months.map(m=>RECORDS.filter(r=>mk(r)===m&&r.status!=='ยุติแล้ว').length);
+  charts.tr=new Chart(cTrend,{type:'bar',data:{labels:lab,datasets:[
+    {label:'ยุติแล้ว',data:doneM,backgroundColor:'#1f9d6b',borderRadius:5},
+    {label:'อยู่ระหว่างดำเนินการ',data:progM,backgroundColor:'#e0a000',borderRadius:5}]},
+    options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,ticks:{stepSize:2}}}}});
 }
 
 /* ---------- CASES ---------- */
@@ -361,6 +401,8 @@ function viewCases(preDistrict){
     <select id="ft"><option value="">ทุกประเภท</option>${[...new Set(RECORDS.map(r=>r.type))].filter(Boolean).map(t=>`<option>${esc(t)}</option>`).join('')}</select>
     <select id="fs"><option value="">ทุกสถานะ</option><option>อยู่ระหว่างดำเนินการ</option><option>ยุติแล้ว</option></select>
     <select id="fl"><option value="">ทุก SLA</option><option value="over">เกินกำหนด</option><option value="near">ใกล้ครบกำหนด</option></select>
+    <button class="btn-out" onclick="exportCSV()">⬇️ Export CSV</button>
+    <button class="btn-out" onclick="window.print()">🖨️ พิมพ์</button>
   </div>
   <div class="table-wrap"><div class="scroll"><table>
     <thead><tr><th>เรื่อง</th><th>อำเภอ</th><th>ประเภท</th><th>ผู้ร้องเรียน</th><th>กำหนดรายงาน</th><th>สถานะ</th></tr></thead>
@@ -512,6 +554,104 @@ function viewConsumerDetail(id){
   </div>
   <div class="detail-body"><h3>📝 รายละเอียดที่บันทึกไว้</h3>
     <div class="txt">${esc(r.detail)||'<span style="color:#9aa4b2">— ไม่มีการบันทึกรายละเอียด —</span>'}</div></div>`;
+}
+
+/* ---------- MAP (tambon choropleth + pinpoints) ---------- */
+let _topo=null, _mapObj=null;
+function viewMap(){
+  return `<h2 class="page-title">📍 แผนที่สถานการณ์รายตำบล</h2>
+  <p class="page-sub">ระบายสีตามจำนวนเรื่องในแต่ละตำบล · จุดสีคือพื้นที่ที่มีสถานการณ์ · คลิกตำบลหรือจุดเพื่อดูเรื่อง</p>
+  <div class="card"><div id="leaflet"></div>
+    <div class="maplegend">
+      <span><span class="sw" style="background:#eef1f7"></span>ไม่มีเรื่องระบุตำบล</span>
+      <span><span class="sw" style="background:#cfe0f5"></span>1</span>
+      <span><span class="sw" style="background:#8fb6e6"></span>2</span>
+      <span><span class="sw" style="background:#4d82c4"></span>3</span>
+      <span><span class="sw" style="background:#24508f"></span>4+</span>
+      <span><span class="sw" style="background:#d64545;border-radius:50%"></span>มีเรื่องเกินกำหนด</span>
+    </div>
+    <div class="note" id="mapnote"></div>
+  </div>`;
+}
+function matchTambon(r, tbyd){
+  const text=[r.title,r.detail,r.complainant,r.accused,r.agency].join(' ');
+  const list=tbyd[r.district]||[];
+  for(const t of list){ if(new RegExp('(?:ต\\.\\s*|ตำบล\\s*)'+t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).test(text)) return t; }
+  return null;
+}
+function afterMap(){
+  const elNote=document.getElementById('mapnote');
+  function build(geo){
+    const tbyd={};
+    geo.features.forEach(f=>{const d=f.properties.ADM2_TH,t=f.properties.ADM3_TH;(tbyd[d]=tbyd[d]||[]).push(t);});
+    Object.values(tbyd).forEach(a=>a.sort((x,y)=>y.length-x.length));
+    const key=(d,t)=>d+'|'+t;
+    const cases={}; let matched=0;
+    RECORDS.forEach(r=>{const t=matchTambon(r,tbyd); if(t){const k=key(r.district,t);(cases[k]=cases[k]||[]).push(r);matched++;}});
+    elNote.innerHTML=`ระบุตำบลได้ <b>${matched}</b> เรื่อง · ระดับอำเภอ (ไม่ระบุตำบล) <b>${RECORDS.length-matched}</b> เรื่อง — ดูครบในหน้าทะเบียนเรื่อง`;
+    const col=n=> n>=4?'#24508f':n===3?'#4d82c4':n===2?'#8fb6e6':n===1?'#cfe0f5':'#eef1f7';
+    const map=L.map('leaflet',{scrollWheelZoom:false}).setView([17.25,102.35],9);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',maxZoom:18}).addTo(map);
+    const layer=L.geoJSON(geo,{
+      style:f=>{const n=(cases[key(f.properties.ADM2_TH,f.properties.ADM3_TH)]||[]).length;return {fillColor:col(n),fillOpacity:.78,color:'#fff',weight:1};},
+      onEachFeature:(f,lyr)=>{
+        const d=f.properties.ADM2_TH,t=f.properties.ADM3_TH,cs=cases[key(d,t)]||[];
+        lyr.bindTooltip(t+(cs.length?` (${cs.length})`:''),{sticky:true});
+        lyr.on('click',()=>openPop(lyr.getBounds().getCenter(),d,t,cs));
+        lyr.on('mouseover',()=>lyr.setStyle({weight:2.5,color:'#16325c'}));
+        lyr.on('mouseout',()=>lyr.setStyle({weight:1,color:'#fff'}));
+      }
+    }).addTo(map);
+    map.fitBounds(layer.getBounds(),{padding:[10,10]});
+    geo.features.forEach(f=>{
+      const d=f.properties.ADM2_TH,t=f.properties.ADM3_TH,cs=cases[key(d,t)]||[];
+      if(!cs.length) return;
+      const c=centroid(f); if(!c) return;
+      const hasOver=cs.some(r=>slaOf(r).k==='over');
+      L.circleMarker([c[1],c[0]],{radius:6+Math.min(cs.length,6)*1.6,fillColor:hasOver?'#d64545':'#e0a000',color:'#fff',weight:2,fillOpacity:.95})
+        .addTo(map).on('click',()=>openPop([c[1],c[0]],d,t,cs));
+    });
+    function openPop(latlng,d,t,cs){
+      let html=`<div class="pop-h">ต.${t}</div><div class="pop-d">อ.${d} · ${cs.length} เรื่อง</div>`;
+      html+= cs.length ? cs.map(r=>{const sc=r.status==='ยุติแล้ว'?'done':'prog';
+        return `<span class="pop-case" onclick="location.hash='#case/${r._id}'"><span class="ps ${sc}">${esc(r.status||'')}</span> ${esc(r.title)}</span>`;}).join('')
+        : '<div class="pop-d">ไม่มีเรื่องที่ระบุตำบลนี้</div>';
+      L.popup({maxWidth:300}).setLatLng(latlng).setContent(html).openOn(map);
+    }
+    _mapObj=map;
+  }
+  if(_topo){ build(topojson.feature(_topo,_topo.objects[Object.keys(_topo.objects)[0]])); return; }
+  fetch('assets/nbl-tambon.topo.json').then(r=>r.json()).then(topo=>{
+    _topo=topo; build(topojson.feature(topo,topo.objects[Object.keys(topo.objects)[0]]));
+  }).catch(e=>{ document.getElementById('leaflet').innerHTML='<div class="empty">โหลดแผนที่ไม่สำเร็จ ('+esc(e)+') — ตรวจว่ามีไฟล์ assets/nbl-tambon.topo.json</div>'; });
+}
+function centroid(f){
+  let coords=[]; const g=f.geometry; if(!g) return null;
+  const collect=a=>{ if(typeof a[0]==='number'){coords.push(a);} else a.forEach(collect); };
+  collect(g.coordinates);
+  if(!coords.length) return null;
+  let x=0,y=0; coords.forEach(c=>{x+=c[0];y+=c[1];});
+  return [x/coords.length, y/coords.length];
+}
+
+/* ---------- EXPORT CSV ---------- */
+function exportCSV(){
+  const q=document.getElementById('q'),fd=document.getElementById('fd'),ft=document.getElementById('ft'),fs=document.getElementById('fs'),fl=document.getElementById('fl');
+  const rows=RECORDS.filter(r=>{
+    const t=q.value.trim();
+    if(t&&!((r.title||'').includes(t)||(r.complainant||'').includes(t)||(r.agency||'').includes(t)))return false;
+    if(fd.value&&r.district!==fd.value)return false;
+    if(ft.value&&r.type!==ft.value)return false;
+    if(fs.value&&r.status!==fs.value)return false;
+    if(fl.value&&slaOf(r).k!==fl.value)return false;
+    return true;
+  });
+  const head=['อำเภอ','ชื่อเรื่อง','ผู้ร้องเรียน','ผู้ถูกร้องเรียน','ประเภท','วันที่ร้องเรียน','กำหนดรายงาน','ช่องทาง','หน่วยงานรับผิดชอบ','สถานะ','การเร่งรัด','รายละเอียด'];
+  const qq=s=>'"'+String(s==null?'':s).replace(/"/g,'""')+'"';
+  const lines=[head.join(',')].concat(rows.map(r=>[r.district,r.title,r.complainant,r.accused,r.type,r.dateIn,r.deadline,r.channel,r.agency,r.status,r.urge,r.detail].map(qq).join(',')));
+  const blob=new Blob(['\ufeff'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='เรื่องร้องเรียน_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
 }
 
 load();

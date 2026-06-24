@@ -3,7 +3,7 @@
  *          ถ้าออฟไลน์ค่อย fallback ไปแคช
  * บัมพ์เลข CACHE_VERSION ทุกครั้งที่อัปเดตไฟล์ เพื่อล้างแคชเก่า
  */
-const CACHE_VERSION = 'nbl-damrongdham-v4';
+const CACHE_VERSION = 'nbl-damrongdham-v5';
 const CORE = [
   './',
   './index.html',
@@ -12,7 +12,8 @@ const CORE = [
   './assets/seal.png',
   './assets/icon-192.png',
   './assets/icon-512.png',
-  './assets/apple-touch-icon.png'
+  './assets/apple-touch-icon.png',
+  './assets/nbl-tambon.topo.json'
 ];
 
 self.addEventListener('install', e=>{
