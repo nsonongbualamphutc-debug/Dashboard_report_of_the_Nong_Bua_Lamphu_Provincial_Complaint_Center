@@ -63,6 +63,7 @@ a{color:inherit;text-decoration:none}
 .grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin-bottom:22px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:22px}
 .chart-box{position:relative;height:280px}.chart-box.sm{height:230px}
+.chart-box canvas{max-width:100%!important}
 
 /* KPI */
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
@@ -183,6 +184,13 @@ tbody tr{cursor:pointer;transition:.12s}tbody tr:hover{background:#f8faff}
   .detail-head{padding:22px 18px}.detail-head h2{font-size:20px}
   tbody td,thead th{padding:10px}
   .li{padding:13px}.backbtn{font-size:15px}
+  .chart-box{height:300px}.chart-box.sm{height:300px}
+  .ttl{max-width:none;white-space:normal;word-break:break-word}
+  #leaflet{height:62vh;min-height:380px}
+  .leaflet-popup-content{max-width:230px!important}
+  .maplegend{gap:10px;font-size:11.5px}
+  .df .v{word-break:break-word}.pop-case{font-size:12px}
+}
 @media print{
   .nav,.filters,.btn-out,.refresh,.entrybtn,#loader,.banner{display:none!important}
   body{background:#fff}
@@ -268,6 +276,7 @@ function districtList(){
   });
 }
 function esc(s){return (s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function shortD(name){return String(name).replace('หนองบัวลำภู','').trim()||'เมือง';}
 
 function useEmbedded(reason){
   RECORDS=(EMBEDDED.records||[]).map((r,i)=>(r._id=i,r));
@@ -362,15 +371,16 @@ function recentList(){
 }
 function afterHome(){
   Chart.defaults.font.family='Sarabun';Chart.defaults.color='#6b7686';
+  const wide = window.innerWidth >= 760;
   const dl=districtList();
   const done=dl.map(d=>RECORDS.filter(r=>r.district===d&&r.status==='ยุติแล้ว').length);
   const prog=dl.map(d=>RECORDS.filter(r=>r.district===d&&r.status!=='ยุติแล้ว').length);
-  charts.d=new Chart(cDist,{type:'bar',data:{labels:dl,datasets:[
+  charts.d=new Chart(cDist,{type:'bar',data:{labels:dl.map(shortD),datasets:[
     {label:'ยุติแล้ว',data:done,backgroundColor:'#1f9d6b',borderRadius:6},
     {label:'ดำเนินการ',data:prog,backgroundColor:'#e0a000',borderRadius:6}]},
     options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true}}}});
   const tc=count(RECORDS,'type'),tl=Object.keys(tc);
-  charts.t=new Chart(cType,{type:'doughnut',data:{labels:tl,datasets:[{data:tl.map(t=>tc[t]),backgroundColor:tl.map(t=>TYPE_COLORS[t]||'#999'),borderWidth:2,borderColor:'#fff'}]},options:{maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{boxWidth:11,font:{size:10.5}}}}}});
+  charts.t=new Chart(cType,{type:'doughnut',data:{labels:tl,datasets:[{data:tl.map(t=>tc[t]),backgroundColor:tl.map(t=>TYPE_COLORS[t]||'#999'),borderWidth:2,borderColor:'#fff'}]},options:{maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:wide?'right':'bottom',labels:{boxWidth:11,font:{size:wide?10.5:11},padding:8}}}}});
   const cc=count(RECORDS,'channel'),cl=Object.keys(cc).sort((a,b)=>cc[b]-cc[a]);
   charts.c=new Chart(cCh,{type:'bar',data:{labels:cl,datasets:[{data:cl.map(c=>cc[c]),backgroundColor:'#24508f',borderRadius:6}]},options:{maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'#eef1f7'}},y:{grid:{display:false}}}}});
   const done2=RECORDS.filter(r=>r.status==='ยุติแล้ว').length;
@@ -454,7 +464,7 @@ function afterDistricts(){
   Chart.defaults.font.family='Sarabun';
   const dl=districtList();const types=Object.keys(count(RECORDS,'type'));
   const ds=types.map(t=>({label:t,data:dl.map(d=>RECORDS.filter(r=>r.district===d&&r.type===t).length),backgroundColor:TYPE_COLORS[t]||'#999',borderRadius:4}));
-  charts.dt=new Chart(cDT,{type:'bar',data:{labels:dl,datasets:ds},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:11,font:{size:11}}}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true}}}});
+  charts.dt=new Chart(cDT,{type:'bar',data:{labels:dl.map(shortD),datasets:ds},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:11,font:{size:11}}}},scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:11}}},y:{stacked:true,beginAtZero:true}}}});
 }
 
 /* ---------- URGENT ---------- */
