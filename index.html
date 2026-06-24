@@ -16,7 +16,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson-client/3.1.0/topojson-client.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -620,9 +619,9 @@ function afterMap(){
     }
     _mapObj=map;
   }
-  if(_topo){ build(topojson.feature(_topo,_topo.objects[Object.keys(_topo.objects)[0]])); return; }
+  if(_topo){ build(topoToGeo(_topo, Object.keys(_topo.objects)[0])); return; }
   fetch('./nbl-tambon.topo.json').then(r=>r.json()).then(topo=>{
-    _topo=topo; build(topojson.feature(topo,topo.objects[Object.keys(topo.objects)[0]]));
+    _topo=topo; build(topoToGeo(topo, Object.keys(topo.objects)[0]));
   }).catch(e=>{ document.getElementById('leaflet').innerHTML='<div class="empty">โหลดแผนที่ไม่สำเร็จ ('+esc(e)+') — ตรวจว่ามีไฟล์ ./nbl-tambon.topo.json</div>'; });
 }
 function centroid(f){
@@ -632,6 +631,38 @@ function centroid(f){
   if(!coords.length) return null;
   let x=0,y=0; coords.forEach(c=>{x+=c[0];y+=c[1];});
   return [x/coords.length, y/coords.length];
+}
+
+/* ---------- TopoJSON -> GeoJSON (ในตัว ไม่ต้องพึ่ง CDN) ---------- */
+function topoToGeo(topo, objName){
+  const obj=topo.objects[objName];
+  const tr=topo.transform;
+  const dq = tr
+    ? p=>{p[0]=p[0]*tr.scale[0]+tr.translate[0]; p[1]=p[1]*tr.scale[1]+tr.translate[1]; return p;}
+    : p=>p;
+  // decode arc (delta-encoded ถ้ามี transform)
+  function arc(i){
+    let a=topo.arcs[i<0? ~i : i].map(p=>p.slice());
+    if(tr){ let x=0,y=0; a=a.map(p=>{x+=p[0];y+=p[1];return [x,y];}); }
+    a=a.map(p=>dq(p.slice()));
+    if(i<0) a.reverse();
+    return a;
+  }
+  function lineFromArcs(arcsIdx){
+    let line=[];
+    arcsIdx.forEach((idx,k)=>{ let seg=arc(idx); if(k>0) seg=seg.slice(1); line=line.concat(seg); });
+    return line;
+  }
+  function geomToCoords(g){
+    if(g.type==='Polygon') return g.arcs.map(r=>lineFromArcs(r));
+    if(g.type==='MultiPolygon') return g.arcs.map(poly=>poly.map(r=>lineFromArcs(r)));
+    return null;
+  }
+  const feats=(obj.geometries||[]).map(g=>({
+    type:'Feature', properties:g.properties||{},
+    geometry: geomToCoords(g) ? {type:g.type, coordinates:geomToCoords(g)} : null
+  })).filter(f=>f.geometry);
+  return {type:'FeatureCollection', features:feats};
 }
 
 /* ---------- EXPORT CSV ---------- */
