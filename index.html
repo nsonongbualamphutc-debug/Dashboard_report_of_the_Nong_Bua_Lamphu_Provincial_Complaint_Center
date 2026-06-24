@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ศูนย์ดำรงธรรมจังหวัดหนองบัวลำภู — ระบบติดตามงานเรื่องร้องเรียน</title>
-<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=4">
-<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png?v=4">
-<link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=4">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png?v=4">
+<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16.png?v=4">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png?v=4">
 <link rel="manifest" href="manifest.json?v=4">
 <meta name="theme-color" content="#16325c">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -202,7 +202,7 @@ tbody tr{cursor:pointer;transition:.12s}tbody tr:hover{background:#f8faff}
 
 <header class="nav">
   <div class="nav-top">
-    <div class="seal"><img src="assets/seal.png?v=4" alt="ตราจังหวัดหนองบัวลำภู"></div>
+    <div class="seal"><img src="./seal.png?v=4" alt="ตราจังหวัดหนองบัวลำภู"></div>
     <div class="brand">
       <h1>ศูนย์ดำรงธรรมจังหวัดหนองบัวลำภู</h1>
       <div class="s">ระบบติดตามงานเรื่องร้องเรียนร้องทุกข์ · ปีงบประมาณ 2569</div>
@@ -621,9 +621,9 @@ function afterMap(){
     _mapObj=map;
   }
   if(_topo){ build(topojson.feature(_topo,_topo.objects[Object.keys(_topo.objects)[0]])); return; }
-  fetch('assets/nbl-tambon.topo.json').then(r=>r.json()).then(topo=>{
+  fetch('./nbl-tambon.topo.json').then(r=>r.json()).then(topo=>{
     _topo=topo; build(topojson.feature(topo,topo.objects[Object.keys(topo.objects)[0]]));
-  }).catch(e=>{ document.getElementById('leaflet').innerHTML='<div class="empty">โหลดแผนที่ไม่สำเร็จ ('+esc(e)+') — ตรวจว่ามีไฟล์ assets/nbl-tambon.topo.json</div>'; });
+  }).catch(e=>{ document.getElementById('leaflet').innerHTML='<div class="empty">โหลดแผนที่ไม่สำเร็จ ('+esc(e)+') — ตรวจว่ามีไฟล์ ./nbl-tambon.topo.json</div>'; });
 }
 function centroid(f){
   let coords=[]; const g=f.geometry; if(!g) return null;
