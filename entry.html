@@ -216,14 +216,21 @@ function pinPress(k){
   [...dotsEl.children].forEach((d,i)=>d.classList.toggle('on',i<pinBuf.length));
   if(pinBuf.length===6) submitPin();
 }
-function submitPin(){
+async function submitPin(){
   if(pinBuf.length<6){document.getElementById('gateErr').textContent='กรอกให้ครบ 6 หลัก';return;}
-  // ตรวจ PIN โดยลองยิง action ที่ไม่เปลี่ยนข้อมูล (list) ไม่ได้—PIN ตรวจตอนเขียน
-  // จึงเก็บ PIN ไว้ แล้วเข้าแอปได้เลย; ความผิดพลาดจะแจ้งตอนบันทึก
-  PIN=pinBuf;
-  document.getElementById('gate').style.display='none';
-  document.getElementById('app').style.display='block';
-  initApp();
+  const err=document.getElementById('gateErr');
+  err.style.color='var(--muted)';err.textContent='กำลังตรวจสอบรหัส...';
+  try{
+    const r=await jsonp({action:'checkpin',pin:pinBuf});
+    if(!r.ok) throw (r.error||'PIN ไม่ถูกต้อง');
+    PIN=pinBuf;
+    document.getElementById('gate').style.display='none';
+    document.getElementById('app').style.display='block';
+    initApp();
+  }catch(e){
+    err.style.color='var(--red)';err.textContent='✕ '+e;
+    pinBuf='';[...dotsEl.children].forEach(d=>d.classList.remove('on'));
+  }
 }
 function logout(){location.reload();}
 

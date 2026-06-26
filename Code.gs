@@ -27,6 +27,7 @@ function doGet(e){
   try{
     switch(p.action){
       case 'ping':   out = {ok:true, ...pingInfo_()}; break;
+      case 'checkpin': out = verifyPin_(p.pin) ? {ok:true} : {ok:false, error:'PIN ไม่ถูกต้อง หรือถูกล็อกชั่วคราว'}; break;
       case 'all':    out = {ok:true, ...getAllData_()}; break;
       case 'list':   out = {ok:true, rows:listSheet_(p.sheet)}; break;
       case 'add':    out = writeAction_('add', p); break;
